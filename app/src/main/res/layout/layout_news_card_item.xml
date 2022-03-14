@@ -105,52 +105,52 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+<!--    <FrameLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="5dp">-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:orientation="horizontal">-->
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_praise"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_praise" />
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/iv_praise"-->
+<!--                android:layout_width="16dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:src="@drawable/ic_praise" />-->
 
-            <TextView
-                android:id="@+id/tv_praise"
-                style="@style/TextStyle.Explain"
-                android:layout_marginStart="5dp"
-                android:text="点赞" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_praise"-->
+<!--                style="@style/TextStyle.Explain"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:text="点赞" />-->
 
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_comment"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_marginStart="30dp"
-                android:src="@drawable/ic_comment" />
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/iv_comment"-->
+<!--                android:layout_width="16dp"-->
+<!--                android:layout_height="16dp"-->
+<!--                android:layout_marginStart="30dp"-->
+<!--                android:src="@drawable/ic_comment" />-->
 
-            <TextView
-                android:id="@+id/tv_comment"
-                style="@style/TextStyle.Explain"
-                android:layout_marginStart="5dp"
-                android:text="评论" />
+<!--            <TextView-->
+<!--                android:id="@+id/tv_comment"-->
+<!--                style="@style/TextStyle.Explain"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:text="评论" />-->
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-        <TextView
-            android:id="@+id/tv_read"
-            style="@style/TextStyle.Explain"
-            android:layout_gravity="center_vertical|end"
-            android:text="阅读量 123" />
+<!--        <TextView-->
+<!--            android:id="@+id/tv_read"-->
+<!--            style="@style/TextStyle.Explain"-->
+<!--            android:layout_gravity="center_vertical|end"-->
+<!--            android:text="阅读量 123" />-->
 
-    </FrameLayout>
+<!--    </FrameLayout>-->
 
 
 </LinearLayout>

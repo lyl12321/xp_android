@@ -5,7 +5,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="menu_news">动态</string>
+    <string name="menu_home">首页</string>
     <string name="menu_trending">趋势</string>
     <string name="menu_profile">我的</string>
 
