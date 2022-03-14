@@ -56,7 +56,6 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
     private View mJumpView;
 
-    private CountDownButtonHelper mCountDownHelper;
 
     @NonNull
     @Override
@@ -83,7 +82,6 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
     @Override
     protected void initViews() {
-        mCountDownHelper = new CountDownButtonHelper(binding.btnGetVerifyCode, 60);
         //隐私政策弹窗
         if (!SettingUtils.isAgreePrivacy()) {
             Utils.showPrivacyDialog(getContext(), (dialog, which) -> {
@@ -102,12 +100,8 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
     @Override
     protected void initListeners() {
-        binding.btnGetVerifyCode.setOnClickListener(this);
         binding.btnLogin.setOnClickListener(this);
-        binding.tvOtherLogin.setOnClickListener(this);
         binding.tvForgetPassword.setOnClickListener(this);
-        binding.tvUserProtocol.setOnClickListener(this);
-        binding.tvPrivacyProtocol.setOnClickListener(this);
     }
 
     private void refreshButton(boolean isChecked) {
@@ -126,35 +120,14 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        if (id == R.id.btn_get_verify_code) {
-            if (binding.etPhoneNumber.validate()) {
-                getVerifyCode(binding.etPhoneNumber.getEditValue());
-            }
-        } else if (id == R.id.btn_login) {
+        if (id == R.id.btn_login) {
             if (binding.etPhoneNumber.validate()) {
                 if (binding.etVerifyCode.validate()) {
                     loginByVerifyCode(binding.etPhoneNumber.getEditValue(), binding.etVerifyCode.getEditValue());
                 }
             }
-        } else if (id == R.id.tv_other_login) {
-            XToastUtils.info("其他登录方式");
-        } else if (id == R.id.tv_forget_password) {
-            XToastUtils.info("忘记密码");
-        } else if (id == R.id.tv_user_protocol) {
-            Utils.gotoProtocol(this, false, true);
-        } else if (id == R.id.tv_privacy_protocol) {
-            Utils.gotoProtocol(this, true, true);
         }
 
-    }
-
-    /**
-     * 获取验证码
-     */
-    private void getVerifyCode(String phoneNumber) {
-        // TODO: 2020/8/29 这里只是界面演示而已
-        XToastUtils.warning("只是演示，验证码请随便输");
-        mCountDownHelper.start();
     }
 
     /**
@@ -181,9 +154,6 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
     @Override
     public void onDestroyView() {
-        if (mCountDownHelper != null) {
-            mCountDownHelper.recycle();
-        }
         super.onDestroyView();
     }
 

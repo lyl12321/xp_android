@@ -37,7 +37,7 @@ public final class SettingUtils {
      * @return 是否同意隐私政策
      */
     public static boolean isAgreePrivacy() {
-        return MMKVUtils.getBoolean(IS_AGREE_PRIVACY_KEY, false);
+        return MMKVUtils.getBoolean(IS_AGREE_PRIVACY_KEY, true);   //默认同意 就是不显示隐私
     }
 
     /**

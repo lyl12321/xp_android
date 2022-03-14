@@ -122,9 +122,9 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding> {
         SingleDelegateAdapter titleAdapter = new SingleDelegateAdapter(R.layout.adapter_title_item) {
             @Override
             public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-                holder.text(R.id.tv_title, "资讯");
-                holder.text(R.id.tv_action, "更多");
-                holder.click(R.id.tv_action, v -> XToastUtils.toast("更多"));
+//                holder.text(R.id.tv_title, "课程");
+//                holder.text(R.id.tv_action, "更多");
+//                holder.click(R.id.tv_action, v -> XToastUtils.toast("更多"));
             }
         };
 
@@ -133,7 +133,7 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding> {
             @Override
             protected void onBindData(RecyclerViewHolder holder, NewInfo model, int position) {
                 if (model != null) {
-                    holder.text(R.id.tv_user_name, model.getUserName());
+                    holder.text(R.id.tv_user_name, (position+1)+"");
                     holder.text(R.id.tv_tag, model.getTag());
                     holder.text(R.id.tv_title, model.getTitle());
                     holder.text(R.id.tv_summary, model.getSummary());
@@ -164,7 +164,7 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding> {
         DelegateAdapter delegateAdapter = new DelegateAdapter(virtualLayoutManager);
         delegateAdapter.addAdapter(bannerAdapter);
         delegateAdapter.addAdapter(commonAdapter);
-        delegateAdapter.addAdapter(titleAdapter);
+//        delegateAdapter.addAdapter(titleAdapter);
         delegateAdapter.addAdapter(mNewsAdapter);
 
         binding.recyclerView.setAdapter(delegateAdapter);

@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
     }
 
     private void initData() {
-        GuideTipsDialog.showTips(this);
+//        GuideTipsDialog.showTips(this);
         XUpdateInit.checkUpdate(this, false);
     }
 
@@ -207,9 +207,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_privacy) {
-            GuideTipsDialog.showTipsForce(this);
-        } else if (id == R.id.action_about) {
+        if (id == R.id.action_about) {
             openNewPage(AboutFragment.class);
         }
         return false;
