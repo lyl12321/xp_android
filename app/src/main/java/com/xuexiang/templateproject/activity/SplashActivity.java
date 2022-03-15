@@ -4,9 +4,7 @@ package com.xuexiang.templateproject.activity;
 import android.view.KeyEvent;
 
 import com.xuexiang.templateproject.R;
-import com.xuexiang.templateproject.utils.SettingUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
-import com.xuexiang.templateproject.utils.Utils;
 import com.xuexiang.xui.utils.KeyboardUtils;
 import com.xuexiang.xui.widget.activity.BaseSplashActivity;
 import com.xuexiang.xutil.app.ActivityUtils;
@@ -39,15 +37,15 @@ public class SplashActivity extends BaseSplashActivity implements CancelAdapt {
      */
     @Override
     protected void onSplashFinished() {
-        if (SettingUtils.isAgreePrivacy()) {
+//        if (SettingUtils.isAgreePrivacy()) {
             loginOrGoMainPage();
-        } else {
-            Utils.showPrivacyDialog(this, (dialog, which) -> {
-                dialog.dismiss();
-                SettingUtils.setIsAgreePrivacy(true);
-                loginOrGoMainPage();
-            });
-        }
+//        } else {
+//            Utils.showPrivacyDialog(this, (dialog, which) -> {
+//                dialog.dismiss();
+//                SettingUtils.setIsAgreePrivacy(true);
+//                loginOrGoMainPage();
+//            });
+//        }
     }
 
     private void loginOrGoMainPage() {
