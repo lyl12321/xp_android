@@ -6,8 +6,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="menu_home">首页</string>
-    <string name="menu_trending">趋势</string>
-    <string name="menu_profile">我的</string>
+    <string name="menu_check_in">签到</string>
+    <string name="menu_moments">朋友圈</string>
+    <string name="menu_profile">我的概况</string>
 
     <string name="menu_notifications">通知</string>
     <string name="menu_issues">问题</string>

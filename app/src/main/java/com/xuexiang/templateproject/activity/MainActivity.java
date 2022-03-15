@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2019 xuexiangjys(xuexiangjys@163.com)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
 
 package com.xuexiang.templateproject.activity;
 
@@ -36,15 +20,15 @@ import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.BaseActivity;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.databinding.ActivityMainBinding;
-import com.xuexiang.templateproject.fragment.news.NewsFragment;
+import com.xuexiang.templateproject.fragment.checkin.CheckInFragment;
+import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
+import com.xuexiang.templateproject.fragment.news.HomeFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.other.SettingsFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
-import com.xuexiang.templateproject.fragment.trending.TrendingFragment;
 import com.xuexiang.templateproject.utils.Utils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
-import com.xuexiang.templateproject.widget.GuideTipsDialog;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xui.adapter.FragmentAdapter;
 import com.xuexiang.xui.utils.ResUtils;
@@ -56,12 +40,7 @@ import com.xuexiang.xutil.common.ClickUtils;
 import com.xuexiang.xutil.common.CollectionUtils;
 import com.xuexiang.xutil.display.Colors;
 
-/**
- * 程序主页面,只是一个简单的Tab例子
- *
- * @author xuexiang
- * @since 2019-07-07 23:53
- */
+
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener, ClickUtils.OnClick2ExitListener, Toolbar.OnMenuItemClickListener {
 
     private String[] mTitles;
@@ -100,8 +79,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
 
         //主页内容填充
         BaseFragment[] fragments = new BaseFragment[]{
-                new NewsFragment(),
-                new TrendingFragment(),
+                new HomeFragment(),
+                new CheckInFragment(),
+                new MomentsFragment(),
                 new ProfileFragment()
         };
         FragmentAdapter<BaseFragment> adapter = new FragmentAdapter<>(getSupportFragmentManager(), fragments);

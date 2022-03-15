@@ -10,6 +10,7 @@
 /.idea/dictionaries
 /.idea/markdown-navigator
 /.idea/*.xml
+/.idea/
 .DS_Store
 /build
 /captures
