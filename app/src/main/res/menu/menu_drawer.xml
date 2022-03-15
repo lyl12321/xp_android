@@ -7,20 +7,24 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_news"
-            android:icon="@drawable/ic_menu_news"
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_baseline_home_24"
             android:title="@string/menu_home" />
 
         <item
             android:id="@+id/nav_check_in"
-            android:icon="@drawable/ic_menu_trending"
+            android:icon="@drawable/ic_baseline_location_on_24"
             android:title="@string/menu_check_in" />
+
+        <item
+            android:id="@+id/nav_moments"
+            android:icon="@drawable/ic_menu_news"
+            android:title="@string/menu_moments" />
 
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_person"
             android:title="@string/menu_profile" />
-
 
     </group>
 

@@ -75,6 +75,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         binding.includeMain.toolbar.inflateMenu(R.menu.menu_main);
         binding.includeMain.toolbar.setOnMenuItemClickListener(this);
 
+
+        //动态加载nav
+        binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom);
+
+
+
         initHeader();
 
         //主页内容填充
