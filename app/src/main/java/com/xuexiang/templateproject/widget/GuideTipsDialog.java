@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import com.xuexiang.constant.TimeConstants;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.http.callback.NoTipCallBack;
-import com.xuexiang.templateproject.http.tips.api.ApiService;
+import com.xuexiang.templateproject.http.tips.api.TipsService;
 import com.xuexiang.templateproject.http.tips.entity.TipInfo;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
@@ -62,7 +62,7 @@ public class GuideTipsDialog extends BaseDialog implements View.OnClickListener,
      */
     public static void showTipsForce(Context context) {
         CustomRequest request = XHttp.custom().cacheMode(CacheMode.FIRST_CACHE).cacheTime(TimeConstants.DAY).cacheKey("getTips");
-        request.apiCall(request.create(ApiService.IGetService.class).getTips(), new NoTipCallBack<List<TipInfo>>() {
+        request.apiCall(request.create(TipsService.class).getTips(), new NoTipCallBack<List<TipInfo>>() {
             @Override
             public void onSuccess(List<TipInfo> response) throws Throwable {
                 if (response != null && response.size() > 0) {
