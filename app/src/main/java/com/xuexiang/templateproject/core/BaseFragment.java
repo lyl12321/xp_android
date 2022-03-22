@@ -32,7 +32,7 @@ import java.lang.reflect.Type;
  * <p>
  * 具体使用参见：https://github.com/xuexiangjys/XPage/wiki
  *
- * @author xuexiang
+
  * @since 2018/5/25 下午3:44
  */
 public abstract class BaseFragment<Binding extends ViewBinding> extends XPageFragment {

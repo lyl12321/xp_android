@@ -1,9 +1,9 @@
-package com.xuexiang.templateproject.core.http.entity;
+package com.xuexiang.templateproject.http.tips.entity;
 
 import androidx.annotation.Keep;
 
 /**
- * @author xuexiang
+
  * @since 2019-08-28 15:35
  */
 @Keep

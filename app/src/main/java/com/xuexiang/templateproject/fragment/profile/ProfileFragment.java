@@ -18,7 +18,7 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 
 /**
- * @author xuexiang
+
  * @since 2019-10-30 00:18
  */
 @Page(anim = CoreAnim.none)

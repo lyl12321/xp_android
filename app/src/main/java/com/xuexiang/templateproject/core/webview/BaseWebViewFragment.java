@@ -9,7 +9,7 @@ import com.xuexiang.templateproject.core.BaseFragment;
 /**
  * 基础web
  *
- * @author xuexiang
+
  * @since 2019/5/28 10:22
  */
 public abstract class BaseWebViewFragment extends BaseFragment {

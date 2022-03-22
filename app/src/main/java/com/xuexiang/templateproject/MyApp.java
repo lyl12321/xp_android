@@ -12,7 +12,7 @@ import com.xuexiang.templateproject.utils.sdkinit.XBasicLibInit;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 
 /**
- * @author xuexiang
+
  * @since 2018/11/7 下午1:12
  */
 public class MyApp extends Application {
@@ -42,6 +42,10 @@ public class MyApp extends Application {
         UMengInit.init(this);
         // ANR监控
         ANRWatchDogInit.init();
+//
+//        HttpSDK.init(this);   //初始化网络请求框架，必须首先执行
+//        XHttpSDK.debug("XHttp");  //需要调试的时候执行
+//        XHttpSDK.setBaseUrl(SettingSPUtils.getInstance().getApiURL());  //设置网络请求的基础地址
     }
 
 

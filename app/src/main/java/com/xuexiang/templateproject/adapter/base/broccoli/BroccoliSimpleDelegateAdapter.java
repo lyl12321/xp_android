@@ -20,7 +20,7 @@ import me.samlss.broccoli.Broccoli;
 /**
  * 使用Broccoli占位的基础适配器
  *
- * @author xuexiang
+
  * @since 2021/1/9 4:52 PM
  */
 public abstract class BroccoliSimpleDelegateAdapter<T> extends SimpleDelegateAdapter<T> {

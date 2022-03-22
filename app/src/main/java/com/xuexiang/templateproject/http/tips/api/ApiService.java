@@ -1,8 +1,8 @@
 
 
-package com.xuexiang.templateproject.core.http.api;
+package com.xuexiang.templateproject.http.tips.api;
 
-import com.xuexiang.templateproject.core.http.entity.TipInfo;
+import com.xuexiang.templateproject.http.tips.entity.TipInfo;
 import com.xuexiang.xhttp2.model.ApiResult;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 /**
- * @author xuexiang
+
  * @since 2021/1/9 7:01 PM
  */
 public class ApiService {

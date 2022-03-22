@@ -1,17 +1,13 @@
 
 package com.xuexiang.templateproject.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,21 +20,16 @@ import com.xuexiang.templateproject.fragment.checkin.CheckInFragment;
 import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
 import com.xuexiang.templateproject.fragment.news.HomeFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
-import com.xuexiang.templateproject.fragment.other.SettingsFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
-import com.xuexiang.templateproject.utils.Utils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xui.adapter.FragmentAdapter;
 import com.xuexiang.xui.utils.ResUtils;
-import com.xuexiang.xui.utils.ThemeUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
-import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.ClickUtils;
 import com.xuexiang.xutil.common.CollectionUtils;
-import com.xuexiang.xutil.display.Colors;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener, ClickUtils.OnClick2ExitListener, Toolbar.OnMenuItemClickListener {
@@ -81,7 +72,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
 
 
 
-        initHeader();
+//        initHeader();
 
         //主页内容填充
         BaseFragment[] fragments = new BaseFragment[]{
@@ -100,57 +91,56 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         XUpdateInit.checkUpdate(this, false);
     }
 
-    private void initHeader() {
-        binding.navView.setItemIconTintList(null);
-        View headerView = binding.navView.getHeaderView(0);
-        LinearLayout navHeader = headerView.findViewById(R.id.nav_header);
-        RadiusImageView ivAvatar = headerView.findViewById(R.id.iv_avatar);
-        TextView tvAvatar = headerView.findViewById(R.id.tv_avatar);
-        TextView tvSign = headerView.findViewById(R.id.tv_sign);
-
-        if (Utils.isColorDark(ThemeUtils.resolveColor(this, R.attr.colorAccent))) {
-            tvAvatar.setTextColor(Colors.WHITE);
-            tvSign.setTextColor(Colors.WHITE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ivAvatar.setImageTintList(ResUtils.getColors(R.color.xui_config_color_white));
-            }
-        } else {
-            tvAvatar.setTextColor(ThemeUtils.resolveColor(this, R.attr.xui_config_color_title_text));
-            tvSign.setTextColor(ThemeUtils.resolveColor(this, R.attr.xui_config_color_explain_text));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ivAvatar.setImageTintList(ResUtils.getColors(R.color.xui_config_color_gray_3));
-            }
-        }
-
-        // TODO: 2019-10-09 初始化数据
-        ivAvatar.setImageResource(R.drawable.ic_default_head);
-        tvAvatar.setText(R.string.app_name);
-        tvSign.setText("这个家伙很懒，什么也没有留下～～");
-        navHeader.setOnClickListener(this);
-    }
+//    private void initHeader() {
+//        binding.navView.setItemIconTintList(null);
+//        View headerView = binding.navView.getHeaderView(0);
+//        LinearLayout navHeader = headerView.findViewById(R.id.nav_header);
+//        RadiusImageView ivAvatar = headerView.findViewById(R.id.iv_avatar);
+//        TextView tvAvatar = headerView.findViewById(R.id.tv_avatar);
+//        TextView tvSign = headerView.findViewById(R.id.tv_sign);
+//
+//        if (Utils.isColorDark(ThemeUtils.resolveColor(this, R.attr.colorAccent))) {
+//            tvAvatar.setTextColor(Colors.WHITE);
+//            tvSign.setTextColor(Colors.WHITE);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                ivAvatar.setImageTintList(ResUtils.getColors(R.color.xui_config_color_white));
+//            }
+//        } else {
+//            tvAvatar.setTextColor(ThemeUtils.resolveColor(this, R.attr.xui_config_color_title_text));
+//            tvSign.setTextColor(ThemeUtils.resolveColor(this, R.attr.xui_config_color_explain_text));
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                ivAvatar.setImageTintList(ResUtils.getColors(R.color.xui_config_color_gray_3));
+//            }
+//        }
+//
+//        ivAvatar.setImageResource(R.drawable.ic_default_head);
+//        tvAvatar.setText(R.string.app_name);
+//        tvSign.setText("这个家伙很懒，什么也没有留下～～");
+//        navHeader.setOnClickListener(this);
+//    }
 
     protected void initListeners() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.includeMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        binding.drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.includeMain.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        binding.drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
 
         //侧边栏点击事件
-        binding.navView.setNavigationItemSelectedListener(menuItem -> {
-            if (menuItem.isCheckable()) {
-                binding.drawerLayout.closeDrawers();
-                return handleNavigationItemSelected(menuItem);
-            } else {
-                int id = menuItem.getItemId();
-                if (id == R.id.nav_settings) {
-                    openNewPage(SettingsFragment.class);
-                } else if (id == R.id.nav_about) {
-                    openNewPage(AboutFragment.class);
-                } else {
-                    XToastUtils.toast("点击了:" + menuItem.getTitle());
-                }
-            }
-            return true;
-        });
+//        binding.navView.setNavigationItemSelectedListener(menuItem -> {
+//            if (menuItem.isCheckable()) {
+//                binding.drawerLayout.closeDrawers();
+//                return handleNavigationItemSelected(menuItem);
+//            } else {
+//                int id = menuItem.getItemId();
+//                if (id == R.id.nav_settings) {
+//                    openNewPage(SettingsFragment.class);
+//                } else if (id == R.id.nav_about) {
+//                    openNewPage(AboutFragment.class);
+//                } else {
+//                    XToastUtils.toast("点击了:" + menuItem.getTitle());
+//                }
+//            }
+//            return true;
+//        });
         //主页事件监听
         binding.includeMain.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -163,7 +153,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
                 MenuItem item = binding.includeMain.bottomNavigation.getMenu().getItem(position);
                 binding.includeMain.toolbar.setTitle(item.getTitle());
                 item.setChecked(true);
-                updateSideNavStatus(item);
+//                updateSideNavStatus(item);
             }
 
             @Override
@@ -223,7 +213,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
             binding.includeMain.toolbar.setTitle(menuItem.getTitle());
             binding.includeMain.viewPager.setCurrentItem(index, false);
 
-            updateSideNavStatus(menuItem);
+//            updateSideNavStatus(menuItem);
             return true;
         }
         return false;
@@ -234,12 +224,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
      *
      * @param menuItem
      */
-    private void updateSideNavStatus(MenuItem menuItem) {
-        MenuItem side = binding.navView.getMenu().findItem(menuItem.getItemId());
-        if (side != null) {
-            side.setChecked(true);
-        }
-    }
+//    private void updateSideNavStatus(MenuItem menuItem) {
+//        MenuItem side = binding.navView.getMenu().findItem(menuItem.getItemId());
+//        if (side != null) {
+//            side.setChecked(true);
+//        }
+//    }
 
     /**
      * 菜单、返回键响应

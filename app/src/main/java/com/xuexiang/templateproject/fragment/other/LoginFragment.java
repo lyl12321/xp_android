@@ -16,7 +16,6 @@ import com.xuexiang.templateproject.databinding.FragmentLoginBinding;
 import com.xuexiang.templateproject.utils.RandomUtils;
 import com.xuexiang.templateproject.utils.SettingUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
-import com.xuexiang.templateproject.utils.Utils;
 import com.xuexiang.templateproject.utils.sdkinit.UMengInit;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
@@ -31,7 +30,7 @@ import com.xuexiang.xutil.app.ActivityUtils;
 /**
  * 登录页面
  *
- * @author xuexiang
+
  * @since 2019-11-17 22:15
  */
 @Page(anim = CoreAnim.none)
@@ -66,12 +65,12 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
     @Override
     protected void initViews() {
         //隐私政策弹窗
-        if (!SettingUtils.isAgreePrivacy()) {
-            Utils.showPrivacyDialog(getContext(), (dialog, which) -> {
-                dialog.dismiss();
-                handleSubmitPrivacy();
-            });
-        }
+//        if (!SettingUtils.isAgreePrivacy()) {
+//            Utils.showPrivacyDialog(getContext(), (dialog, which) -> {
+//                dialog.dismiss();
+        handleSubmitPrivacy();
+//            });
+//        }
         boolean isAgreePrivacy = SettingUtils.isAgreePrivacy();
         binding.cbProtocol.setChecked(isAgreePrivacy);
         refreshButton(isAgreePrivacy);
@@ -120,7 +119,6 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
      * @param verifyCode  验证码
      */
     private void loginByVerifyCode(String phoneNumber, String verifyCode) {
-        // TODO: 2020/8/29 这里只是界面演示而已
         onLoginSuccess();
     }
 

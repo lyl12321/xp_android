@@ -16,7 +16,7 @@ import com.xuexiang.templateproject.R;
 /**
  * 定义支持下来回弹的WebView
  *
- * @author xuexiang
+
  * @since 2019/1/5 上午2:01
  */
 public class WebLayout implements IWebLayout {

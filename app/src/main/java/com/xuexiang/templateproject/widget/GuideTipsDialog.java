@@ -11,9 +11,9 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 
 import com.xuexiang.constant.TimeConstants;
 import com.xuexiang.templateproject.R;
-import com.xuexiang.templateproject.core.http.api.ApiService;
 import com.xuexiang.templateproject.core.http.callback.NoTipCallBack;
-import com.xuexiang.templateproject.core.http.entity.TipInfo;
+import com.xuexiang.templateproject.http.tips.api.ApiService;
+import com.xuexiang.templateproject.http.tips.entity.TipInfo;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xhttp2.XHttp;
@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 小贴士弹窗
  *
- * @author xuexiang
+
  * @since 2019-08-22 17:02
  */
 public class GuideTipsDialog extends BaseDialog implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {

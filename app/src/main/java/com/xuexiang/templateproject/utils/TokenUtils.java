@@ -11,7 +11,7 @@ import com.xuexiang.xutil.common.StringUtils;
 /**
  * Token管理工具
  *
- * @author xuexiang
+
  * @since 2019-11-17 22:37
  */
 public final class TokenUtils {

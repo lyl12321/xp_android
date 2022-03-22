@@ -17,6 +17,10 @@
 
 package com.xuexiang.templateproject.utils;
 
+import static com.xuexiang.templateproject.core.webview.AgentWebFragment.KEY_URL;
+import static com.xuexiang.templateproject.fragment.other.ServiceProtocolFragment.KEY_IS_IMMERSIVE;
+import static com.xuexiang.templateproject.fragment.other.ServiceProtocolFragment.KEY_PROTOCOL_TITLE;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,14 +47,10 @@ import com.xuexiang.xui.widget.dialog.materialdialog.DialogAction;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xutil.XUtil;
 
-import static com.xuexiang.templateproject.core.webview.AgentWebFragment.KEY_URL;
-import static com.xuexiang.templateproject.fragment.other.ServiceProtocolFragment.KEY_IS_IMMERSIVE;
-import static com.xuexiang.templateproject.fragment.other.ServiceProtocolFragment.KEY_PROTOCOL_TITLE;
-
 /**
  * 工具类
  *
- * @author xuexiang
+
  * @since 2020-02-23 15:12
  */
 public final class Utils {

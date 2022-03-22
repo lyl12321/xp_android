@@ -17,7 +17,7 @@ import com.xuexiang.xutil.common.StringUtils;
  *
  * 详细使用参见：https://github.com/xuexiangjys/XUpdate/wiki
  *
- * @author xuexiang
+
  * @since 2019-06-18 15:51
  */
 public final class XUpdateInit {
