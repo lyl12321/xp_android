@@ -8,8 +8,8 @@ import retrofit2.http.POST;
 public interface UserService {
 
     /**
-     * 获得小贴士
+     * 用户注册
      */
-    @POST("/user/register")
+    @POST("/user/insert")
     Observable<ApiResult<String>> register();
 }

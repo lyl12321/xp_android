@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            android:layout_marginTop="100dp"
+            />
+
+        <FrameLayout
+            android:id="@+id/fl_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_baseline_call_24" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:hint="请输入手机号码"
+                android:inputType="number"
+                app:met_clearButton="true"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="@string/title_phone_number" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_phone" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:hint="请输入用户名"
+                app:met_clearButton="true"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="@string/title_phone_number" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_password_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_password" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:hint="请输入密码"
+                app:met_clearButton="false"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="请输入密码" />
+
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_password_code_too"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_password" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_password_too"
+                android:layout_width="342dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="36dp"
+                android:hint="请再次输入密码"
+                app:met_clearButton="false"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="请再次输入密码" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_class_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:tint="?attr/colorAccent"
+                app:srcCompat="@drawable/ic_baseline_people_outline_24" />
+
+            <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
+                android:id="@+id/et_class_code"
+                android:layout_width="342dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="36dp"
+                android:hint="请输入班级代码"
+                android:inputType="number"
+                app:met_clearButton="false"
+                app:met_floatingLabel="normal"
+                app:met_floatingLabelText="请输入班级代码" />
+
+        </FrameLayout>
+
+
+        <com.xuexiang.xui.widget.textview.supertextview.SuperButton
+            android:id="@+id/btn_register"
+            style="@style/SuperButton.Primary.Register"
+            android:layout_marginTop="16dp"
+            android:text="提交注册" />
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
