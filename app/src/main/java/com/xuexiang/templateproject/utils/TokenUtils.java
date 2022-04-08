@@ -24,7 +24,7 @@ public final class TokenUtils {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 
-    private static final String KEY_PROFILE_CHANNEL = "github";
+    private static final String KEY_PROFILE_CHANNEL = "other";
 
     /**
      * 初始化Token信息

@@ -10,6 +10,7 @@ import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.XAOP;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.XHttpSDK;
+import com.xuexiang.xhttp2.model.HttpHeaders;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.XUI;
@@ -74,7 +75,10 @@ public final class XBasicLibInit {
         //设置网络请求的全局基础地址
         XHttpSDK.setBaseUrl("http://192.168.31.67:9001");
         XHttpSDK.setSuccessCode(200);
-        XHttp.getInstance().setStrictMode(false);
+        XHttp.getInstance().setStrictMode(false)
+            .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()))
+            .setTimeout(0);
+
 
 //        //设置动态参数添加拦截器
 //        XHttpSDK.addInterceptor(new CustomDynamicInterceptor());
