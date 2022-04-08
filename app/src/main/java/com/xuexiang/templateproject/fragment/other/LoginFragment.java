@@ -23,6 +23,7 @@ import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xaop.logger.XLogger;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.cache.model.CacheMode;
+import com.xuexiang.xhttp2.model.HttpHeaders;
 import com.xuexiang.xhttp2.request.CustomRequest;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -128,6 +129,8 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
      */
     private void onLoginSuccess(String token) {
         if (TokenUtils.handleLoginSuccess(token)) {
+            XHttp.getInstance()
+                    .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));
             popToBack();
             ActivityUtils.startActivity(MainActivity.class);
         }

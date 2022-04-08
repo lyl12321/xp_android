@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.umeng.analytics.MobclickAgent;
 import com.xuexiang.templateproject.activity.LoginActivity;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.model.HttpHeaders;
 import com.xuexiang.xutil.app.ActivityUtils;
 import com.xuexiang.xutil.common.StringUtils;
 
@@ -77,7 +79,9 @@ public final class TokenUtils {
         //登出时，清除账号信息
         clearToken();
         XToastUtils.success("登出成功！");
-        SettingUtils.setIsAgreePrivacy(false);
+//        SettingUtils.setIsAgreePrivacy(false);
+        XHttp.getInstance().setStrictMode(false)
+                .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));  //退出登陆时清空统一请求头
         //跳转到登录页
         ActivityUtils.startActivity(LoginActivity.class);
     }
