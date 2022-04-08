@@ -127,8 +127,8 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
     /**
      * 登录成功的处理
      */
-    private void onLoginSuccess(String token) {
-        if (TokenUtils.handleLoginSuccess(token)) {
+    private void onLoginSuccess(String res) {
+        if (TokenUtils.handleLoginSuccess(res)) {
             XHttp.getInstance()
                     .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));
             popToBack();

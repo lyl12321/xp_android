@@ -21,9 +21,13 @@ import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
 import com.xuexiang.templateproject.fragment.news.HomeFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
+import com.xuexiang.templateproject.http.user.entity.UserDTORes;
+import com.xuexiang.templateproject.utils.MMKVUtils;
+import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 import com.xuexiang.xaop.annotation.SingleClick;
+import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.adapter.FragmentAdapter;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -67,20 +71,34 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         binding.includeMain.toolbar.setOnMenuItemClickListener(this);
 
 
-        //动态加载nav
-        binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom);
+        UserDTORes userDTO = GsonUtils.fromJson((String) MMKVUtils.get(TokenUtils.getToken(), "{}"), UserDTORes.class);
+        BaseFragment[] fragments;
+        if (userDTO.getUserType() != null && (userDTO.getUserType().equals("0") || userDTO.getUserType().equals("1"))){
+            //动态加载nif av
+            binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom);
+            //主页内容填充
+            fragments = new BaseFragment[]{
+                    new HomeFragment(),
+                    new CheckInFragment(),
+                    new MomentsFragment(),
+                    new ProfileFragment()
+            };
 
+        } else {
+            //动态加载nav
+            binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom_teacher);
+            //主页内容填充
+            fragments = new BaseFragment[]{
+                    new HomeFragment(),
+                    new MomentsFragment(),
+                    new ProfileFragment()
+            };
+        }
 
 
 //        initHeader();
 
-        //主页内容填充
-        BaseFragment[] fragments = new BaseFragment[]{
-                new HomeFragment(),
-                new CheckInFragment(),
-                new MomentsFragment(),
-                new ProfileFragment()
-        };
+
         FragmentAdapter<BaseFragment> adapter = new FragmentAdapter<>(getSupportFragmentManager(), fragments);
         binding.includeMain.viewPager.setOffscreenPageLimit(mTitles.length - 1);
         binding.includeMain.viewPager.setAdapter(adapter);

@@ -76,6 +76,7 @@ public final class TokenUtils {
      */
     public static void handleLogoutSuccess() {
         MobclickAgent.onProfileSignOff();
+        MMKVUtils.remove(TokenUtils.getToken());
         //登出时，清除账号信息
         clearToken();
         XToastUtils.success("登出成功！");

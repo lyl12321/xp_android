@@ -12,7 +12,7 @@ import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRegisterBinding;
 import com.xuexiang.templateproject.http.user.api.UserService;
-import com.xuexiang.templateproject.http.user.entity.User;
+import com.xuexiang.templateproject.http.user.entity.RegisterUserDTO;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xhttp2.XHttp;
@@ -92,16 +92,16 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> impl
 
             //校验全部通过
             //设置User的值
-            User user = new User();
-            user.setPhone(binding.etPhoneNumber.getEditValue());
-            user.setUsername(binding.etUsername.getEditValue());
-            user.setPassword(binding.etPassword.getEditValue());
-            user.setClassCode(binding.etClassCode.getEditValue());
-            user.setUserType(binding.rgUserType.getCheckedRadioButtonId() == R.id.option1 ? "1" : "2");  //1是老师  2是学生
+            RegisterUserDTO registerUserDTO = new RegisterUserDTO();
+            registerUserDTO.setPhone(binding.etPhoneNumber.getEditValue());
+            registerUserDTO.setUsername(binding.etUsername.getEditValue());
+            registerUserDTO.setPassword(binding.etPassword.getEditValue());
+            registerUserDTO.setClassCode(binding.etClassCode.getEditValue());
+            registerUserDTO.setUserType(binding.rgUserType.getCheckedRadioButtonId() == R.id.option1 ? "1" : "2");  //1是老师  2是学生
 
 
             CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
-            request.apiCall(request.create(UserService.class).register(user), new TipCallBack<String>() {
+            request.apiCall(request.create(UserService.class).register(registerUserDTO), new TipCallBack<String>() {
                 @Override
                 public void onSuccess(String response) throws Throwable {
                     XToastUtils.success(response);

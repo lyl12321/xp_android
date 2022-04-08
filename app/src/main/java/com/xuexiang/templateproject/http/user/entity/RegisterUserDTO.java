@@ -1,6 +1,6 @@
 package com.xuexiang.templateproject.http.user.entity;
 
-public class User {
+public class RegisterUserDTO {
     /**
      * 用户名
      */
