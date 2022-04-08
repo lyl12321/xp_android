@@ -9,9 +9,8 @@ import androidx.annotation.NonNull;
 
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.BaseFragment;
-import com.xuexiang.templateproject.core.http.callback.NoTipCallBack;
+import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRegisterBinding;
-import com.xuexiang.templateproject.http.base.entity.BaseDTO;
 import com.xuexiang.templateproject.http.user.api.UserService;
 import com.xuexiang.templateproject.http.user.entity.User;
 import com.xuexiang.templateproject.utils.XToastUtils;
@@ -23,6 +22,7 @@ import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 
 @Page(anim = CoreAnim.none)
 public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> implements View.OnClickListener{
@@ -66,35 +66,53 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> impl
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_register) {
-            if (binding.etPhoneNumber.validate()) {
-                XToastUtils.error("手机号码校验不通过");
+            if (!binding.etPhoneNumber.validate()) {
                 return;
             }
-            if (binding.etUsername.validate()) {
-                XToastUtils.error("用户名不能为空");
+            if (!binding.etUsername.validate()) {
                 return;
             }
-            if (binding.etPassword.validate()) {
-                XToastUtils.error("密码不能为空");
+            if (!binding.etPassword.validate()){
                 return;
             }
-            if (binding.etPasswordToo.validate()) {
-                XToastUtils.error("再次输入密码不能为空");
+            if (!binding.etPasswordToo.validate()) {
                 return;
             }
-            if (binding.etPassword.getEditValue().equals(binding.etPasswordToo.getEditValue())) {
-                XToastUtils.error("两次输入密码不一样");
+            if (!binding.etPassword.getEditValue().equals(binding.etPasswordToo.getEditValue())) {
                 return;
             }
-            if (binding.etClassCode.validate()) {
-                XToastUtils.error("班级代码不能为空");
+            if (!binding.etClassCode.validate()) {
                 return;
             }
-            CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
-            request.apiCall(request.create(UserService.class).register(new User()), new NoTipCallBack<BaseDTO<String>>() {
-                @Override
-                public void onSuccess(BaseDTO<String> response) throws Throwable {
+            if (binding.rgUserType.getCheckedRadioButtonId() == -1) {
+                XToastUtils.error("请选择您的身份");
+                return;
+            }
 
+
+            //校验全部通过
+            //设置User的值
+            User user = new User();
+            user.setPhone(binding.etPhoneNumber.getEditValue());
+            user.setUsername(binding.etUsername.getEditValue());
+            user.setPassword(binding.etPassword.getEditValue());
+            user.setClassCode(binding.etClassCode.getEditValue());
+            user.setUserType(binding.rgUserType.getCheckedRadioButtonId() == R.id.option1 ? "1" : "2");  //1是老师  2是学生
+
+
+            CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
+            request.apiCall(request.create(UserService.class).register(user), new TipCallBack<String>() {
+                @Override
+                public void onSuccess(String response) throws Throwable {
+                    XToastUtils.success(response);
+                    new MaterialDialog.Builder(getContext())
+                            .content("是否直接进行登陆？")
+                            .positiveText(R.string.lab_yes)
+                            .negativeText(R.string.lab_no)
+                            .onPositive((dialog, which) -> {
+
+                            })
+                            .show();
                 }
             });
         }

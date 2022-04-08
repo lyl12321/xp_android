@@ -62,20 +62,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
     @Override
     protected void initViews() {
-        //隐私政策弹窗
-//        if (!SettingUtils.isAgreePrivacy()) {
-//            Utils.showPrivacyDialog(getContext(), (dialog, which) -> {
-//                dialog.dismiss();
         handleSubmitPrivacy();
-//            });
-//        }
-        boolean isAgreePrivacy = SettingUtils.isAgreePrivacy();
-        binding.cbProtocol.setChecked(isAgreePrivacy);
-        refreshButton(isAgreePrivacy);
-        binding.cbProtocol.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SettingUtils.setIsAgreePrivacy(isChecked);
-            refreshButton(isChecked);
-        });
     }
 
     @Override
@@ -102,9 +89,13 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_login) {
-            if (binding.etPhoneNumber.validate()) {
-                if (binding.etVerifyCode.validate()) {
-                    loginByVerifyCode(binding.etPhoneNumber.getEditValue(), binding.etVerifyCode.getEditValue());
+            if (binding.etPhoneNumberOrUser.validate()) {
+                if (binding.etPassword.validate()) {
+
+
+
+
+//                    loginByVerifyCode(binding.etPhoneNumber.getEditValue(), binding.etVerifyCode.getEditValue());
                 }
             }
         } else if (id == R.id.btn_register) {
@@ -113,13 +104,14 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
     }
 
-    /**
-     * 根据验证码登录
-     *
-     * @param phoneNumber 手机号
-     * @param verifyCode  验证码
-     */
-    private void loginByVerifyCode(String phoneNumber, String verifyCode) {
+
+    private void loginByPhoneOrUser(String phoneOrUser, String password) {
+
+
+        TokenUtils.setToken("xxxx");
+
+
+
         onLoginSuccess();
     }
 

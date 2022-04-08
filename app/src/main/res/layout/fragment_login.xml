@@ -40,7 +40,7 @@
                 app:srcCompat="@drawable/ic_phone" />
 
             <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                android:id="@+id/et_phone_number"
+                android:id="@+id/et_phone_number_or_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
@@ -48,14 +48,15 @@
                 android:inputType="number"
                 app:met_clearButton="true"
                 app:met_floatingLabel="normal"
-                app:met_floatingLabelText="@string/title_phone_number"
+                app:met_floatingLabelText="@string/tip_please_input_phone_number"
+                app:met_regexp="@string/regex_username"
                 />
 
         </FrameLayout>
 
 
         <FrameLayout
-            android:id="@+id/fl_verify_code"
+            android:id="@+id/fl_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp">
@@ -68,15 +69,15 @@
                 app:srcCompat="@drawable/ic_password" />
 
             <com.xuexiang.xui.widget.edittext.materialedittext.MaterialEditText
-                android:id="@+id/et_verify_code"
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="36dp"
                 android:hint="请输入密码"
-                android:inputType="number"
                 app:met_clearButton="false"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="请输入密码"
+                app:met_regexp="@string/regex_password"
                 />
 
 <!--            <com.xuexiang.xui.widget.button.roundbutton.RoundButton-->
@@ -108,7 +109,7 @@
                 android:layout_height="wrap_content"
                 >
                 <CheckBox
-                    android:id="@+id/cb_protocol"
+                    android:id="@+id/cb_save_pass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleX="0.7"

@@ -18,7 +18,7 @@ public final class TokenUtils {
 
     private static String sToken;
 
-    private static final String KEY_TOKEN = "com.xuexiang.templateproject.utils.KEY_TOKEN";
+    private static final String KEY_TOKEN = "com.xp.utils.KEY_TOKEN";
 
     private TokenUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");

@@ -8,6 +8,7 @@ import com.xuexiang.templateproject.core.BaseActivity;
 import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.XAOP;
+import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.XHttpSDK;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xrouter.launcher.XRouter;
@@ -71,7 +72,10 @@ public final class XBasicLibInit {
         }
 //        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
         //设置网络请求的全局基础地址
-        XHttpSDK.setBaseUrl("http://localhost:8080/");
+        XHttpSDK.setBaseUrl("http://192.168.31.67:9001");
+        XHttpSDK.setSuccessCode(200);
+        XHttp.getInstance().setStrictMode(false);
+
 //        //设置动态参数添加拦截器
 //        XHttpSDK.addInterceptor(new CustomDynamicInterceptor());
 //        //请求失效校验拦截器
