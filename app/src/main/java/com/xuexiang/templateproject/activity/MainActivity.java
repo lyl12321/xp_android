@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         UserDTORes userDTO = GsonUtils.fromJson((String) MMKVUtils.get(TokenUtils.getToken(), "{}"), UserDTORes.class);
         BaseFragment[] fragments;
         if (userDTO.getUserType() != null && (userDTO.getUserType().equals("0") || userDTO.getUserType().equals("1"))){
-            //动态加载nif av
+            //动态加载nav
             binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom);
             //主页内容填充
             fragments = new BaseFragment[]{
