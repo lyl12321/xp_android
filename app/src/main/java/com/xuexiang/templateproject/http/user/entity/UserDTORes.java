@@ -5,16 +5,6 @@ import com.google.gson.annotations.SerializedName;
 public class UserDTORes {
     @SerializedName("id")
     private String id;
-    @SerializedName("delFlg")
-    private Object delFlg;
-    @SerializedName("creator")
-    private String creator;
-    @SerializedName("createTime")
-    private String createTime;
-    @SerializedName("updater")
-    private String updater;
-    @SerializedName("updateTime")
-    private String updateTime;
     @SerializedName("username")
     private String username;
     @SerializedName("password")
@@ -22,7 +12,7 @@ public class UserDTORes {
     @SerializedName("phone")
     private String phone;
     @SerializedName("userType")
-    private Object userType;
+    private String userType;
     @SerializedName("classCode")
     private String classCode;
     @SerializedName("userStatus")
@@ -32,7 +22,15 @@ public class UserDTORes {
     @SerializedName("locked")
     private Object locked;
     @SerializedName("delFlag")
-    private String delFlag;
+    private Object delFlag;
+    @SerializedName("creator")
+    private String creator;
+    @SerializedName("createTime")
+    private String createTime;
+    @SerializedName("updater")
+    private Object updater;
+    @SerializedName("updateTime")
+    private Object updateTime;
 
     public String getId() {
         return id;
@@ -40,46 +38,6 @@ public class UserDTORes {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Object getDelFlg() {
-        return delFlg;
-    }
-
-    public void setDelFlg(Object delFlg) {
-        this.delFlg = delFlg;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(String updater) {
-        this.updater = updater;
-    }
-
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
     }
 
     public String getUsername() {
@@ -106,11 +64,11 @@ public class UserDTORes {
         this.phone = phone;
     }
 
-    public Object getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(Object userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
     }
 
@@ -146,11 +104,43 @@ public class UserDTORes {
         this.locked = locked;
     }
 
-    public String getDelFlag() {
+    public Object getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(String delFlag) {
+    public void setDelFlag(Object delFlag) {
         this.delFlag = delFlag;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public Object getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(Object updater) {
+        this.updater = updater;
+    }
+
+    public Object getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Object updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -22,12 +22,10 @@ import com.xuexiang.templateproject.fragment.news.HomeFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
-import com.xuexiang.templateproject.utils.MMKVUtils;
-import com.xuexiang.templateproject.utils.TokenUtils;
+import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 import com.xuexiang.xaop.annotation.SingleClick;
-import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.adapter.FragmentAdapter;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -71,7 +69,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         binding.includeMain.toolbar.setOnMenuItemClickListener(this);
 
 
-        UserDTORes userDTO = GsonUtils.fromJson((String) MMKVUtils.get(TokenUtils.getToken(), "{}"), UserDTORes.class);
+        UserDTORes userDTO = UserUtils.getCurrentUser();
         BaseFragment[] fragments;
         if (userDTO.getUserType() != null && (userDTO.getUserType().equals("0") || userDTO.getUserType().equals("1"))){
             //动态加载nav

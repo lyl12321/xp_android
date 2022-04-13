@@ -152,7 +152,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
     protected void initListeners() {
         //下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-            // TODO: 2020-02-25 这里只是模拟了网络请求
             refreshLayout.getLayout().postDelayed(() -> {
                 mNewsAdapter.refresh(DemoDataProvider.getDemoNewInfos());
                 refreshLayout.finishRefresh();
@@ -160,7 +159,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         });
         //上拉加载
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            // TODO: 2020-02-25 这里只是模拟了网络请求
             refreshLayout.getLayout().postDelayed(() -> {
                 mNewsAdapter.loadMore(DemoDataProvider.getDemoNewInfos());
                 refreshLayout.finishLoadMore();

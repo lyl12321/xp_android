@@ -1,4 +1,4 @@
-package com.xuexiang.templateproject.fragment.other;
+package com.xuexiang.templateproject.fragment.profile;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,13 +11,11 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentUserinfoBinding;
 import com.xuexiang.templateproject.http.user.api.UserApi;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
-import com.xuexiang.templateproject.utils.MMKVUtils;
-import com.xuexiang.templateproject.utils.TokenUtils;
+import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -38,7 +36,7 @@ public class UserInfoFragment extends BaseFragment<FragmentUserinfoBinding> impl
 
     @Override
     protected void initViews() {
-        UserDTORes userDTO = GsonUtils.fromJson((String) MMKVUtils.get(TokenUtils.getToken(), "{}"), UserDTORes.class);
+        UserDTORes userDTO = UserUtils.getCurrentUser();
         if (userDTO.getId() != null && !userDTO.getId().equals("")) {
             binding.stUsername.setRightString(userDTO.getUsername());
             binding.stPhone.setRightString(userDTO.getPhone());

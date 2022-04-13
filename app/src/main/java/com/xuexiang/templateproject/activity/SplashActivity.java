@@ -4,7 +4,7 @@ package com.xuexiang.templateproject.activity;
 import android.view.KeyEvent;
 
 import com.xuexiang.templateproject.R;
-import com.xuexiang.templateproject.core.http.callback.NoTipCallBack;
+import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.http.user.api.UserService;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 import com.xuexiang.templateproject.utils.MMKVUtils;
@@ -60,7 +60,7 @@ public class SplashActivity extends BaseSplashActivity implements CancelAdapt {
     private void loginOrGoMainPage() {
         if (TokenUtils.hasToken()) {
             CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
-            request.apiCall(request.create(UserService.class).getUserInfo(), new NoTipCallBack<UserDTORes>() {
+            request.apiCall(request.create(UserService.class).getUserInfo(), new TipCallBack<UserDTORes>() {
                 @Override
                 public void onSuccess(UserDTORes response) throws Throwable {
                     if (response.getId() == null) {
