@@ -15,18 +15,19 @@ import com.xuexiang.templateproject.activity.RegisterActivity;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentLoginBinding;
-import com.xuexiang.templateproject.http.login.api.LoginService;
+import com.xuexiang.templateproject.http.login.api.LoginApi;
+import com.xuexiang.templateproject.http.login.entity.LoginResDTO;
+import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.SettingUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.sdkinit.UMengInit;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xaop.logger.XLogger;
 import com.xuexiang.xhttp2.XHttp;
-import com.xuexiang.xhttp2.cache.model.CacheMode;
 import com.xuexiang.xhttp2.model.HttpHeaders;
-import com.xuexiang.xhttp2.request.CustomRequest;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
+import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.ViewUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
@@ -110,18 +111,29 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
 
     private void loginByPhoneOrUser(String phoneOrUser, String password) {
-        CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
-        request.apiCall(request.create(LoginService.class).login(new HashMap<String,Object>(){{
-            put("usernameOrPhone", phoneOrUser);
-            put("password", password);
-        }}), new TipCallBack<String>() {
-            @Override
-            public void onSuccess(String response) throws Throwable {
-                XLogger.debug("Token:"+response);
+        XHttp.post(LoginApi.login())
+             .params(new HashMap<String,Object>(){{
+                 put("usernameOrPhone", phoneOrUser);
+                 put("password", password);
+             }})
+            .execute(new TipCallBack<LoginResDTO>() {
+                @Override
+                public void onSuccess(LoginResDTO response) throws Throwable {
+                    XLogger.debug("Token:"+response);
 //                XToastUtils.success(response);
-                onLoginSuccess(response);
-            }
-        });
+                    MMKVUtils.put(response.getToken(), GsonUtils.toJson(response.getUser()));
+                    onLoginSuccess(response.getToken());
+                }
+            });
+//        CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
+//        request.apiCall(request.create(LoginService.class).login(), new TipCallBack<String>() {
+//            @Override
+//            public void onSuccess(String response) throws Throwable {
+//                XLogger.debug("Token:"+response);
+////                XToastUtils.success(response);
+//                onLoginSuccess(response);
+//            }
+//        });
     }
 
     /**

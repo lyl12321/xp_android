@@ -51,6 +51,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
     protected void initListeners() {
         binding.stUsername.setOnSuperTextViewClickListener(this);
         binding.menuMyClass.setOnSuperTextViewClickListener(this);
+        binding.menuMyBuy.setOnSuperTextViewClickListener(this);
         binding.menuSettings.setOnSuperTextViewClickListener(this);
         binding.menuAbout.setOnSuperTextViewClickListener(this);
     }
@@ -67,6 +68,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
             openNewPage(AboutFragment.class);
         } else if (id == R.id.menu_my_class) {
             openNewPage(MyClassFragment.class);
+        } else if (id == R.id.menu_my_buy) {
+
         }
     }
 }
