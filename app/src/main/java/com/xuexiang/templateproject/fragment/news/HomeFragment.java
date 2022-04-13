@@ -67,8 +67,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             @Override
             public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
                 SimpleImageBanner banner = holder.findViewById(R.id.sib_simple_usage);
-                banner.setSource(DemoDataProvider.getBannerList())
-                        .setOnItemClickListener((view, item, position1) -> XToastUtils.toast("headBanner position--->" + position1)).startScroll();
+                banner.setSource(DemoDataProvider.getBannerList()).startScroll();
             }
         };
 
