@@ -9,8 +9,10 @@ import com.xuexiang.templateproject.http.user.api.UserService;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
+import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.cache.model.CacheMode;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xhttp2.request.CustomRequest;
 import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.utils.KeyboardUtils;
@@ -64,11 +66,19 @@ public class SplashActivity extends BaseSplashActivity implements CancelAdapt {
                 @Override
                 public void onSuccess(UserDTORes response) throws Throwable {
                     if (response.getId() == null) {
-                        TokenUtils.handleLogoutSuccess();
-                        ActivityUtils.startActivity(LoginActivity.class);
+                        XToastUtils.error("未获取到用户信息，登陆失败，请重新登陆");
+                        TokenUtils.forceLogoutSuccess();
                     } else {
                         MMKVUtils.put(TokenUtils.getToken(), GsonUtils.toJson(response));
                         ActivityUtils.startActivity(MainActivity.class);
+                    }
+                }
+
+                @Override
+                public void onError(ApiException e) {
+                    if (e.getDisplayMessage().equals("sessionExpired")) {
+                        XToastUtils.error("登陆过期，请重新登陆");
+                        TokenUtils.forceLogoutSuccess();
                     }
                 }
             });

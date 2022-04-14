@@ -15,12 +15,15 @@ import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.broccoli.BroccoliSimpleDelegateAdapter;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
 import com.xuexiang.templateproject.adapter.base.delegate.SingleDelegateAdapter;
-import com.xuexiang.templateproject.adapter.entity.NewInfo;
 import com.xuexiang.templateproject.core.BaseFragment;
+import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentHomeBinding;
+import com.xuexiang.templateproject.http.goods.api.GoodsApi;
+import com.xuexiang.templateproject.http.goods.entity.GoodsListDTO;
+import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.DemoDataProvider;
-import com.xuexiang.templateproject.utils.Utils;
 import com.xuexiang.templateproject.utils.XToastUtils;
+import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
@@ -29,13 +32,22 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.banner.widget.banner.SimpleImageBanner;
 import com.xuexiang.xui.widget.imageview.ImageLoader;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
+import com.xuexiang.xutil.net.JsonUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.samlss.broccoli.Broccoli;
 
 @Page(anim = CoreAnim.none)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
-    private SimpleDelegateAdapter<NewInfo> mNewsAdapter;
+    private SimpleDelegateAdapter<GoodsListDTO.ListDTO> mNewsAdapter;
+
+    private int listCurrentFrom = 1;  //当前页数
+
+    private String searchKey = "";
 
     @NonNull
     @Override
@@ -105,21 +117,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             }
         };
 
-        //资讯
-        mNewsAdapter = new BroccoliSimpleDelegateAdapter<NewInfo>(R.layout.adapter_news_card_view_list_item, new LinearLayoutHelper(), DemoDataProvider.getEmptyNewInfo()) {
+        mNewsAdapter = new BroccoliSimpleDelegateAdapter<GoodsListDTO.ListDTO>(R.layout.adapter_news_card_view_list_item, new LinearLayoutHelper(), new ArrayList<>()) {
             @Override
-            protected void onBindData(RecyclerViewHolder holder, NewInfo model, int position) {
+            protected void onBindData(RecyclerViewHolder holder, GoodsListDTO.ListDTO model, int position) {
                 if (model != null) {
-                    holder.text(R.id.tv_user_name, (position+1)+"");
-                    holder.text(R.id.tv_tag, model.getTag());
-                    holder.text(R.id.tv_title, model.getTitle());
-                    holder.text(R.id.tv_summary, model.getSummary());
+                    holder.text(R.id.tv_user_name, model.getCreator());
+                    holder.text(R.id.tv_tag, model.getClassification());
+                    holder.text(R.id.tv_title, model.getGoodsName());
+                    holder.text(R.id.tv_summary, model.getGoodsDescribe());
 //                    holder.text(R.id.tv_praise, model.getPraise() == 0 ? "点赞" : String.valueOf(model.getPraise()));
 //                    holder.text(R.id.tv_comment, model.getComment() == 0 ? "评论" : String.valueOf(model.getComment()));
 //                    holder.text(R.id.tv_read, "阅读量 " + model.getRead());
-                    holder.image(R.id.iv_image, model.getImageUrl());
+                    holder.image(R.id.iv_image, model.getGoodsPicUrl());
 
-                    holder.click(R.id.card_view, v -> Utils.goWeb(getContext(), model.getDetailUrl()));
+//                    holder.click(R.id.card_view, v -> Utils.goWeb(getContext(), model.getGoodsPicUrl()));
                 }
             }
 
@@ -151,17 +162,51 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
     protected void initListeners() {
         //下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
-            refreshLayout.getLayout().postDelayed(() -> {
-                mNewsAdapter.refresh(DemoDataProvider.getDemoNewInfos());
-                refreshLayout.finishRefresh();
-            }, 1000);
+            listCurrentFrom = 1;  //刷新只加载第一页
+            Map<String,Object> params = new HashMap<>();
+            params.put("from",listCurrentFrom);
+            params.put("pageSize", Constant.pageSize);
+            params.put("searchKey", searchKey);
+            XHttp.post(GoodsApi.queryGoodsPages())
+                    .upJson(JsonUtil.toJson(params))
+                    .execute(new TipCallBack<GoodsListDTO>() {
+                        @Override
+                        public void onSuccess(GoodsListDTO response) throws Throwable {
+                            binding.refreshLayout.setEnableLoadMore(response.getPages() < listCurrentFrom);
+                            if (response.getPages() < listCurrentFrom) {
+                                refreshLayout.resetNoMoreData();
+                            }
+                            if (response.getList() != null && response.getList().size() > 0) {
+                                mNewsAdapter.refresh(response.getList());
+                                refreshLayout.finishRefresh();
+                            }
+                        }
+                    });
         });
         //上拉加载
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
-            refreshLayout.getLayout().postDelayed(() -> {
-                mNewsAdapter.loadMore(DemoDataProvider.getDemoNewInfos());
-                refreshLayout.finishLoadMore();
-            }, 1000);
+            listCurrentFrom++;
+
+            Map<String,Object> params = new HashMap<>();
+            params.put("from",listCurrentFrom);
+            params.put("pageSize", Constant.pageSize);
+            params.put("searchKey", searchKey);
+            XHttp.post(GoodsApi.queryGoodsPages())
+                    .upJson(JsonUtil.toJson(params))
+                    .execute(new TipCallBack<GoodsListDTO>() {
+                        @Override
+                        public void onSuccess(GoodsListDTO response) throws Throwable {
+                            binding.refreshLayout.setEnableLoadMore(response.getPages() < listCurrentFrom);
+                            if (response.getList() != null && response.getList().size() > 0) {
+                                mNewsAdapter.refresh(response.getList());
+                            }
+                            if (response.getPages() < listCurrentFrom) {
+                                refreshLayout.finishLoadMore();
+                            } else {
+                                refreshLayout.finishLoadMoreWithNoMoreData();
+                            }
+                        }
+                    });
         });
         binding.refreshLayout.autoRefresh();//第一次进入触发自动刷新，演示效果
     }

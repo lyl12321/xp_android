@@ -87,4 +87,15 @@ public final class TokenUtils {
         ActivityUtils.startActivity(LoginActivity.class);
     }
 
+    public static void forceLogoutSuccess() {  ///只是不显示提示的登出
+        MobclickAgent.onProfileSignOff();
+        MMKVUtils.remove(TokenUtils.getToken());
+        //登出时，清除账号信息
+        clearToken();
+//        SettingUtils.setIsAgreePrivacy(false);
+        XHttp.getInstance().setStrictMode(false)
+                .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));  //退出登陆时清空统一请求头
+        //跳转到登录页
+        ActivityUtils.startActivity(LoginActivity.class);
+    }
 }
