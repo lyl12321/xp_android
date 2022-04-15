@@ -52,6 +52,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
         binding.stUsername.setOnSuperTextViewClickListener(this);
         binding.menuMyClass.setOnSuperTextViewClickListener(this);
         binding.menuMyBuy.setOnSuperTextViewClickListener(this);
+        binding.menuWallet.setOnSuperTextViewClickListener(this);
         binding.menuSettings.setOnSuperTextViewClickListener(this);
         binding.menuAbout.setOnSuperTextViewClickListener(this);
     }
@@ -70,6 +71,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
             openNewPage(MyClassFragment.class);
         } else if (id == R.id.menu_my_buy) {
 
+        } else if (id == R.id.menu_wallet) {
+            openNewPage(WalletFragment.class);
         }
     }
 }

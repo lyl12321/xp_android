@@ -87,7 +87,7 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     .execute(new TipCallBack<UserListDTO>() {
                         @Override
                         public void onSuccess(UserListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() < listCurrentFrom);
+                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
                             if (response.getPages() < listCurrentFrom) {
                                 refreshLayout12.resetNoMoreData();
                             }
@@ -110,9 +110,9 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     .execute(new TipCallBack<UserListDTO>() {
                         @Override
                         public void onSuccess(UserListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() < listCurrentFrom);
+                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
                             if (response.getList() != null && response.getList().size() > 0) {
-                                mAdapter.refresh(response.getList());
+                                mAdapter.loadMore(response.getList());
                             }
                             if (response.getPages() < listCurrentFrom) {
                                 refreshLayout1.finishLoadMore();
@@ -164,14 +164,12 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         if (direction == SwipeRecyclerView.RIGHT_DIRECTION) {
 //            Map<String,Object> params = new HashMap<>();
 //            params.put("id",);
-            XHttp.post(GradeApi.deleteClassMember())
-                    .upString(mAdapter.getData().get(position).getId())
-                    .execute(new TipCallBack<String>() {
-                        @Override
-                        public void onSuccess(String response) throws Throwable {
-                            XToastUtils.success(response);
-                        }
-                    });
+            GradeApi.deleteClassMemberFun(mAdapter.getData().get(position).getId(), new TipCallBack<String>() {
+                @Override
+                public void onSuccess(String response) throws Throwable {
+                    XToastUtils.success(response);
+                }
+            });
         }
     };
 

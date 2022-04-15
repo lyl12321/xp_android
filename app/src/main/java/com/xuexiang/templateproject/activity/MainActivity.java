@@ -15,17 +15,26 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.BaseActivity;
 import com.xuexiang.templateproject.core.BaseFragment;
+import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.ActivityMainBinding;
 import com.xuexiang.templateproject.fragment.checkin.CheckInFragment;
+import com.xuexiang.templateproject.fragment.home.HomeFragment;
 import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
-import com.xuexiang.templateproject.fragment.news.HomeFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
+import com.xuexiang.templateproject.http.user.api.UserService;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
+import com.xuexiang.templateproject.utils.MMKVUtils;
+import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 import com.xuexiang.xaop.annotation.SingleClick;
+import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.xhttp2.cache.model.CacheMode;
+import com.xuexiang.xhttp2.exception.ApiException;
+import com.xuexiang.xhttp2.request.CustomRequest;
+import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.adapter.FragmentAdapter;
 import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -105,6 +114,28 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
     private void initData() {
 //        GuideTipsDialog.showTips(this);
         XUpdateInit.checkUpdate(this, false);
+
+        CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
+        request.apiCall(request.create(UserService.class).getUserInfo(), new TipCallBack<UserDTORes>() {
+            @Override
+            public void onSuccess(UserDTORes response) throws Throwable {
+                if (response.getId() == null) {
+                    XToastUtils.error("未获取到用户信息，登陆失败，请重新登陆");
+                    TokenUtils.forceLogoutSuccess();
+                } else {
+                    MMKVUtils.put(TokenUtils.getToken(), GsonUtils.toJson(response));
+
+                }
+            }
+
+            @Override
+            public void onError(ApiException e) {
+                if (e.getDisplayMessage().equals("sessionExpired")) {
+                    XToastUtils.error("登陆过期，请重新登陆");
+                    TokenUtils.forceLogoutSuccess();
+                }
+            }
+        });
     }
 
 //    private void initHeader() {

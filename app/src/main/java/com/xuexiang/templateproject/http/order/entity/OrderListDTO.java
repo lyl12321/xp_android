@@ -1,10 +1,12 @@
-package com.xuexiang.templateproject.http.goods.entity;
+package com.xuexiang.templateproject.http.order.entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class GoodsListDTO {
+public class OrderListDTO {
+
+
     @SerializedName("from")
     private Integer from;
     @SerializedName("pageSize")
@@ -14,7 +16,7 @@ public class GoodsListDTO {
     @SerializedName("pages")
     private Integer pages;
     @SerializedName("list")
-    private List<GoodsDTO> list;
+    private List<OrderDTO> list;
 
     public Integer getFrom() {
         return from;
@@ -48,27 +50,21 @@ public class GoodsListDTO {
         this.pages = pages;
     }
 
-    public List<GoodsDTO> getList() {
+    public List<OrderDTO> getList() {
         return list;
     }
 
-    public void setList(List<GoodsDTO> list) {
+    public void setList(List<OrderDTO> list) {
         this.list = list;
     }
 
-    public static class GoodsDTO {
+    public static class OrderDTO {
         @SerializedName("id")
         private String id;
-        @SerializedName("goodsName")
-        private String goodsName;
-        @SerializedName("goodsDescribe")
-        private String goodsDescribe;
-        @SerializedName("goodsPicUrl")
-        private String goodsPicUrl;
-        @SerializedName("goodsPrice")
-        private Integer goodsPrice;
-        @SerializedName("classification")
-        private String classification;
+        @SerializedName("userId")
+        private String userId;
+        @SerializedName("goodsId")
+        private String goodsId;
         @SerializedName("delFlg")
         private String delFlg;
         @SerializedName("creator")
@@ -76,9 +72,9 @@ public class GoodsListDTO {
         @SerializedName("createTime")
         private String createTime;
         @SerializedName("updater")
-        private String updater;
+        private Object updater;
         @SerializedName("updateTime")
-        private String updateTime;
+        private Object updateTime;
 
         public String getId() {
             return id;
@@ -88,44 +84,20 @@ public class GoodsListDTO {
             this.id = id;
         }
 
-        public String getGoodsName() {
-            return goodsName;
+        public String getUserId() {
+            return userId;
         }
 
-        public void setGoodsName(String goodsName) {
-            this.goodsName = goodsName;
+        public void setUserId(String userId) {
+            this.userId = userId;
         }
 
-        public String getGoodsDescribe() {
-            return goodsDescribe;
+        public String getGoodsId() {
+            return goodsId;
         }
 
-        public void setGoodsDescribe(String goodsDescribe) {
-            this.goodsDescribe = goodsDescribe;
-        }
-
-        public String getGoodsPicUrl() {
-            return goodsPicUrl;
-        }
-
-        public void setGoodsPicUrl(String goodsPicUrl) {
-            this.goodsPicUrl = goodsPicUrl;
-        }
-
-        public Integer getGoodsPrice() {
-            return goodsPrice;
-        }
-
-        public void setGoodsPrice(Integer goodsPrice) {
-            this.goodsPrice = goodsPrice;
-        }
-
-        public String getClassification() {
-            return classification;
-        }
-
-        public void setClassification(String classification) {
-            this.classification = classification;
+        public void setGoodsId(String goodsId) {
+            this.goodsId = goodsId;
         }
 
         public String getDelFlg() {
@@ -152,19 +124,19 @@ public class GoodsListDTO {
             this.createTime = createTime;
         }
 
-        public String getUpdater() {
+        public Object getUpdater() {
             return updater;
         }
 
-        public void setUpdater(String updater) {
+        public void setUpdater(Object updater) {
             this.updater = updater;
         }
 
-        public String getUpdateTime() {
+        public Object getUpdateTime() {
             return updateTime;
         }
 
-        public void setUpdateTime(String updateTime) {
+        public void setUpdateTime(Object updateTime) {
             this.updateTime = updateTime;
         }
     }

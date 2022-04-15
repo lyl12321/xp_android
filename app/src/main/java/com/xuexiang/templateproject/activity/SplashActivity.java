@@ -4,17 +4,7 @@ package com.xuexiang.templateproject.activity;
 import android.view.KeyEvent;
 
 import com.xuexiang.templateproject.R;
-import com.xuexiang.templateproject.core.http.callback.TipCallBack;
-import com.xuexiang.templateproject.http.user.api.UserService;
-import com.xuexiang.templateproject.http.user.entity.UserDTORes;
-import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
-import com.xuexiang.templateproject.utils.XToastUtils;
-import com.xuexiang.xhttp2.XHttp;
-import com.xuexiang.xhttp2.cache.model.CacheMode;
-import com.xuexiang.xhttp2.exception.ApiException;
-import com.xuexiang.xhttp2.request.CustomRequest;
-import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.utils.KeyboardUtils;
 import com.xuexiang.xui.widget.activity.BaseSplashActivity;
 import com.xuexiang.xutil.app.ActivityUtils;
@@ -48,8 +38,9 @@ public class SplashActivity extends BaseSplashActivity implements CancelAdapt {
     @Override
     protected void onSplashFinished() {
 
+        loginOrGoMainPage();
 //        if (SettingUtils.isAgreePrivacy()) {
-            loginOrGoMainPage();
+
 //        } else {
 //            Utils.showPrivacyDialog(this, (dialog, which) -> {
 //                dialog.dismiss();
@@ -61,27 +52,7 @@ public class SplashActivity extends BaseSplashActivity implements CancelAdapt {
 
     private void loginOrGoMainPage() {
         if (TokenUtils.hasToken()) {
-            CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
-            request.apiCall(request.create(UserService.class).getUserInfo(), new TipCallBack<UserDTORes>() {
-                @Override
-                public void onSuccess(UserDTORes response) throws Throwable {
-                    if (response.getId() == null) {
-                        XToastUtils.error("未获取到用户信息，登陆失败，请重新登陆");
-                        TokenUtils.forceLogoutSuccess();
-                    } else {
-                        MMKVUtils.put(TokenUtils.getToken(), GsonUtils.toJson(response));
-                        ActivityUtils.startActivity(MainActivity.class);
-                    }
-                }
-
-                @Override
-                public void onError(ApiException e) {
-                    if (e.getDisplayMessage().equals("sessionExpired")) {
-                        XToastUtils.error("登陆过期，请重新登陆");
-                        TokenUtils.forceLogoutSuccess();
-                    }
-                }
-            });
+            ActivityUtils.startActivity(MainActivity.class);
 
         } else {
             ActivityUtils.startActivity(LoginActivity.class);

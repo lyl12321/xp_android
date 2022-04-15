@@ -1,10 +1,12 @@
-package com.xuexiang.templateproject.http.goods.entity;
+package com.xuexiang.templateproject.http.wallet.entity;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class GoodsListDTO {
+public class WalletListDTO {
+
+
     @SerializedName("from")
     private Integer from;
     @SerializedName("pageSize")
@@ -14,7 +16,7 @@ public class GoodsListDTO {
     @SerializedName("pages")
     private Integer pages;
     @SerializedName("list")
-    private List<GoodsDTO> list;
+    private List<WalletDTO> list;
 
     public Integer getFrom() {
         return from;
@@ -48,27 +50,27 @@ public class GoodsListDTO {
         this.pages = pages;
     }
 
-    public List<GoodsDTO> getList() {
+    public List<WalletDTO> getList() {
         return list;
     }
 
-    public void setList(List<GoodsDTO> list) {
+    public void setList(List<WalletDTO> list) {
         this.list = list;
     }
 
-    public static class GoodsDTO {
+    public static class WalletDTO {
         @SerializedName("id")
         private String id;
-        @SerializedName("goodsName")
-        private String goodsName;
-        @SerializedName("goodsDescribe")
-        private String goodsDescribe;
-        @SerializedName("goodsPicUrl")
-        private String goodsPicUrl;
-        @SerializedName("goodsPrice")
-        private Integer goodsPrice;
-        @SerializedName("classification")
-        private String classification;
+        @SerializedName("userId")
+        private String userId;
+        @SerializedName("balance")
+        private Integer balance;
+        @SerializedName("tradeType")
+        private String tradeType;
+        @SerializedName("tradeUser")
+        private String tradeUser;
+        @SerializedName("changeAmount")
+        private Integer changeAmount;
         @SerializedName("delFlg")
         private String delFlg;
         @SerializedName("creator")
@@ -88,44 +90,44 @@ public class GoodsListDTO {
             this.id = id;
         }
 
-        public String getGoodsName() {
-            return goodsName;
+        public String getUserId() {
+            return userId;
         }
 
-        public void setGoodsName(String goodsName) {
-            this.goodsName = goodsName;
+        public void setUserId(String userId) {
+            this.userId = userId;
         }
 
-        public String getGoodsDescribe() {
-            return goodsDescribe;
+        public Integer getBalance() {
+            return balance;
         }
 
-        public void setGoodsDescribe(String goodsDescribe) {
-            this.goodsDescribe = goodsDescribe;
+        public void setBalance(Integer balance) {
+            this.balance = balance;
         }
 
-        public String getGoodsPicUrl() {
-            return goodsPicUrl;
+        public String getTradeType() {
+            return tradeType;
         }
 
-        public void setGoodsPicUrl(String goodsPicUrl) {
-            this.goodsPicUrl = goodsPicUrl;
+        public void setTradeType(String tradeType) {
+            this.tradeType = tradeType;
         }
 
-        public Integer getGoodsPrice() {
-            return goodsPrice;
+        public String getTradeUser() {
+            return tradeUser;
         }
 
-        public void setGoodsPrice(Integer goodsPrice) {
-            this.goodsPrice = goodsPrice;
+        public void setTradeUser(String tradeUser) {
+            this.tradeUser = tradeUser;
         }
 
-        public String getClassification() {
-            return classification;
+        public Integer getChangeAmount() {
+            return changeAmount;
         }
 
-        public void setClassification(String classification) {
-            this.classification = classification;
+        public void setChangeAmount(Integer changeAmount) {
+            this.changeAmount = changeAmount;
         }
 
         public String getDelFlg() {

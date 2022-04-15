@@ -1,5 +1,4 @@
-
-package com.xuexiang.templateproject.fragment.news;
+package com.xuexiang.templateproject.fragment.home;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -9,29 +8,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
-import com.alibaba.android.vlayout.layout.GridLayoutHelper;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.broccoli.BroccoliSimpleDelegateAdapter;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
-import com.xuexiang.templateproject.adapter.base.delegate.SingleDelegateAdapter;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentHomeBinding;
 import com.xuexiang.templateproject.http.goods.api.GoodsApi;
 import com.xuexiang.templateproject.http.goods.entity.GoodsListDTO;
 import com.xuexiang.templateproject.utils.Constant;
-import com.xuexiang.templateproject.utils.DemoDataProvider;
-import com.xuexiang.templateproject.utils.XToastUtils;
+import com.xuexiang.templateproject.utils.GoodsClassifyUtils;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xpage.enums.CoreAnim;
+import com.xuexiang.xrouter.annotation.AutoWired;
+import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
-import com.xuexiang.xui.adapter.simple.AdapterItem;
-import com.xuexiang.xui.widget.actionbar.TitleBar;
-import com.xuexiang.xui.widget.banner.widget.banner.SimpleImageBanner;
-import com.xuexiang.xui.widget.imageview.ImageLoader;
-import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xutil.net.JsonUtil;
 
 import java.util.ArrayList;
@@ -40,14 +32,20 @@ import java.util.Map;
 
 import me.samlss.broccoli.Broccoli;
 
-@Page(anim = CoreAnim.none)
-public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
+@Page
+public class GridItemFragment extends BaseFragment<FragmentHomeBinding> {
 
-    private SimpleDelegateAdapter<GoodsListDTO.ListDTO> mNewsAdapter;
+    public static final String KEY_TITLE_NAME = "title_name";
+
+    private SimpleDelegateAdapter<GoodsListDTO.GoodsDTO> mNewsAdapter;
 
     private int listCurrentFrom = 1;  //当前页数
 
-    private String searchKey = "";
+    /**
+     * 自动注入参数，不能是private
+     */
+    @AutoWired(name = KEY_TITLE_NAME)
+    String title;
 
     @NonNull
     @Override
@@ -55,17 +53,19 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         return FragmentHomeBinding.inflate(inflater, container, false);
     }
 
-    /**
-     * @return 返回为 null意为不需要导航栏
-     */
     @Override
-    protected TitleBar initTitle() {
-        return null;
+    protected void initArgs() {
+        // 自动注入参数必须在initArgs里进行注入
+        XRouter.getInstance().inject(this);
     }
 
-    /**
-     * 初始化控件
-     */
+    @Override
+    protected String getPageTitle() {
+        return title;
+    }
+
+
+
     @Override
     protected void initViews() {
         VirtualLayoutManager virtualLayoutManager = new VirtualLayoutManager(getContext());
@@ -73,56 +73,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
         binding.recyclerView.setRecycledViewPool(viewPool);
         viewPool.setMaxRecycledViews(0, 10);
-
-        //轮播条
-        SingleDelegateAdapter bannerAdapter = new SingleDelegateAdapter(R.layout.include_head_view_banner) {
+        mNewsAdapter = new BroccoliSimpleDelegateAdapter<GoodsListDTO.GoodsDTO>(R.layout.adapter_news_card_view_list_item, new LinearLayoutHelper(), new ArrayList<>()) {
             @Override
-            public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-                SimpleImageBanner banner = holder.findViewById(R.id.sib_simple_usage);
-                banner.setSource(DemoDataProvider.getBannerList()).startScroll();
-            }
-        };
-
-        //九宫格菜单
-        GridLayoutHelper gridLayoutHelper = new GridLayoutHelper(4);
-        gridLayoutHelper.setPadding(0, 16, 0, 0);
-        gridLayoutHelper.setVGap(10);
-        gridLayoutHelper.setHGap(0);
-        SimpleDelegateAdapter<AdapterItem> commonAdapter = new SimpleDelegateAdapter<AdapterItem>(R.layout.adapter_common_grid_item, gridLayoutHelper, DemoDataProvider.getGridItems(getContext())) {
-            @Override
-            protected void bindData(@NonNull RecyclerViewHolder holder, int position, AdapterItem item) {
-                if (item != null) {
-                    RadiusImageView imageView = holder.findViewById(R.id.riv_item);
-                    imageView.setCircle(true);
-                    ImageLoader.get().loadImage(imageView, item.getIcon());
-                    holder.text(R.id.tv_title, item.getTitle().toString().substring(0, 1));
-                    holder.text(R.id.tv_sub_title, item.getTitle());
-
-                    holder.click(R.id.ll_container, v -> {
-                        XToastUtils.toast("点击了：" + item.getTitle());
-                        // 注意: 这里由于NewsFragment是使用Viewpager加载的，并非使用XPage加载的，因此没有承载Activity， 需要使用openNewPage。
-                        openNewPage(GridItemFragment.class, GridItemFragment.KEY_TITLE_NAME, item.getTitle());
-                    });
-                }
-            }
-        };
-
-        //资讯的标题
-        SingleDelegateAdapter titleAdapter = new SingleDelegateAdapter(R.layout.adapter_title_item) {
-            @Override
-            public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
-//                holder.text(R.id.tv_title, "课程");
-//                holder.text(R.id.tv_action, "更多");
-//                holder.click(R.id.tv_action, v -> XToastUtils.toast("更多"));
-            }
-        };
-
-        mNewsAdapter = new BroccoliSimpleDelegateAdapter<GoodsListDTO.ListDTO>(R.layout.adapter_news_card_view_list_item, new LinearLayoutHelper(), new ArrayList<>()) {
-            @Override
-            protected void onBindData(RecyclerViewHolder holder, GoodsListDTO.ListDTO model, int position) {
+            protected void onBindData(RecyclerViewHolder holder, GoodsListDTO.GoodsDTO model, int position) {
                 if (model != null) {
                     holder.text(R.id.tv_user_name, model.getCreator());
-                    holder.text(R.id.tv_tag, model.getClassification());
+                    holder.text(R.id.tv_tag, GoodsClassifyUtils.translationClassify(model.getClassification()));
                     holder.text(R.id.tv_title, model.getGoodsName());
                     holder.text(R.id.tv_summary, model.getGoodsDescribe());
 //                    holder.text(R.id.tv_praise, model.getPraise() == 0 ? "点赞" : String.valueOf(model.getPraise()));
@@ -130,7 +86,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 //                    holder.text(R.id.tv_read, "阅读量 " + model.getRead());
                     holder.image(R.id.iv_image, model.getGoodsPicUrl());
 
-//                    holder.click(R.id.card_view, v -> Utils.goWeb(getContext(), model.getGoodsPicUrl()));
+                    holder.click(R.id.card_view, v -> {
+                        openNewPage(GoodsDetailsFragment.class, GoodsDetailsFragment.KEY_GOODS_ID, model.getId());
+                    });
                 }
             }
 
@@ -150,13 +108,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         };
 
         DelegateAdapter delegateAdapter = new DelegateAdapter(virtualLayoutManager);
-        delegateAdapter.addAdapter(bannerAdapter);
-        delegateAdapter.addAdapter(commonAdapter);
-//        delegateAdapter.addAdapter(titleAdapter);
         delegateAdapter.addAdapter(mNewsAdapter);
-
         binding.recyclerView.setAdapter(delegateAdapter);
     }
+
 
     @Override
     protected void initListeners() {
@@ -166,13 +121,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             Map<String,Object> params = new HashMap<>();
             params.put("from",listCurrentFrom);
             params.put("pageSize", Constant.pageSize);
-            params.put("searchKey", searchKey);
+            params.put("classification",GoodsClassifyUtils.translationClassify(title));
             XHttp.post(GoodsApi.queryGoodsPages())
                     .upJson(JsonUtil.toJson(params))
                     .execute(new TipCallBack<GoodsListDTO>() {
                         @Override
                         public void onSuccess(GoodsListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() < listCurrentFrom);
+                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
                             if (response.getPages() < listCurrentFrom) {
                                 refreshLayout.resetNoMoreData();
                             }
@@ -190,15 +145,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             Map<String,Object> params = new HashMap<>();
             params.put("from",listCurrentFrom);
             params.put("pageSize", Constant.pageSize);
-            params.put("searchKey", searchKey);
+            params.put("classification",GoodsClassifyUtils.translationClassify(title));
             XHttp.post(GoodsApi.queryGoodsPages())
                     .upJson(JsonUtil.toJson(params))
                     .execute(new TipCallBack<GoodsListDTO>() {
                         @Override
                         public void onSuccess(GoodsListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() < listCurrentFrom);
+                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
                             if (response.getList() != null && response.getList().size() > 0) {
-                                mNewsAdapter.refresh(response.getList());
+                                mNewsAdapter.loadMore(response.getList());
                             }
                             if (response.getPages() < listCurrentFrom) {
                                 refreshLayout.finishLoadMore();
