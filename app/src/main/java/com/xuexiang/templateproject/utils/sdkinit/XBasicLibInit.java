@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.xuexiang.templateproject.MyApp;
 import com.xuexiang.templateproject.core.BaseActivity;
+import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.XAOP;
@@ -73,7 +74,7 @@ public final class XBasicLibInit {
         }
 //        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
         //设置网络请求的全局基础地址
-        XHttpSDK.setBaseUrl("http://192.168.31.67:9001");
+        XHttpSDK.setBaseUrl(Constant.apiBaseUrl);
         XHttpSDK.setSuccessCode(200);
         XHttp.getInstance().setStrictMode(false)
             .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()))

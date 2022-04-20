@@ -93,8 +93,8 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                             }
                             if (response.getList() != null && response.getList().size() > 0) {
                                 mAdapter.refresh(response.getList());
-                                refreshLayout12.finishRefresh();
                             }
+                            refreshLayout12.finishRefresh();
                         }
                     });
         });

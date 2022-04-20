@@ -211,8 +211,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                             }
                             if (response.getList() != null && response.getList().size() > 0) {
                                 mNewsAdapter.refresh(response.getList());
-                                refreshLayout.finishRefresh();
                             }
+                            refreshLayout.finishRefresh();
                         }
                     });
         });

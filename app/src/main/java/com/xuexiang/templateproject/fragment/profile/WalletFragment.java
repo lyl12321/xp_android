@@ -100,7 +100,6 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
         delegateAdapter.addAdapter(myBalanceAdapter);
         delegateAdapter.addAdapter(balanceLogAdapter);
 
-
         binding.recyclerView.setAdapter(delegateAdapter);
 
     }
@@ -165,8 +164,8 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
                     }
                     if (response.getList() != null && response.getList().size() > 0) {
                         balanceLogAdapter.refresh(response.getList());
-                        refreshLayout.finishRefresh();
                     }
+                    refreshLayout.finishRefresh();
                 }
             });
         });

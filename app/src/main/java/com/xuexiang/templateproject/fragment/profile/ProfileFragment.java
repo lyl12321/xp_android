@@ -70,7 +70,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
         } else if (id == R.id.menu_my_class) {
             openNewPage(MyClassFragment.class);
         } else if (id == R.id.menu_my_buy) {
-
+            openNewPage(MyBuyFragment.class);
         } else if (id == R.id.menu_wallet) {
             openNewPage(WalletFragment.class);
         }
