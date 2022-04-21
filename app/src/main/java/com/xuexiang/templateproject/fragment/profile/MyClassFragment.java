@@ -168,6 +168,8 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                 @Override
                 public void onSuccess(String response) throws Throwable {
                     XToastUtils.success(response);
+                    // 触发自动刷新
+                    binding.refreshLayout.autoRefresh();
                 }
             });
         }
