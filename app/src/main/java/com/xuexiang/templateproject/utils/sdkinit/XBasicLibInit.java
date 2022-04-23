@@ -78,7 +78,7 @@ public final class XBasicLibInit {
         XHttpSDK.setSuccessCode(200);
         XHttp.getInstance().setStrictMode(false)
             .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()))
-            .setTimeout(0);
+            .setTimeout(Constant.apiTimeOut);
 
 
 //        //设置动态参数添加拦截器
