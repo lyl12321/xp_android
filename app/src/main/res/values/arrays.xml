@@ -4,6 +4,12 @@
 
     <string-array name="home_titles">
         <item>@string/menu_home</item>
+        <item>@string/menu_moments</item>
+        <item>@string/menu_profile</item>
+    </string-array>
+
+    <string-array name="home_titles_student">
+        <item>@string/menu_home</item>
         <item>@string/menu_check_in</item>
         <item>@string/menu_moments</item>
         <item>@string/menu_profile</item>

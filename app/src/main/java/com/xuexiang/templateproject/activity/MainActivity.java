@@ -72,15 +72,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
     private void initViews() {
         WidgetUtils.clearActivityBackground(this);
 
-        mTitles = ResUtils.getStringArray(R.array.home_titles);
-        binding.includeMain.toolbar.setTitle(mTitles[0]);
-        binding.includeMain.toolbar.inflateMenu(R.menu.menu_main);
-        binding.includeMain.toolbar.setOnMenuItemClickListener(this);
+
 
 
         UserDTORes userDTO = UserUtils.getCurrentUser();
         BaseFragment[] fragments;
-        if (userDTO.getUserType() != null && (userDTO.getUserType().equals("0") || userDTO.getUserType().equals("1"))){
+        if (userDTO.getUserType() != null && userDTO.getUserType().equals("2")){
+            mTitles = ResUtils.getStringArray(R.array.home_titles_student);
             //动态加载nav
             binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom);
             //主页内容填充
@@ -92,6 +90,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
             };
 
         } else {
+            mTitles = ResUtils.getStringArray(R.array.home_titles);
             //动态加载nav
             binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom_teacher);
             //主页内容填充
@@ -101,6 +100,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
                     new ProfileFragment()
             };
         }
+
+
+        binding.includeMain.toolbar.setTitle(mTitles[0]);
+        binding.includeMain.toolbar.inflateMenu(R.menu.menu_main);
+        binding.includeMain.toolbar.setOnMenuItemClickListener(this);
 
 
 //        initHeader();
