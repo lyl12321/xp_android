@@ -78,7 +78,7 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                         @SingleClick
                         @Override
                         public void onClick(View view) {
-                            openNewPage(CheckInfoViewAndCommit.class,CheckInfoViewAndCommit.CHECK_ID,model.getId());
+                            openNewPage(CheckInfoViewAndCommit.class,CheckInfoViewAndCommit.CHECK_OBJECT,model);
                         }
                     });
 
