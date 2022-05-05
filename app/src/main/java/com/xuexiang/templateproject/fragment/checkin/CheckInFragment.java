@@ -1,6 +1,8 @@
 package com.xuexiang.templateproject.fragment.checkin;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.xuexiang.templateproject.http.check.api.CheckApi;
 import com.xuexiang.templateproject.http.check.entity.CheckListDTO;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xpage.base.XPageActivity;
+import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -35,6 +39,8 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     private SimpleDelegateAdapter<CheckListDTO.CheckListItem> mAdapter;
 
     private int listCurrentFrom = 1;  //当前页数
+
+    private int REQUEST_CODE = 100;
 
     @NonNull
     @Override
@@ -78,7 +84,7 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                         @SingleClick
                         @Override
                         public void onClick(View view) {
-                            openNewPage(CheckInfoViewAndCommit.class,CheckInfoViewAndCommit.CHECK_OBJECT,model);
+                            openPageForResult(CheckInfoViewAndCommit.class,CheckInfoViewAndCommit.CHECK_OBJECT,model,REQUEST_CODE);
                         }
                     });
 
@@ -142,5 +148,19 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     @Override
     protected void initListeners() {
 
+    }
+
+
+    @Override
+    public void onFragmentResult(int requestCode, int resultCode, Intent data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (data != null) {
+            Bundle extras = data.getExtras();
+            if (resultCode == 1000) {
+                if (extras.getBoolean("isNeedRefreshList",false)) {
+                    binding.refreshLayout.autoRefresh();
+                }
+            }
+        }
     }
 }

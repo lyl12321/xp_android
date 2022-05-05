@@ -1,5 +1,6 @@
 package com.xuexiang.templateproject.fragment.checkin;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -127,6 +128,9 @@ public class CheckInfoViewAndCommit extends BaseFragment<FragmentCheckInDetailsB
                     public void onSuccess(String response) throws Throwable {
                         XToastUtils.success(response);
                         openReadOnly();
+                        Intent intent = new Intent();
+                        intent.putExtra("isNeedRefreshList", true);
+                        setFragmentResult(1000,intent);
                         miniLoading.dismissLoading();
                     }
 
