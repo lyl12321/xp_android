@@ -2,7 +2,7 @@ package com.xuexiang.templateproject.utils;
 
 public class Constant {
 
-    public static final String apiBaseUrl = "http://192.168.123.179:9001";
+    public static final String apiBaseUrl = "http://192.168.31.67:9001";
 
     public static final long apiTimeOut = 0;
 

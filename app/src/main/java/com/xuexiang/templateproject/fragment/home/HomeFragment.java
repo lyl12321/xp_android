@@ -155,9 +155,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                     holder.text(R.id.tv_tag, GoodsClassifyUtils.translationClassify(model.getClassification()));
                     holder.text(R.id.tv_title, model.getGoodsName());
                     holder.text(R.id.tv_summary, model.getGoodsDescribe());
-//                    holder.text(R.id.tv_praise, model.getPraise() == 0 ? "点赞" : String.valueOf(model.getPraise()));
-//                    holder.text(R.id.tv_comment, model.getComment() == 0 ? "评论" : String.valueOf(model.getComment()));
-//                    holder.text(R.id.tv_read, "阅读量 " + model.getRead());
                     holder.image(R.id.iv_image, model.getGoodsPicUrl());
 
                     //点击后应该跳向详情
@@ -174,9 +171,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                         holder.findView(R.id.tv_tag),
                         holder.findView(R.id.tv_title),
                         holder.findView(R.id.tv_summary),
-//                        holder.findView(R.id.tv_praise),
-//                        holder.findView(R.id.tv_comment),
-//                        holder.findView(R.id.tv_read),
                         holder.findView(R.id.iv_image)
                 );
             }
