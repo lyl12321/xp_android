@@ -20,6 +20,7 @@ import com.xuexiang.templateproject.fragment.checkin.CheckInfoViewAndCommit;
 import com.xuexiang.templateproject.http.check.api.CheckSubApi;
 import com.xuexiang.templateproject.http.check.entity.CheckListDTO;
 import com.xuexiang.templateproject.http.check.entity.CheckUserListDTO;
+import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
@@ -181,14 +182,11 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
             CheckSubApi.queryCheckUserList(listCurrentFrom,mainCheckInfo.getId(), UserUtils.getCurrentUser().getClassCode(), new TipCallBack<CheckUserListDTO>() {
                 @Override
                 public void onSuccess(CheckUserListDTO response) throws Throwable {
-                    binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                    if (response.getPages() < listCurrentFrom) {
-                        refreshLayout12.resetNoMoreData();
-                    }
+                    PageUtils.finishRefreshData(refreshLayout12,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.refresh(response.getList());
                     }
-                    refreshLayout12.finishRefresh();
                 }
             });
         });
@@ -199,14 +197,10 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
             CheckSubApi.queryCheckUserList(listCurrentFrom,mainCheckInfo.getId(), UserUtils.getCurrentUser().getClassCode(), new TipCallBack<CheckUserListDTO>() {
                 @Override
                 public void onSuccess(CheckUserListDTO response) throws Throwable {
-                    binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
+                    PageUtils.finishRefreshData(refreshLayout1,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.loadMore(response.getList());
-                    }
-                    if (response.getPages() < listCurrentFrom) {
-                        refreshLayout1.finishLoadMore();
-                    } else {
-                        refreshLayout1.finishLoadMoreWithNoMoreData();
                     }
                 }
             });

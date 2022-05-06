@@ -33,8 +33,6 @@ import com.xuexiang.xui.utils.ViewUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xutil.app.ActivityUtils;
 
-import java.util.HashMap;
-
 
 /**
  * 登录页面
@@ -111,20 +109,15 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> implements
 
 
     private void loginByPhoneOrUser(String phoneOrUser, String password) {
-        XHttp.post(LoginApi.login())
-             .params(new HashMap<String,Object>(){{
-                 put("usernameOrPhone", phoneOrUser);
-                 put("password", password);
-             }})
-            .execute(new TipCallBack<LoginResDTO>() {
-                @Override
-                public void onSuccess(LoginResDTO response) throws Throwable {
-                    XLogger.debug("Token:"+response);
+        LoginApi.login(phoneOrUser,password,new TipCallBack<LoginResDTO>() {
+            @Override
+            public void onSuccess(LoginResDTO response) throws Throwable {
+                XLogger.debug("Token:"+response);
 //                XToastUtils.success(response);
-                    MMKVUtils.put(response.getToken(), GsonUtils.toJson(response.getUser()));
-                    onLoginSuccess(response.getToken());
-                }
-            });
+                MMKVUtils.put(response.getToken(), GsonUtils.toJson(response.getUser()));
+                onLoginSuccess(response.getToken());
+            }
+        });
 //        CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
 //        request.apiCall(request.create(LoginService.class).login(), new TipCallBack<String>() {
 //            @Override

@@ -33,8 +33,6 @@ import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xutil.app.ActivityUtils;
 
-import java.util.HashMap;
-
 @Page(anim = CoreAnim.none)
 public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> implements View.OnClickListener{
 
@@ -129,20 +127,15 @@ public class RegisterFragment extends BaseFragment<FragmentRegisterBinding> impl
         }
     }
     private void loginByPhoneOrUser(String phoneOrUser, String password) {
-        XHttp.post(LoginApi.login())
-                .params(new HashMap<String,Object>(){{
-                    put("usernameOrPhone", phoneOrUser);
-                    put("password", password);
-                }})
-                .execute(new TipCallBack<LoginResDTO>() {
-                    @Override
-                    public void onSuccess(LoginResDTO response) throws Throwable {
-                        XLogger.debug("Token:"+response);
+        LoginApi.login(phoneOrUser,password,new TipCallBack<LoginResDTO>() {
+            @Override
+            public void onSuccess(LoginResDTO response) throws Throwable {
+                XLogger.debug("Token:"+response);
 //                XToastUtils.success(response);
-                        MMKVUtils.put(response.getToken(), GsonUtils.toJson(response.getUser()));
-                        onLoginSuccess(response.getToken());
-                    }
-                });
+                MMKVUtils.put(response.getToken(), GsonUtils.toJson(response.getUser()));
+                onLoginSuccess(response.getToken());
+            }
+        });
     }
 
     /**

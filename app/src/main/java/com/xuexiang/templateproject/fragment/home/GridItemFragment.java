@@ -17,18 +17,14 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentHomeBinding;
 import com.xuexiang.templateproject.http.goods.api.GoodsApi;
 import com.xuexiang.templateproject.http.goods.entity.GoodsListDTO;
-import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.GoodsClassifyUtils;
-import com.xuexiang.xhttp2.XHttp;
+import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xrouter.annotation.AutoWired;
 import com.xuexiang.xrouter.launcher.XRouter;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
-import com.xuexiang.xutil.net.JsonUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import me.samlss.broccoli.Broccoli;
 
@@ -63,7 +59,6 @@ public class GridItemFragment extends BaseFragment<FragmentHomeBinding> {
     protected String getPageTitle() {
         return title;
     }
-
 
 
     @Override
@@ -118,50 +113,31 @@ public class GridItemFragment extends BaseFragment<FragmentHomeBinding> {
         //下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             listCurrentFrom = 1;  //刷新只加载第一页
-            Map<String,Object> params = new HashMap<>();
-            params.put("from",listCurrentFrom);
-            params.put("pageSize", Constant.pageSize);
-            params.put("classification",GoodsClassifyUtils.translationClassify(title));
-            XHttp.post(GoodsApi.queryGoodsPages())
-                    .upJson(JsonUtil.toJson(params))
-                    .execute(new TipCallBack<GoodsListDTO>() {
-                        @Override
-                        public void onSuccess(GoodsListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                            if (response.getPages() < listCurrentFrom) {
-                                refreshLayout.resetNoMoreData();
-                            }
-                            if (response.getList() != null && response.getList().size() > 0) {
-                                mNewsAdapter.refresh(response.getList());
-                            }
-                            refreshLayout.finishRefresh();
-                        }
-                    });
+            GoodsApi.queryGoodsPages(listCurrentFrom, "", title, new TipCallBack<GoodsListDTO>() {
+                @Override
+                public void onSuccess(GoodsListDTO response) throws Throwable {
+                    PageUtils.finishRefreshData(refreshLayout, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+
+                    if (response.getList() != null && response.getList().size() > 0) {
+                        mNewsAdapter.refresh(response.getList());
+                    }
+                }
+            });
         });
         //上拉加载
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
             listCurrentFrom++;
 
-            Map<String,Object> params = new HashMap<>();
-            params.put("from",listCurrentFrom);
-            params.put("pageSize", Constant.pageSize);
-            params.put("classification",GoodsClassifyUtils.translationClassify(title));
-            XHttp.post(GoodsApi.queryGoodsPages())
-                    .upJson(JsonUtil.toJson(params))
-                    .execute(new TipCallBack<GoodsListDTO>() {
-                        @Override
-                        public void onSuccess(GoodsListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                            if (response.getList() != null && response.getList().size() > 0) {
-                                mNewsAdapter.loadMore(response.getList());
-                            }
-                            if (response.getPages() < listCurrentFrom) {
-                                refreshLayout.finishLoadMore();
-                            } else {
-                                refreshLayout.finishLoadMoreWithNoMoreData();
-                            }
-                        }
-                    });
+            GoodsApi.queryGoodsPages(listCurrentFrom, "", title, new TipCallBack<GoodsListDTO>() {
+                @Override
+                public void onSuccess(GoodsListDTO response) throws Throwable {
+                    PageUtils.finishRefreshData(refreshLayout, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+
+                    if (response.getList() != null && response.getList().size() > 0) {
+                        mNewsAdapter.loadMore(response.getList());
+                    }
+                }
+            });
         });
         binding.refreshLayout.autoRefresh();//第一次进入触发自动刷新，演示效果
     }

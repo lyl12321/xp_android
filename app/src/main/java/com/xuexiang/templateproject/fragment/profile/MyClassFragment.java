@@ -29,19 +29,14 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRefreshBasicBinding;
 import com.xuexiang.templateproject.http.grade.api.GradeApi;
 import com.xuexiang.templateproject.http.grade.entity.UserListDTO;
-import com.xuexiang.templateproject.utils.Constant;
+import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
-import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.utils.WidgetUtils;
-import com.xuexiang.xutil.net.JsonUtil;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
 import com.yanzhenjie.recyclerview.SwipeRecyclerView;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author xuexiang
@@ -57,7 +52,7 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     @NonNull
     @Override
     protected FragmentRefreshBasicBinding viewBindingInflate(LayoutInflater inflater, ViewGroup container) {
-        return FragmentRefreshBasicBinding.inflate(inflater,container,false);
+        return FragmentRefreshBasicBinding.inflate(inflater, container, false);
     }
 
     /**
@@ -79,48 +74,31 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         // 下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             listCurrentFrom = 1;  //刷新只加载第一页
-            Map<String,Object> params = new HashMap<>();
-            params.put("from",listCurrentFrom);
-            params.put("pageSize", Constant.pageSize);
-            XHttp.post(GradeApi.getClassMemberByUser())
-                    .upJson(JsonUtil.toJson(params))
-                    .execute(new TipCallBack<UserListDTO>() {
-                        @Override
-                        public void onSuccess(UserListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                            if (response.getPages() < listCurrentFrom) {
-                                refreshLayout12.resetNoMoreData();
-                            }
-                            if (response.getList() != null && response.getList().size() > 0) {
-                                mAdapter.refresh(response.getList());
-                            }
-                            refreshLayout12.finishRefresh();
-                        }
-                    });
+            GradeApi.getClassMemberByUser(listCurrentFrom, new TipCallBack<UserListDTO>() {
+                @Override
+                public void onSuccess(UserListDTO response) throws Throwable {
+                    PageUtils.finishRefreshData(refreshLayout12, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+
+                    if (response.getList() != null && response.getList().size() > 0) {
+                        mAdapter.refresh(response.getList());
+                    }
+                }
+            });
         });
         // 上拉加载
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
             listCurrentFrom++;
 
-            Map<String,Object> params = new HashMap<>();
-            params.put("from",listCurrentFrom);
-            params.put("pageSize", Constant.pageSize);
-            XHttp.post(GradeApi.getClassMemberByUser())
-                    .upJson(JsonUtil.toJson(params))
-                    .execute(new TipCallBack<UserListDTO>() {
-                        @Override
-                        public void onSuccess(UserListDTO response) throws Throwable {
-                            binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                            if (response.getList() != null && response.getList().size() > 0) {
-                                mAdapter.loadMore(response.getList());
-                            }
-                            if (response.getPages() < listCurrentFrom) {
-                                refreshLayout1.finishLoadMore();
-                            } else {
-                                refreshLayout1.finishLoadMoreWithNoMoreData();
-                            }
-                        }
-                    });
+            GradeApi.getClassMemberByUser(listCurrentFrom, new TipCallBack<UserListDTO>() {
+                @Override
+                public void onSuccess(UserListDTO response) throws Throwable {
+                    PageUtils.finishRefreshData(refreshLayout1, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+
+                    if (response.getList() != null && response.getList().size() > 0) {
+                        mAdapter.loadMore(response.getList());
+                    }
+                }
+            });
         });
 
         // 触发自动刷新

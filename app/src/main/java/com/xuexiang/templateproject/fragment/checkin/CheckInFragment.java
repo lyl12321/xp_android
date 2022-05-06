@@ -18,6 +18,7 @@ import com.xuexiang.templateproject.http.check.api.CheckApi;
 import com.xuexiang.templateproject.http.check.entity.CheckListDTO;
 import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.MMKVUtils;
+import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -109,14 +110,11 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
             CheckApi.getCheckList(listCurrentFrom, new TipCallBack<CheckListDTO>() {
                 @Override
                 public void onSuccess(CheckListDTO response) throws Throwable {
-                    binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                    if (response.getPages() < listCurrentFrom) {
-                        refreshLayout12.resetNoMoreData();
-                    }
+                    PageUtils.finishRefreshData(refreshLayout12,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.refresh(response.getList());
                     }
-                    refreshLayout12.finishRefresh();
                 }
             });
         });
@@ -127,14 +125,10 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
             CheckApi.getCheckList(listCurrentFrom, new TipCallBack<CheckListDTO>() {
                 @Override
                 public void onSuccess(CheckListDTO response) throws Throwable {
-                    binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
+                    PageUtils.finishRefreshData(refreshLayout1,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.loadMore(response.getList());
-                    }
-                    if (response.getPages() < listCurrentFrom) {
-                        refreshLayout1.finishLoadMore();
-                    } else {
-                        refreshLayout1.finishLoadMoreWithNoMoreData();
                     }
                 }
             });

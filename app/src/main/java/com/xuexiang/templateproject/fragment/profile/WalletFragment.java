@@ -21,6 +21,7 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentWalletBinding;
 import com.xuexiang.templateproject.http.wallet.api.WalletApi;
 import com.xuexiang.templateproject.http.wallet.entity.WalletListDTO;
+import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
@@ -158,14 +159,11 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
             WalletApi.queryPage(listCurrentFrom, new TipCallBack<WalletListDTO>() {
                 @Override
                 public void onSuccess(WalletListDTO response) throws Throwable {
-                    binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
-                    if (response.getPages() < listCurrentFrom) {
-                        refreshLayout.resetNoMoreData();
-                    }
+                    PageUtils.finishRefreshData(refreshLayout,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+
                     if (response.getList() != null && response.getList().size() > 0) {
                         balanceLogAdapter.refresh(response.getList());
                     }
-                    refreshLayout.finishRefresh();
                 }
             });
         });
@@ -175,14 +173,10 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
             WalletApi.queryPage(listCurrentFrom, new TipCallBack<WalletListDTO>() {
                 @Override
                 public void onSuccess(WalletListDTO response) throws Throwable {
-                    binding.refreshLayout.setEnableLoadMore(response.getPages() > listCurrentFrom);
+                    PageUtils.finishRefreshData(refreshLayout,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+
                     if (response.getList() != null && response.getList().size() > 0) {
                         balanceLogAdapter.loadMore(response.getList());
-                    }
-                    if (response.getPages() < listCurrentFrom) {
-                        refreshLayout.finishLoadMore();
-                    } else {
-                        refreshLayout.finishLoadMoreWithNoMoreData();
                     }
                 }
             });
