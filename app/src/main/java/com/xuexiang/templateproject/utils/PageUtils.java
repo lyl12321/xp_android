@@ -15,7 +15,7 @@ public class PageUtils {
         if (refreshLayout.getState() == RefreshState.Loading) {
             //当前是加载更多
             if (page < currentPage) {
-                refreshLayout.finishLoadMore();
+                refreshLayout.finishLoadMore(1000);
             } else {
                 refreshLayout.finishLoadMoreWithNoMoreData();
             }
@@ -28,7 +28,7 @@ public class PageUtils {
 //            }
             if (hasData) {
                 loadingLayout.showContent();
-                refreshLayout.finishRefresh(1000);
+                refreshLayout.finishRefresh();
             } else {
                 refreshLayout.finishRefreshWithNoMoreData();
                 loadingLayout.showEmpty();
