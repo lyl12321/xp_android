@@ -53,6 +53,8 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
     @Override
     protected void initViews() {
 
+        binding.loading.showContent();
+
         VirtualLayoutManager virtualLayoutManager = new VirtualLayoutManager(getContext());
         binding.recyclerView.setLayoutManager(virtualLayoutManager);
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
