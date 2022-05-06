@@ -4,8 +4,18 @@ package com.xuexiang.templateproject;
 import android.app.Application;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.multidex.MultiDex;
 
+import com.scwang.smart.refresh.footer.ClassicsFooter;
+import com.scwang.smart.refresh.header.BezierRadarHeader;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
+import com.scwang.smart.refresh.layout.listener.DefaultRefreshInitializer;
 import com.xuexiang.templateproject.utils.sdkinit.ANRWatchDogInit;
 import com.xuexiang.templateproject.utils.sdkinit.UMengInit;
 import com.xuexiang.templateproject.utils.sdkinit.XBasicLibInit;
@@ -46,6 +56,39 @@ public class MyApp extends Application {
 //        HttpSDK.init(this);   //初始化网络请求框架，必须首先执行
 //        XHttpSDK.debug("XHttp");  //需要调试的时候执行
 //        XHttpSDK.setBaseUrl(SettingSPUtils.getInstance().getApiURL());  //设置网络请求的基础地址
+
+
+        //设置全局默认配置（优先级最低，会被其他设置覆盖）
+        SmartRefreshLayout.setDefaultRefreshInitializer(new DefaultRefreshInitializer() {
+            @Override
+            public void initialize(@NonNull Context context, @NonNull RefreshLayout layout) {
+                //全局设置（优先级最低）
+                layout.setEnableAutoLoadMore(false);
+                layout.setEnableOverScrollDrag(true);
+                layout.setEnableOverScrollBounce(true);
+                layout.setEnableLoadMoreWhenContentNotFull(true);
+                layout.setEnableScrollContentWhenRefreshed(true);
+                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);
+                layout.setFooterMaxDragRate(4.0F);
+                layout.setFooterHeight(45);
+            }
+        });
+        //设置全局的Header构建器
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
+            @NonNull
+            @Override
+            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
+                layout.setPrimaryColorsId(R.color.colorPrimary, android.R.color.white);//全局设置主题颜色
+                return new BezierRadarHeader(context);//.setTimeFormat(new DynamicTimeFormat("更新于 %s"));//指定为经典Header，默认是 贝塞尔雷达Header
+            }
+        });
+        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
+            @NonNull
+            @Override
+            public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
+                 return new ClassicsFooter(context).setDrawableSize(20);
+            }
+        });
     }
 
 

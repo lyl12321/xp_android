@@ -76,9 +76,9 @@
                 app:met_clearButton="false"
                 app:met_floatingLabel="normal"
                 app:met_floatingLabelText="请输入密码"
-                app:met_regexp="@string/regex_password"
-                />
 
+                />
+<!--            app:met_regexp="@string/regex_password"-->
 <!--            <com.xuexiang.xui.widget.button.roundbutton.RoundButton-->
 <!--                android:id="@+id/btn_get_verify_code"-->
 <!--                style="@style/RoundButton"-->

@@ -1,6 +1,7 @@
 package com.xuexiang.templateproject.utils;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 public class PageUtils {
 

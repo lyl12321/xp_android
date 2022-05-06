@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout style="@style/PullDownStyle">
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout style="@style/PullDownStyle">
             <androidx.core.widget.NestedScrollView style="@style/ScrollViewStyle">
 
                 <LinearLayout
@@ -223,7 +223,7 @@
 
 
             </androidx.core.widget.NestedScrollView>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 
         <com.xuexiang.xui.widget.button.roundbutton.RoundButton
