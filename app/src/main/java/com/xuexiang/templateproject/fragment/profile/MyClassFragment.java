@@ -72,12 +72,12 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         // 开启自动加载功能（非必须）
         binding.refreshLayout.setEnableAutoLoadMore(true);
         // 下拉刷新
-        binding.refreshLayout.setOnRefreshListener(refreshLayout12 -> {
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             listCurrentFrom = 1;  //刷新只加载第一页
             GradeApi.getClassMemberByUser(listCurrentFrom, new TipCallBack<UserListDTO>() {
                 @Override
                 public void onSuccess(UserListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout12, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout, binding.loading, response.getPages(), listCurrentFrom, response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.refresh(response.getList());
@@ -86,13 +86,13 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
             });
         });
         // 上拉加载
-        binding.refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
+        binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
             listCurrentFrom++;
 
             GradeApi.getClassMemberByUser(listCurrentFrom, new TipCallBack<UserListDTO>() {
                 @Override
                 public void onSuccess(UserListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout1, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout, binding.loading, response.getPages(), listCurrentFrom, response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.loadMore(response.getList());

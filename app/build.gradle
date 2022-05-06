@@ -110,6 +110,9 @@ dependencies {
     implementation  'io.github.scwang90:refresh-footer-classics:2.0.5'    //经典加载
 //    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-header:1.1.5'
 //    implementation 'com.github.xuexiangjys.SmartRefreshLayout:refresh-layout:1.1.5'
+
+    implementation  'com.github.czy1121:loadinglayout:1.0.1'
+
     //WebView
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-core:1.0.0'
     implementation 'com.github.xuexiangjys.AgentWeb:agentweb-download:1.0.0'//选填

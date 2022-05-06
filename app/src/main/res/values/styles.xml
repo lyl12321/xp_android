@@ -13,6 +13,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="xui_actionbar_height">?actionBarSize</item>
+        <item name="styleLoadingLayout">@style/LoadingLayoutStyle</item>
     </style>
 
     <style name="AppTheme.Launch">
@@ -51,6 +52,11 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <!--背景是否模糊显示-->
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="LoadingLayoutStyle" parent="LoadingLayout.Style">
+        <item name="llEmptyResId">@layout/empty_data_layout</item>
+        <item name="llLoadingResId">@layout/empty_data_layout</item>
     </style>
 
 </resources>

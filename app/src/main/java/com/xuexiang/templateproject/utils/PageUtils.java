@@ -4,9 +4,14 @@ package com.xuexiang.templateproject.utils;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.RefreshState;
 
+import ezy.ui.layout.LoadingLayout;
+
 public class PageUtils {
 
-    public static void finishRefreshData(RefreshLayout refreshLayout, Integer page, Integer currentPage, boolean hasData) {
+    public static void finishRefreshData(RefreshLayout refreshLayout, LoadingLayout loadingLayout, Integer page, Integer currentPage, boolean hasData) {
+
+
+
         if (refreshLayout.getState() == RefreshState.Loading) {
             //当前是加载更多
             if (page < currentPage) {
@@ -22,9 +27,11 @@ public class PageUtils {
 //                mAdapter.refresh(response.getList());
 //            }
             if (hasData) {
+                loadingLayout.showContent();
                 refreshLayout.finishRefresh(1000);
             } else {
                 refreshLayout.finishRefreshWithNoMoreData();
+                loadingLayout.showEmpty();
             }
         }  //当前没有任何状态的话 应该直接returun
 

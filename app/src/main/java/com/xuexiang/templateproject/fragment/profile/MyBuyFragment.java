@@ -96,7 +96,7 @@ public class MyBuyFragment extends BaseFragment<FragmentHomeBinding> {
             OrderApi.getGoodsOrderList(listCurrentFrom, new TipCallBack<GoodsOrderListDTO>() {
                 @Override
                 public void onSuccess(GoodsOrderListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.refresh(response.getList());
@@ -111,7 +111,7 @@ public class MyBuyFragment extends BaseFragment<FragmentHomeBinding> {
             OrderApi.getGoodsOrderList(listCurrentFrom, new TipCallBack<GoodsOrderListDTO>() {
                 @Override
                 public void onSuccess(GoodsOrderListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.loadMore(response.getList());

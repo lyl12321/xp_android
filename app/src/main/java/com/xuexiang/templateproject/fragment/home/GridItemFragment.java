@@ -63,6 +63,7 @@ public class GridItemFragment extends BaseFragment<FragmentHomeBinding> {
 
     @Override
     protected void initViews() {
+
         VirtualLayoutManager virtualLayoutManager = new VirtualLayoutManager(getContext());
         binding.recyclerView.setLayoutManager(virtualLayoutManager);
         RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
@@ -116,7 +117,7 @@ public class GridItemFragment extends BaseFragment<FragmentHomeBinding> {
             GoodsApi.queryGoodsPages(listCurrentFrom, "", title, new TipCallBack<GoodsListDTO>() {
                 @Override
                 public void onSuccess(GoodsListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mNewsAdapter.refresh(response.getList());
@@ -131,7 +132,7 @@ public class GridItemFragment extends BaseFragment<FragmentHomeBinding> {
             GoodsApi.queryGoodsPages(listCurrentFrom, "", title, new TipCallBack<GoodsListDTO>() {
                 @Override
                 public void onSuccess(GoodsListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout, response.getPages(), listCurrentFrom, response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mNewsAdapter.loadMore(response.getList());

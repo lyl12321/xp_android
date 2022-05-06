@@ -159,8 +159,8 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
             WalletApi.queryPage(listCurrentFrom, new TipCallBack<WalletListDTO>() {
                 @Override
                 public void onSuccess(WalletListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout,response.getPages(),listCurrentFrom,response.getTotal() > 0);
-
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    binding.loading.showContent();
                     if (response.getList() != null && response.getList().size() > 0) {
                         balanceLogAdapter.refresh(response.getList());
                     }
@@ -173,7 +173,7 @@ public class WalletFragment extends BaseFragment<FragmentWalletBinding> {
             WalletApi.queryPage(listCurrentFrom, new TipCallBack<WalletListDTO>() {
                 @Override
                 public void onSuccess(WalletListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         balanceLogAdapter.loadMore(response.getList());

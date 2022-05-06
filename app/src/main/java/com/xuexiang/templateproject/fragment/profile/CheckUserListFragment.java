@@ -69,6 +69,7 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
 
     @Override
     protected void initViews() {
+
         miniLoading = new MiniLoadingDialogLoader(getActivity());
         miniLoading.setCancelable(true);
         miniLoading.setOnProgressCancelListener(this::popToBack);
@@ -177,12 +178,12 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
         // 开启自动加载功能（非必须）
         binding.refreshLayout.setEnableAutoLoadMore(true);
         // 下拉刷新
-        binding.refreshLayout.setOnRefreshListener(refreshLayout12 -> {
+        binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             listCurrentFrom = 1;  //刷新只加载第一页
             CheckSubApi.queryCheckUserList(listCurrentFrom,mainCheckInfo.getId(), UserUtils.getCurrentUser().getClassCode(), new TipCallBack<CheckUserListDTO>() {
                 @Override
                 public void onSuccess(CheckUserListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout12,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.refresh(response.getList());
@@ -191,13 +192,13 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
             });
         });
         // 上拉加载
-        binding.refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
+        binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
             listCurrentFrom++;
 
             CheckSubApi.queryCheckUserList(listCurrentFrom,mainCheckInfo.getId(), UserUtils.getCurrentUser().getClassCode(), new TipCallBack<CheckUserListDTO>() {
                 @Override
                 public void onSuccess(CheckUserListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout1,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.loadMore(response.getList());
