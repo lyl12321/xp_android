@@ -1,8 +1,6 @@
 package com.xuexiang.templateproject.fragment.checkin;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,10 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRefreshBasicBinding;
 import com.xuexiang.templateproject.http.check.api.CheckApi;
 import com.xuexiang.templateproject.http.check.entity.CheckListDTO;
+import com.xuexiang.templateproject.utils.Constant;
+import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
-import com.xuexiang.xpage.base.XPageActivity;
-import com.xuexiang.xpage.core.PageOption;
 import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.WidgetUtils;
@@ -39,8 +37,6 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     private SimpleDelegateAdapter<CheckListDTO.CheckListItem> mAdapter;
 
     private int listCurrentFrom = 1;  //当前页数
-
-    private int REQUEST_CODE = 100;
 
     @NonNull
     @Override
@@ -77,6 +73,10 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                             view.setRightTextColor(Color.parseColor("#FFD4172A"));
                         } else if (model.getUserCheckStatus().equals("已签到")) {
                             view.setRightTextColor(Color.parseColor("#FF7DEA51"));
+                        } else if (model.getUserCheckStatus().equals("补签") || model.getUserCheckStatus().equals("代签") ){
+                            view.setRightTextColor(Color.parseColor("#FFFFC107"));
+                        } else {
+                            view.setRightTextColor(Color.parseColor("#FF373737"));
                         }
                     }
 
@@ -84,7 +84,7 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                         @SingleClick
                         @Override
                         public void onClick(View view) {
-                            openPageForResult(CheckInfoViewAndCommit.class,CheckInfoViewAndCommit.CHECK_OBJECT,model,REQUEST_CODE);
+                            openNewPage(CheckInfoViewAndCommit.class,CheckInfoViewAndCommit.CHECK_OBJECT,model);
                         }
                     });
 
@@ -150,17 +150,27 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
     }
 
-
     @Override
-    public void onFragmentResult(int requestCode, int resultCode, Intent data) {
-        super.onFragmentResult(requestCode, resultCode, data);
-        if (data != null) {
-            Bundle extras = data.getExtras();
-            if (resultCode == 1000) {
-                if (extras.getBoolean("isNeedRefreshList",false)) {
-                    binding.refreshLayout.autoRefresh();
-                }
-            }
+    public void onResume() {
+        super.onResume();
+        //重新显示的时候判断一下是否需要刷新
+        if (MMKVUtils.getBoolean(Constant.checkListIsRefresh, false)) {
+            binding.refreshLayout.autoRefresh();
+            //刷新完就不用重复刷新了
+            MMKVUtils.put(Constant.checkListIsRefresh, false);
         }
     }
+
+    //    @Override
+//    public void onFragmentResult(int requestCode, int resultCode, Intent data) {
+//        super.onFragmentResult(requestCode, resultCode, data);
+//        if (data != null) {
+//            Bundle extras = data.getExtras();
+//            if (resultCode == 1000) {
+//                if (extras.getBoolean("isNeedRefreshList",false)) {
+//                    binding.refreshLayout.autoRefresh();
+//                }
+//            }
+//        }
+//    }
 }

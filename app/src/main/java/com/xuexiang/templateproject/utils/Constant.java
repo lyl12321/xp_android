@@ -8,4 +8,6 @@ public class Constant {
 
     //默认分页小
     public static final int pageSize = 10;
+
+    public static final String checkListIsRefresh = "checkListIsNeedRefreshList";
 }

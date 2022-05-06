@@ -1,6 +1,5 @@
 package com.xuexiang.templateproject.fragment.checkin;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,8 @@ import com.xuexiang.templateproject.databinding.FragmentCheckInDetailsBinding;
 import com.xuexiang.templateproject.http.check.api.CheckSubApi;
 import com.xuexiang.templateproject.http.check.entity.CheckDetailsDTO;
 import com.xuexiang.templateproject.http.check.entity.CheckListDTO;
+import com.xuexiang.templateproject.utils.Constant;
+import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
@@ -128,9 +129,10 @@ public class CheckInfoViewAndCommit extends BaseFragment<FragmentCheckInDetailsB
                     public void onSuccess(String response) throws Throwable {
                         XToastUtils.success(response);
                         openReadOnly();
-                        Intent intent = new Intent();
-                        intent.putExtra("isNeedRefreshList", true);
-                        setFragmentResult(1000,intent);
+
+                        //放置一个永久的flag用来判断是否刷新
+                        MMKVUtils.put(Constant.checkListIsRefresh, true);
+
                         miniLoading.dismissLoading();
                     }
 
