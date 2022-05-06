@@ -2,6 +2,7 @@
 package com.xuexiang.templateproject.fragment.profile;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,15 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
         if (userDTO.getId() != null && !userDTO.getId().equals("")) {
             binding.stUsername.setLeftString(userDTO.getUsername());
         }
+
+        if (userDTO.getUserType() != null && userDTO.getUserType().equals("2")){
+            //如果是学生
+            binding.menuMemberCheck.setVisibility(View.GONE);
+        } else {
+            //如果是老师  或者是  管理员
+            binding.menuMemberCheck.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -55,6 +65,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
         binding.menuWallet.setOnSuperTextViewClickListener(this);
         binding.menuSettings.setOnSuperTextViewClickListener(this);
         binding.menuAbout.setOnSuperTextViewClickListener(this);
+        binding.menuMemberCheck.setOnSuperTextViewClickListener(this);
     }
 
     @SingleClick
@@ -73,6 +84,8 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
             openNewPage(MyBuyFragment.class);
         } else if (id == R.id.menu_wallet) {
             openNewPage(WalletFragment.class);
+        } else if (id == R.id.menu_member_check) {
+            openNewPage(CheckAdminFragment.class);
         }
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+
+    <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+        android:id="@+id/st_username"
+        app:sLeftViewWidth="110dp"
+        app:sLeftViewGravity="left_center"
+        app:sCenterViewGravity="left_center"
+        app:sCenterViewMarginLeft="25dp"
+        android:layout_height="60dp"
+        app:sLeftTextString="用户名"
+        app:sLeftIconRes="@drawable/ic_default_head"
+        app:sRightIconRes="@drawable/icon_arrow_right_grey"
+        app:sRightTextSize="12sp"
+        app:sLeftIconHeight="38dp"
+        app:sLeftIconWidth="38dp"
+        android:layout_width="match_parent">
+
+    </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
+
+
+
+</LinearLayout>

@@ -38,6 +38,10 @@
                     android:layout_marginTop="20dp"
                     app:sLeftTextString="我的班级" />
                 <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/menu_member_check"
+                    style="@style/InfoItem.Account"
+                    app:sLeftTextString="打卡详情" />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                     android:id="@+id/menu_my_buy"
                     style="@style/InfoItem.Account"
                     app:sLeftTextString="我的购买" />
