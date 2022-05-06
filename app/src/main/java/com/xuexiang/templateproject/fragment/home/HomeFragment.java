@@ -64,6 +64,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
      */
     @Override
     protected void initViews() {
+        binding.loading.showContent();
 
         VirtualLayoutManager virtualLayoutManager = new VirtualLayoutManager(getContext());
         binding.recyclerView.setLayoutManager(virtualLayoutManager);
@@ -192,7 +193,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                 @Override
                 public void onSuccess(GoodsListDTO response) throws Throwable {
                     PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
-
+                    binding.loading.showContent();
                     if (response.getList() != null && response.getList().size() > 0) {
                         mNewsAdapter.refresh(response.getList());
                     }
