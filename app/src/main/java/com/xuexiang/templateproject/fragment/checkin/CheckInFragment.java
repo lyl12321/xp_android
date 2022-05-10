@@ -39,6 +39,8 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
     private int listCurrentFrom = 1;  //当前页数
 
+    private boolean isFirst = true;
+
     @NonNull
     @Override
     protected FragmentRefreshBasicBinding viewBindingInflate(LayoutInflater inflater, ViewGroup container) {
@@ -135,7 +137,7 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         });
 
         // 触发自动刷新
-        binding.refreshLayout.autoRefresh();
+//        binding.refreshLayout.autoRefresh();
     }
 
 
@@ -148,8 +150,9 @@ public class CheckInFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     public void onResume() {
         super.onResume();
         //重新显示的时候判断一下是否需要刷新
-        if (MMKVUtils.getBoolean(Constant.checkListIsRefresh, false)) {
+        if (MMKVUtils.getBoolean(Constant.checkListIsRefresh, false) || isFirst) {
             binding.refreshLayout.autoRefresh();
+            isFirst = false;  //走过一次onResume就不是第一次进入了
             //刷新完就不用重复刷新了
             MMKVUtils.put(Constant.checkListIsRefresh, false);
         }

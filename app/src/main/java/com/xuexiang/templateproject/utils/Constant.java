@@ -10,4 +10,6 @@ public class Constant {
     public static final int pageSize = 10;
 
     public static final String checkListIsRefresh = "checkListIsNeedRefreshList";
+
+    public static final String momentsListIsRefresh = "momentsListIsNeedRefreshList";
 }
