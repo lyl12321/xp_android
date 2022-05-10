@@ -14,24 +14,26 @@ public class PageUtils {
 
         if (refreshLayout.getState() == RefreshState.Loading) {
             //当前是加载更多
-            if (page < currentPage) {
+            if (page <= currentPage) {
                 refreshLayout.finishLoadMoreWithNoMoreData();
             } else {
                 refreshLayout.finishLoadMore(1000);
             }
         } else if (refreshLayout.getState() == RefreshState.Refreshing) {
-            if (page < currentPage) {
-                refreshLayout.resetNoMoreData();
-            }
 //            if (response.getList() != null && response.getList().size() > 0) {
 //                mAdapter.refresh(response.getList());
 //            }
             if (hasData) {
+                if (page <= currentPage) {
+                    refreshLayout.finishRefreshWithNoMoreData();
+                } else {
+                    refreshLayout.finishRefresh();
+                    refreshLayout.resetNoMoreData();
+                }
                 loadingLayout.showContent();
-                refreshLayout.finishRefresh();
             } else {
-                refreshLayout.finishRefreshWithNoMoreData();
                 loadingLayout.showEmpty();
+                refreshLayout.finishRefreshWithNoMoreData();
             }
         }  //当前没有任何状态的话 应该直接returun
 
