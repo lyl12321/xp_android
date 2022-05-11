@@ -132,6 +132,7 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
                                                     params.put("checkContent", JsonUtil.toJson(params));
 
                                                     params.put("status","2");
+                                                    params.put("checkUser", model.getCheckUserInfo().getId());
 
 
                                                     CheckSubApi.submitCheckInfo(mainCheckInfo.getId(), params, new TipCallBack<String>() {
