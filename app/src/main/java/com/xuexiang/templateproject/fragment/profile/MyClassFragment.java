@@ -29,6 +29,7 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRefreshBasicBinding;
 import com.xuexiang.templateproject.http.grade.api.GradeApi;
 import com.xuexiang.templateproject.http.grade.entity.UserListDTO;
+import com.xuexiang.templateproject.http.login.api.LoginApi;
 import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xpage.annotation.Page;
@@ -118,6 +119,17 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         // 3. WRAP_CONTENT，自身高度，不推荐;
         int height = ViewGroup.LayoutParams.MATCH_PARENT;
 
+        {
+            SwipeMenuItem addItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.menu_selector_red)
+                    .setImage(R.drawable.ic_baseline_arrow_circle_down_24)
+                    .setTextColor(Color.WHITE)
+                    .setText("下线")
+                    .setWidth(width)
+                    .setHeight(height);
+            swipeLeftMenu.addMenuItem(addItem); // 添加菜单到左侧。
+        }
+
+
         // 添加右侧的，如果不添加，则右侧不会出现菜单。
         {
             SwipeMenuItem deleteItem = new SwipeMenuItem(getContext()).setBackground(R.drawable.menu_selector_red)
@@ -150,6 +162,18 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     binding.refreshLayout.autoRefresh();
                 }
             });
+        } else if (direction == SwipeRecyclerView.LEFT_DIRECTION) {
+
+            LoginApi.forceLogout(mAdapter.getData().get(position).getId(), new TipCallBack<String>() {
+                @Override
+                public void onSuccess(String response) throws Throwable {
+                    XToastUtils.success(response);
+                    // 触发自动刷新
+                    binding.refreshLayout.autoRefresh();
+                }
+            });
+
+//            XToastUtils.toast("list第" + position + "; 左侧菜单第" + menuPosition);
         }
     };
 

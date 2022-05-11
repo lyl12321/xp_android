@@ -21,4 +21,12 @@ public class LoginApi {
                 .execute(callBack);
     }
 
+
+
+    public static void forceLogout(String userId,TipCallBack<String> callBack) {
+        XHttp.post("/forceLogout")
+                .upString(userId)
+                .execute(callBack);
+    }
+
 }

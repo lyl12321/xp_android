@@ -16,7 +16,7 @@ public class UserDTORes {
     @SerializedName("classCode")
     private String classCode;
     @SerializedName("userStatus")
-    private Object userStatus;
+    private String userStatus;
     @SerializedName("errorTime")
     private Object errorTime;
     @SerializedName("locked")
@@ -80,11 +80,11 @@ public class UserDTORes {
         this.classCode = classCode;
     }
 
-    public Object getUserStatus() {
+    public String getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(Object userStatus) {
+    public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
 

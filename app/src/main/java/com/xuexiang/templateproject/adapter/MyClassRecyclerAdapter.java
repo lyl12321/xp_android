@@ -1,5 +1,7 @@
 package com.xuexiang.templateproject.adapter;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 
 import com.xuexiang.templateproject.R;
@@ -22,6 +24,13 @@ public class MyClassRecyclerAdapter extends BaseRecyclerAdapter<UserDTORes> {
     @Override
     protected void bindData(@NonNull RecyclerViewHolder holder, int position, UserDTORes item) {
         ((SuperTextView) holder.findViewById(R.id.st_username)).setLeftString(item.getUsername());
+        SuperTextView v = holder.findViewById(R.id.st_username);
+        v.setRightString(item.getUserStatus());
+        if ("已登陆".equals(item.getUserStatus())) {
+            v.setRightTextColor(Color.parseColor("#9FD661"));
+        } else {
+            v.setRightTextColor(Color.parseColor("#FE6D4B"));
+        }
     }
 
     @Override
