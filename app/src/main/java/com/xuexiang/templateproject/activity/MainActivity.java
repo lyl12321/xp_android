@@ -22,7 +22,7 @@ import com.xuexiang.templateproject.fragment.home.HomeFragment;
 import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
-import com.xuexiang.templateproject.http.user.api.UserService;
+import com.xuexiang.templateproject.http.user.api.UserApi;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
@@ -30,10 +30,7 @@ import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 import com.xuexiang.xaop.annotation.SingleClick;
-import com.xuexiang.xhttp2.XHttp;
-import com.xuexiang.xhttp2.cache.model.CacheMode;
 import com.xuexiang.xhttp2.exception.ApiException;
-import com.xuexiang.xhttp2.request.CustomRequest;
 import com.xuexiang.xpage.utils.GsonUtils;
 import com.xuexiang.xui.adapter.FragmentAdapter;
 import com.xuexiang.xui.utils.ResUtils;
@@ -119,8 +116,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
 //        GuideTipsDialog.showTips(this);
         XUpdateInit.checkUpdate(this, false);
 
-        CustomRequest request = XHttp.custom().cacheMode(CacheMode.NO_CACHE);
-        request.apiCall(request.create(UserService.class).getUserInfo(), new TipCallBack<UserDTORes>() {
+        UserApi.getUserInfo(new TipCallBack<UserDTORes>() {
             @Override
             public void onSuccess(UserDTORes response) throws Throwable {
                 if (response.getId() == null) {

@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.xuexiang.templateproject.MyApp;
 import com.xuexiang.templateproject.core.BaseActivity;
+import com.xuexiang.templateproject.core.http.interceptor.CustomExpiredInterceptor;
 import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
@@ -78,8 +79,8 @@ public final class XBasicLibInit {
         XHttpSDK.setSuccessCode(200);
         XHttp.getInstance().setStrictMode(false)
             .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()))
+                .addInterceptor(new CustomExpiredInterceptor())
             .setTimeout(Constant.apiTimeOut);
-
 
 //        //设置动态参数添加拦截器
 //        XHttpSDK.addInterceptor(new CustomDynamicInterceptor());

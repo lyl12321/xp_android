@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.umeng.analytics.MobclickAgent;
 import com.xuexiang.templateproject.activity.LoginActivity;
+import com.xuexiang.templateproject.core.http.interceptor.CustomExpiredInterceptor;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.model.HttpHeaders;
 import com.xuexiang.xutil.app.ActivityUtils;
@@ -64,6 +65,9 @@ public final class TokenUtils {
             XToastUtils.success("登录成功！");
             MobclickAgent.onProfileSignIn(KEY_PROFILE_CHANNEL, token);
             setToken(token);
+            XHttp.getInstance()
+                    .addInterceptor(new CustomExpiredInterceptor())
+                    .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));
             return true;
         } else {
             XToastUtils.error("登录失败！");

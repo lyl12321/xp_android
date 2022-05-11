@@ -1,6 +1,7 @@
 
 package com.xuexiang.templateproject.core.http.callback;
 
+import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xhttp2.callback.SimpleCallBack;
 import com.xuexiang.xhttp2.exception.ApiException;
@@ -35,7 +36,13 @@ public abstract class TipCallBack<T> extends SimpleCallBack<T> {
 
     @Override
     public void onError(ApiException e) {
-        XToastUtils.error(e);
+        if (!"sessionExpired".equals(e.getMessage())) {
+            XToastUtils.error(e);
+        } else {
+            XToastUtils.error("登陆过期！");
+            TokenUtils.forceLogoutSuccess();
+        }
+
         if (!StringUtils.isEmpty(mUrl)) {
             Logger.e("网络请求的url:" + mUrl, e);
         } else {
