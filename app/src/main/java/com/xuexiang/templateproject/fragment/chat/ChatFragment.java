@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.google.gson.reflect.TypeToken;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
 import com.xuexiang.templateproject.core.BaseFragment;
@@ -14,6 +15,7 @@ import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRefreshBasicBinding;
 import com.xuexiang.templateproject.http.chat.api.ChatApi;
 import com.xuexiang.templateproject.http.chat.entity.ChatRoomListDTO;
+import com.xuexiang.templateproject.http.websocket.WebSocketResponseDTO;
 import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.PageUtils;
@@ -24,6 +26,14 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.CollectionUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xutil.app.ActivityUtils;
+import com.xuexiang.xutil.net.JsonUtil;
+import com.zhangke.websocket.SimpleListener;
+import com.zhangke.websocket.WebSocketHandler;
+import com.zhangke.websocket.WebSocketManager;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 @Page(anim = CoreAnim.none)
@@ -34,6 +44,9 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     private int listCurrentFrom = 1;  //当前页数
 
     private boolean isFirst = true;
+
+
+    private WebSocketManager manager = WebSocketHandler.getDefault();
 
     @NonNull
     @Override
@@ -51,6 +64,11 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                 holder.text(R.id.name, item.getReceiveUserInfo().getUsername());
                 holder.text(R.id.content, CollectionUtils.isEmpty(item.getChatRecords()) ? "" : item.getChatRecords().get(item.getChatRecords().size() - 1).getMsgContent());
                 holder.text(R.id.time, item.getLastRecordTimeView());
+                if (item.getNoReadMessage() == 0) {
+                    holder.findViewById(R.id.tv_no_read_count).setVisibility(View.GONE);
+                } else {
+                    holder.text(R.id.tv_no_read_count, String.valueOf(item.getNoReadMessage()));
+                }
                 holder.click(R.id.ll_chat_room, new View.OnClickListener() {
                     @SingleClick
                     @Override
@@ -98,6 +116,30 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
     }
 
+    @Override
+    protected void initListeners() {
+        manager.addListener(new SimpleListener() {
+            @Override
+            public <T> void onMessage(String message, T data) {
+                if (ChatFragment.this.isVisible()) {
+                    WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
+                    }.getType());
+                    if (response.getType() == 5) {
+
+                        List<ChatRoomListDTO.ChatRoomItem> ch = mAdapter.getData();
+                        for (ChatRoomListDTO.ChatRoomItem chatRoomItem : ch) {
+                            if (response.getData().getChatRoomId().equals(chatRoomItem.getId())) {
+                                //说明就是这个房间有新消息
+                                chatRoomItem.setNoReadMessage(chatRoomItem.getNoReadMessage() + 1);
+                                chatRoomItem.getChatRecords().add(response.getData());
+                                mAdapter.notifyItemChanged(ch.indexOf(chatRoomItem));
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onResume() {

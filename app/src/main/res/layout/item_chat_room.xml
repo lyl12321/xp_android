@@ -70,6 +70,19 @@
                     android:layout_height="wrap_content"
                     android:text="TextView" />
 
+                <TextView
+                    android:id="@+id/tv_no_read_count"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:padding="2dp"
+                    android:textAlignment="center"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/shape_tv_radius"
+                    android:text="11" />
+
+
             </LinearLayout>
 
 
