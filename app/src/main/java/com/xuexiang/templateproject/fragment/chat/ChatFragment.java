@@ -73,6 +73,7 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     @SingleClick
                     @Override
                     public void onClick(View view) {
+                        item.setNoReadMessage(0);
                         openNewPage(ChatContentFragment.class, ChatContentFragment.KEY_CHAT_INFO, item);
                     }
                 });
