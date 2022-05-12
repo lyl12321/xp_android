@@ -12,4 +12,6 @@ public class Constant {
     public static final String checkListIsRefresh = "checkListIsNeedRefreshList";
 
     public static final String momentsListIsRefresh = "momentsListIsNeedRefreshList";
+
+    public static final String chatRoomListIsRefresh = "chatRoomListIsRefresh";
 }

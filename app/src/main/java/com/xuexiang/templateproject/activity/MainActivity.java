@@ -12,11 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.reflect.TypeToken;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.BaseActivity;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.ActivityMainBinding;
+import com.xuexiang.templateproject.fragment.chat.ChatFragment;
 import com.xuexiang.templateproject.fragment.checkin.CheckInFragment;
 import com.xuexiang.templateproject.fragment.home.HomeFragment;
 import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
@@ -24,6 +26,9 @@ import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
 import com.xuexiang.templateproject.http.user.api.UserApi;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
+import com.xuexiang.templateproject.http.websocket.MsgResponse;
+import com.xuexiang.templateproject.http.websocket.WebSocketResponseDTO;
+import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
@@ -38,6 +43,10 @@ import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.ClickUtils;
 import com.xuexiang.xutil.common.CollectionUtils;
+import com.xuexiang.xutil.net.JsonUtil;
+import com.zhangke.websocket.SimpleListener;
+import com.zhangke.websocket.WebSocketHandler;
+import com.zhangke.websocket.WebSocketManager;
 
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener, ClickUtils.OnClick2ExitListener, Toolbar.OnMenuItemClickListener {
@@ -48,6 +57,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
     protected ActivityMainBinding viewBindingInflate(LayoutInflater inflater) {
         return ActivityMainBinding.inflate(inflater);
     }
+
+    private WebSocketManager manager = WebSocketHandler.getDefault();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +93,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
             fragments = new BaseFragment[]{
                     new HomeFragment(),
                     new CheckInFragment(),
+                    new ChatFragment(),
                     new MomentsFragment(),
                     new ProfileFragment()
             };
@@ -93,6 +105,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
             //主页内容填充
             fragments = new BaseFragment[]{
                     new HomeFragment(),
+                    new ChatFragment(),
                     new MomentsFragment(),
                     new ProfileFragment()
             };
@@ -209,6 +222,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
             }
         });
         binding.includeMain.bottomNavigation.setOnNavigationItemSelectedListener(this);
+
+        manager.addListener(new SimpleListener() {
+            @Override
+            public <T> void onMessage(String message, T data) {
+                WebSocketResponseDTO<MsgResponse> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<MsgResponse>>() {
+                }.getType());
+                if (response.getType() == 5) {
+                    MMKVUtils.put(Constant.chatRoomListIsRefresh, true);
+                }
+
+            }
+        });
     }
 
     /**
@@ -258,7 +283,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         int index = CollectionUtils.arrayIndexOf(mTitles, menuItem.getTitle());
         if (index != -1) {
             binding.includeMain.toolbar.setTitle(menuItem.getTitle());
-            binding.includeMain.viewPager.setCurrentItem(index, false);
+            binding.includeMain.viewPager.setCurrentItem(index, true);
 
 //            updateSideNavStatus(menuItem);
             return true;

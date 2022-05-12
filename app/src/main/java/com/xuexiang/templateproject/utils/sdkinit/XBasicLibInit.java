@@ -12,6 +12,7 @@ import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.XAOP;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xhttp2.XHttpSDK;
+import com.xuexiang.xhttp2.interceptor.HttpLoggingInterceptor;
 import com.xuexiang.xhttp2.model.HttpHeaders;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xrouter.launcher.XRouter;
@@ -71,7 +72,7 @@ public final class XBasicLibInit {
         XHttpSDK.init(application);
         //需要调试的时候执行
         if (MyApp.isDebug()) {
-            XHttpSDK.debug();
+            XHttpSDK.debug(new HttpLoggingInterceptor("").setLevel(HttpLoggingInterceptor.Level.PARAM));
         }
 //        XHttpSDK.debug(new CustomLoggingInterceptor()); //设置自定义的日志打印拦截器
         //设置网络请求的全局基础地址

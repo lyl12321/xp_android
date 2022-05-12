@@ -68,6 +68,7 @@ public final class TokenUtils {
             XHttp.getInstance()
                     .addInterceptor(new CustomExpiredInterceptor())
                     .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));
+            MyWebSocketUtils.initWebSocket();
             return true;
         } else {
             XToastUtils.error("登录失败！");
@@ -85,6 +86,7 @@ public final class TokenUtils {
         clearToken();
         XToastUtils.success("登出成功！");
 //        SettingUtils.setIsAgreePrivacy(false);
+        MyWebSocketUtils.destroyWebSocket();
         XHttp.getInstance().setStrictMode(false)
                 .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));  //退出登陆时清空统一请求头
         //跳转到登录页
@@ -99,6 +101,7 @@ public final class TokenUtils {
 //        SettingUtils.setIsAgreePrivacy(false);
         XHttp.getInstance().setStrictMode(false)
                 .addCommonHeaders(new HttpHeaders("X-Token",TokenUtils.getToken()));  //退出登陆时清空统一请求头
+        MyWebSocketUtils.destroyWebSocket();
         //跳转到登录页
         ActivityUtils.startActivity(LoginActivity.class);
     }

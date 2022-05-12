@@ -16,13 +16,13 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshFooterCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshHeaderCreator;
 import com.scwang.smart.refresh.layout.listener.DefaultRefreshInitializer;
+import com.xuexiang.templateproject.utils.MyWebSocketUtils;
 import com.xuexiang.templateproject.utils.sdkinit.ANRWatchDogInit;
 import com.xuexiang.templateproject.utils.sdkinit.UMengInit;
 import com.xuexiang.templateproject.utils.sdkinit.XBasicLibInit;
 import com.xuexiang.templateproject.utils.sdkinit.XUpdateInit;
 
 /**
-
  * @since 2018/11/7 下午1:12
  */
 public class MyApp extends Application {
@@ -86,9 +86,12 @@ public class MyApp extends Application {
             @NonNull
             @Override
             public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
-                 return new ClassicsFooter(context).setDrawableSize(20);
+                return new ClassicsFooter(context).setDrawableSize(20);
             }
         });
+
+        MyWebSocketUtils.initWebSocket();
+
     }
 
 

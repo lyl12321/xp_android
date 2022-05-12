@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewbinding.ViewBinding;
 
 import com.umeng.analytics.MobclickAgent;
+import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.http.loader.ProgressLoader;
 import com.xuexiang.xhttp2.subsciber.impl.IProgressLoader;
 import com.xuexiang.xpage.base.XPageActivity;
@@ -21,6 +22,7 @@ import com.xuexiang.xpage.enums.CoreAnim;
 import com.xuexiang.xpage.utils.Utils;
 import com.xuexiang.xrouter.facade.service.SerializationService;
 import com.xuexiang.xrouter.launcher.XRouter;
+import com.xuexiang.xui.utils.ResUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
 import com.xuexiang.xui.widget.actionbar.TitleUtils;
 
@@ -77,7 +79,9 @@ public abstract class BaseFragment<Binding extends ViewBinding> extends XPageFra
     }
 
     protected TitleBar initTitle() {
-        return TitleUtils.addTitleBarDynamic((ViewGroup) getRootView(), getPageTitle(), v -> popToBack());
+        TitleBar titleBar = TitleUtils.addTitleBarDynamic((ViewGroup) getRootView(), getPageTitle(), v -> popToBack());
+        titleBar.setBackgroundColor(ResUtils.getColor(R.color.colorPrimary));
+        return titleBar;
     }
 
     @Override

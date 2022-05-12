@@ -1,0 +1,83 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--    <android.support.v7.widget.Toolbar style="@style/AppTheme.Toolbar"-->
+    <!--        android:id="@+id/toolbar"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="?attr/actionBarSize"-->
+    <!--        app:navigationIcon="?attr/homeAsUpIndicator"-->
+    <!--        app:title="@string/fragment_practice_instant">-->
+    <!--    </android.support.v7.widget.Toolbar>-->
+
+<!--    <com.scwang.smart.refresh.layout.SmartRefreshLayout-->
+<!--        android:id="@+id/refreshLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_weight="1"-->
+<!--        android:scaleY="-1"-->
+<!--        app:srlEnableRefresh="false"-->
+<!--        app:srlEnableAutoLoadMore="false"-->
+<!--        app:srlEnableNestedScrolling="false">-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:fadeScrollbars="false"
+            android:dividerHeight="0dp"
+            android:divider="@android:color/transparent"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/item_chat_content"/>
+<!--        <com.scwang.smart.refresh.footer.ClassicsFooter-->
+<!--            android:id="@+id/footer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:scaleY="-1"-->
+<!--            app:srlTextPulling="下拉加载更多">-->
+<!--        </com.scwang.smart.refresh.footer.ClassicsFooter>-->
+<!--    </com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
+
+        <View style="@style/AppTheme.Division"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dip"
+        android:background="#f8f8f8"
+        android:gravity="center_vertical">
+                <EditText
+                    android:id="@+id/input"
+                    android:layout_margin="3dip"
+                    android:layout_width="0dip"
+                    android:layout_weight="1.0"
+                    android:layout_height="wrap_content"
+                    android:maxLength="300"
+                    android:imeOptions="actionSend"
+                    android:inputType="textPersonName"
+                    android:hint="输入内容"
+                    android:padding="@dimen/config_padding_10dp"/>
+
+        <com.xuexiang.xui.widget.button.roundbutton.RoundButton
+            android:id="@+id/rb_submit"
+            style="@style/RoundButton.Auto"
+            android:layout_width="50dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"
+            app:rb_radius="10dp"
+            android:textColor="@color/xui_default_round_btn_white_text"
+            app:rb_backgroundColor="@color/xui_btn_green_normal_color"
+            app:rb_borderColor="@color/xui_btn_green_normal_color"
+            android:text="发送"
+            />
+    </LinearLayout>
+
+</LinearLayout>

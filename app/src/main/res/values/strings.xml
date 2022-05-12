@@ -7,6 +7,7 @@
 
     <string name="menu_home">首页</string>
     <string name="menu_check_in">签到</string>
+    <string name="menu_chat">聊天</string>
     <string name="menu_moments">朋友圈</string>
     <string name="menu_profile">我的概况</string>
 
