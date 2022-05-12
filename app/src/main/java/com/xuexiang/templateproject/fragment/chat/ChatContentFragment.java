@@ -15,6 +15,8 @@ import com.xuexiang.templateproject.databinding.FragmentChatContentBinding;
 import com.xuexiang.templateproject.http.chat.entity.ChatRoomListDTO;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 import com.xuexiang.templateproject.http.websocket.WebSocketResponseDTO;
+import com.xuexiang.templateproject.utils.Constant;
+import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
@@ -190,6 +192,9 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
                         mAdapter.loadMore(Arrays.asList(response.getData()));
                         mAdapter.notifyListDataSetChanged();
                         binding.listView.scrollToPosition(mAdapter.getItemCount() - 1);
+
+                        //如果有新消息 回去是要刷新页面的
+                        MMKVUtils.put(Constant.chatRoomListIsRefresh, true);
                     }
 
                 }
