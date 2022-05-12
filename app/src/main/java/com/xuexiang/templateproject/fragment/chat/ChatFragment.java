@@ -1,5 +1,6 @@
 package com.xuexiang.templateproject.fragment.chat;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,14 +52,15 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     @NonNull
     @Override
     protected FragmentRefreshBasicBinding viewBindingInflate(LayoutInflater inflater, ViewGroup container) {
-        return FragmentRefreshBasicBinding.inflate(inflater,container,false);
+        return FragmentRefreshBasicBinding.inflate(inflater, container, false);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void initViews() {
         WidgetUtils.initRecyclerView(binding.recyclerView);
 
-        mAdapter = new SimpleDelegateAdapter<ChatRoomListDTO.ChatRoomItem>(R.layout.item_chat_room,new LinearLayoutHelper()) {
+        mAdapter = new SimpleDelegateAdapter<ChatRoomListDTO.ChatRoomItem>(R.layout.item_chat_room, new LinearLayoutHelper()) {
             @Override
             protected void bindData(@NonNull RecyclerViewHolder holder, int position, ChatRoomListDTO.ChatRoomItem item) {
                 holder.text(R.id.name, item.getReceiveUserInfo().getUsername());
@@ -88,16 +90,25 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         // 下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             listCurrentFrom = 1;  //刷新只加载第一页
-            ChatApi.getChatRoomList(listCurrentFrom, new TipCallBack<ChatRoomListDTO>() {
-                @Override
-                public void onSuccess(ChatRoomListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+            if (isFirst || CollectionUtils.isEmpty(mAdapter.getData())) {
+                ChatApi.getChatRoomList(listCurrentFrom, new TipCallBack<ChatRoomListDTO>() {
+                    @Override
+                    public void onSuccess(ChatRoomListDTO response) throws Throwable {
+                        PageUtils.finishRefreshData(refreshLayout, binding.loading, response.getPages(), listCurrentFrom, response.getTotal() > 0);
 
-                    if (response.getList() != null && response.getList().size() > 0) {
-                        mAdapter.refresh(response.getList());
+                        if (response.getList() != null && response.getList().size() > 0) {
+                            mAdapter.refresh(response.getList());
+                        }
                     }
-                }
-            });
+                });
+            } else {
+
+                mAdapter.notifyDataSetChanged();
+
+                refreshLayout.finishRefreshWithNoMoreData();
+
+            }
+
         });
         // 上拉加载
         binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
@@ -106,7 +117,7 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
             ChatApi.getChatRoomList(listCurrentFrom, new TipCallBack<ChatRoomListDTO>() {
                 @Override
                 public void onSuccess(ChatRoomListDTO response) throws Throwable {
-                    PageUtils.finishRefreshData(refreshLayout,binding.loading,response.getPages(),listCurrentFrom,response.getTotal() > 0);
+                    PageUtils.finishRefreshData(refreshLayout, binding.loading, response.getPages(), listCurrentFrom, response.getTotal() > 0);
 
                     if (response.getList() != null && response.getList().size() > 0) {
                         mAdapter.loadMore(response.getList());
@@ -122,17 +133,18 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         manager.addListener(new SimpleListener() {
             @Override
             public <T> void onMessage(String message, T data) {
-                if (ChatFragment.this.isVisible()) {
-                    WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
-                    }.getType());
-                    if (response.getType() == 5) {
 
-                        List<ChatRoomListDTO.ChatRoomItem> ch = mAdapter.getData();
-                        for (ChatRoomListDTO.ChatRoomItem chatRoomItem : ch) {
-                            if (response.getData().getChatRoomId().equals(chatRoomItem.getId())) {
-                                //说明就是这个房间有新消息
-                                chatRoomItem.setNoReadMessage(chatRoomItem.getNoReadMessage() + 1);
-                                chatRoomItem.getChatRecords().add(response.getData());
+                WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
+                }.getType());
+                if (response.getType() == 5) {
+
+                    List<ChatRoomListDTO.ChatRoomItem> ch = mAdapter.getData();
+                    for (ChatRoomListDTO.ChatRoomItem chatRoomItem : ch) {
+                        if (response.getData().getChatRoomId().equals(chatRoomItem.getId())) {
+                            //说明就是这个房间有新消息
+                            chatRoomItem.setNoReadMessage(chatRoomItem.getNoReadMessage() + 1);
+                            chatRoomItem.getChatRecords().add(response.getData());
+                            if (ChatFragment.this.isVisible()) {
                                 mAdapter.notifyItemChanged(ch.indexOf(chatRoomItem));
                             }
                         }
