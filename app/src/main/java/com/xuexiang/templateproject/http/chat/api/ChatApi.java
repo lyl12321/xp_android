@@ -2,7 +2,6 @@ package com.xuexiang.templateproject.http.chat.api;
 
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.http.chat.entity.ChatRoomListDTO;
-import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.xhttp2.XHttp;
 import com.xuexiang.xutil.net.JsonUtil;
@@ -19,6 +18,20 @@ public class ChatApi {
         params.put("pageSize", 1000);
         XHttp.post("/chatRoom/page/query")
                 .upJson(JsonUtil.toJson(params))
+                .execute(callBack);
+    }
+
+    public static void clearNoReadMessage(String roomId, TipCallBack<String> callBack) {
+        Map<String,Object> params = new HashMap<>();
+        params.put("receiveId", UserUtils.getCurrentUser().getId());
+        params.put("roomId", roomId);
+        XHttp.post("/chatRoom/clearNoReadMessage")
+                .upJson(JsonUtil.toJson(params))
+                .execute(callBack);
+    }
+
+    public static void getAllNoReadMessageCount(TipCallBack<Integer> callBack) {
+        XHttp.post("/chats/getAllNoReadMessageCount")
                 .execute(callBack);
     }
 }

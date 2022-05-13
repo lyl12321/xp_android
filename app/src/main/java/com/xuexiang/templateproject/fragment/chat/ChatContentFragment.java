@@ -11,7 +11,9 @@ import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.BaseRecyclerAdapter;
 import com.xuexiang.templateproject.adapter.base.SmartViewHolder;
 import com.xuexiang.templateproject.core.BaseFragment;
+import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentChatContentBinding;
+import com.xuexiang.templateproject.http.chat.api.ChatApi;
 import com.xuexiang.templateproject.http.chat.entity.ChatRoomListDTO;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 import com.xuexiang.templateproject.http.websocket.WebSocketResponseDTO;
@@ -57,6 +59,8 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
 
 
     private WebSocketManager manager = WebSocketHandler.getDefault();
+
+    private SimpleListener listener;
 
     @NonNull
     @Override
@@ -179,8 +183,7 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
             }
         });
 
-
-        manager.addListener(new SimpleListener() {
+        listener = new SimpleListener() {
             @Override
             public <T> void onMessage(String message, T data) {
                 WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
@@ -193,13 +196,21 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
                         mAdapter.notifyListDataSetChanged();
                         binding.listView.scrollToPosition(mAdapter.getItemCount() - 1);
 
+
+                        ChatApi.clearNoReadMessage(mData.getId(), new TipCallBack<String>() {
+                            @Override
+                            public void onSuccess(String response) throws Throwable {
+                            }
+                        });
                         //如果有新消息 回去是要刷新页面的
                         MMKVUtils.put(Constant.chatRoomListIsRefresh, true);
                     }
 
                 }
             }
-        });
+        };
+
+        manager.addListener(listener);
     }
 
     @Override
@@ -209,5 +220,11 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
         titleBar.setLeftTextSize(48);
         titleBar.setTitle("");
         return titleBar;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        manager.removeListener(listener);
     }
 }

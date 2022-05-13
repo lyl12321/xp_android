@@ -27,13 +27,11 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.CollectionUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
-import com.xuexiang.xutil.app.ActivityUtils;
 import com.xuexiang.xutil.net.JsonUtil;
 import com.zhangke.websocket.SimpleListener;
 import com.zhangke.websocket.WebSocketHandler;
 import com.zhangke.websocket.WebSocketManager;
 
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -48,6 +46,8 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
 
     private WebSocketManager manager = WebSocketHandler.getDefault();
+
+    private SimpleListener listener;
 
     @NonNull
     @Override
@@ -76,6 +76,18 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     @Override
                     public void onClick(View view) {
                         item.setNoReadMessage(0);
+                        mAdapter.notifyItemChanged(position);
+
+                        //todo 清楚主页
+
+
+
+                        ChatApi.clearNoReadMessage(item.getId(), new TipCallBack<String>() {
+                            @Override
+                            public void onSuccess(String response) throws Throwable {
+                            }
+                        });
+
                         openNewPage(ChatContentFragment.class, ChatContentFragment.KEY_CHAT_INFO, item);
                     }
                 });
@@ -130,7 +142,7 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
     @Override
     protected void initListeners() {
-        manager.addListener(new SimpleListener() {
+        listener = new SimpleListener() {
             @Override
             public <T> void onMessage(String message, T data) {
 
@@ -139,19 +151,29 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                 if (response.getType() == 5) {
 
                     List<ChatRoomListDTO.ChatRoomItem> ch = mAdapter.getData();
+                    boolean hasRoom = false;
                     for (ChatRoomListDTO.ChatRoomItem chatRoomItem : ch) {
                         if (response.getData().getChatRoomId().equals(chatRoomItem.getId())) {
                             //说明就是这个房间有新消息
-                            chatRoomItem.setNoReadMessage(chatRoomItem.getNoReadMessage() + 1);
+                            if (response.getData().getReadStatus().equals("0")) {
+                                chatRoomItem.setNoReadMessage(chatRoomItem.getNoReadMessage() + 1);
+                            }
                             chatRoomItem.getChatRecords().add(response.getData());
                             if (ChatFragment.this.isVisible()) {
                                 mAdapter.notifyItemChanged(ch.indexOf(chatRoomItem));
                             }
+                            hasRoom = true;
                         }
+                    }
+                    if (!hasRoom) {
+                        //如果没有这里面的消息 就是需要从服务器拉一次
+                        isFirst = true;
+                        binding.refreshLayout.autoRefresh();
                     }
                 }
             }
-        });
+        };
+        manager.addListener(listener);
     }
 
     @Override
@@ -169,5 +191,11 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     @Override
     protected TitleBar initTitle() {
         return null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        manager.removeListener(listener);
     }
 }

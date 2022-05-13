@@ -6,11 +6,14 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.reflect.TypeToken;
 import com.xuexiang.templateproject.R;
@@ -24,11 +27,11 @@ import com.xuexiang.templateproject.fragment.home.HomeFragment;
 import com.xuexiang.templateproject.fragment.moments.MomentsFragment;
 import com.xuexiang.templateproject.fragment.other.AboutFragment;
 import com.xuexiang.templateproject.fragment.profile.ProfileFragment;
+import com.xuexiang.templateproject.http.chat.api.ChatApi;
+import com.xuexiang.templateproject.http.chat.entity.ChatRoomListDTO;
 import com.xuexiang.templateproject.http.user.api.UserApi;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
-import com.xuexiang.templateproject.http.websocket.MsgResponse;
 import com.xuexiang.templateproject.http.websocket.WebSocketResponseDTO;
-import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.TokenUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
@@ -52,6 +55,12 @@ import com.zhangke.websocket.WebSocketManager;
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements View.OnClickListener, BottomNavigationView.OnNavigationItemSelectedListener, ClickUtils.OnClick2ExitListener, Toolbar.OnMenuItemClickListener {
 
     private String[] mTitles;
+
+    private View badge;
+
+    private int noReadMessageCount = 0;
+
+    private boolean isFront = false;
 
     @Override
     protected ActivityMainBinding viewBindingInflate(LayoutInflater inflater) {
@@ -81,11 +90,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         WidgetUtils.clearActivityBackground(this);
 
 
-
+        //获取整个的NavigationView
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) binding.includeMain.bottomNavigation.getChildAt(0);
 
         UserDTORes userDTO = UserUtils.getCurrentUser();
         BaseFragment[] fragments;
-        if (userDTO.getUserType() != null && userDTO.getUserType().equals("2")){
+        if (userDTO.getUserType() != null && userDTO.getUserType().equals("2")) {
             mTitles = ResUtils.getStringArray(R.array.home_titles_student);
             //动态加载nav
             binding.includeMain.bottomNavigation.inflateMenu(R.menu.menu_navigation_bottom);
@@ -98,6 +108,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
                     new ProfileFragment()
             };
 
+
+            View tab = menuView.getChildAt(2);
+            badge = LayoutInflater.from(this).inflate(R.layout.menu_badge, menuView, false);
+            BottomNavigationItemView itemView = (BottomNavigationItemView) tab;
+            itemView.addView(badge);
         } else {
             mTitles = ResUtils.getStringArray(R.array.home_titles);
             //动态加载nav
@@ -109,6 +124,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
                     new MomentsFragment(),
                     new ProfileFragment()
             };
+            View tab = menuView.getChildAt(1);
+            badge = LayoutInflater.from(this).inflate(R.layout.menu_badge, menuView, false);
+            BottomNavigationItemView itemView = (BottomNavigationItemView) tab;
+            itemView.addView(badge);
         }
 
 
@@ -123,6 +142,24 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         FragmentAdapter<BaseFragment> adapter = new FragmentAdapter<>(getSupportFragmentManager(), fragments);
         binding.includeMain.viewPager.setOffscreenPageLimit(mTitles.length - 1);
         binding.includeMain.viewPager.setAdapter(adapter);
+
+
+        ChatApi.getAllNoReadMessageCount(new TipCallBack<Integer>() {
+            @Override
+            public void onSuccess(Integer response) throws Throwable {
+                TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
+                if (response != null) {
+                    noReadMessageCount = response;
+                }
+                if (response != null && response > 0) {
+                    count.setText(String.valueOf(noReadMessageCount));
+                    count.setVisibility(View.VISIBLE);
+                } else {
+                    count.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     private void initData() {
@@ -226,12 +263,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         manager.addListener(new SimpleListener() {
             @Override
             public <T> void onMessage(String message, T data) {
-                WebSocketResponseDTO<MsgResponse> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<MsgResponse>>() {
+                WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
                 }.getType());
                 if (response.getType() == 5) {
-                    MMKVUtils.put(Constant.chatRoomListIsRefresh, true);
+                    if (response.getData().getReadStatus().equals("0")) {
+                        noReadMessageCount++;
+                        if (isFront) {
+                            TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
+                            count.setText(String.valueOf(noReadMessageCount));
+                            count.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
-
             }
         });
     }
@@ -324,5 +367,51 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         XUtil.exitApp();
     }
 
+
+//    public void reduceNoRead(Integer countNum) {
+//        if (this.noReadMessageCount != 0) {
+//            this.noReadMessageCount = this.noReadMessageCount - countNum;
+//            if (this.isFront) {
+//                TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
+//                if (this.noReadMessageCount == 0) {
+//                    count.setVisibility(View.GONE);
+//                } else {
+//
+//                    count.setText(String.valueOf(noReadMessageCount));
+//                }
+//
+//
+//            }
+//        }
+//
+//
+//    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isFront = true;
+        ChatApi.getAllNoReadMessageCount(new TipCallBack<Integer>() {
+            @Override
+            public void onSuccess(Integer response) throws Throwable {
+                TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
+                if (response != null) {
+                    noReadMessageCount = response;
+                }
+                if (response != null && response > 0) {
+                    count.setText(String.valueOf(noReadMessageCount));
+                    count.setVisibility(View.VISIBLE);
+                } else {
+                    count.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isFront = false;
+    }
 
 }
