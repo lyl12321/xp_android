@@ -193,6 +193,8 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        manager.removeListener(listener);
+        if (manager != null) {
+            manager.removeListener(listener);
+        }
     }
 }

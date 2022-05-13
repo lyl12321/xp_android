@@ -225,6 +225,8 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        manager.removeListener(listener);
+        if (manager != null) {
+            manager.removeListener(listener);
+        }
     }
 }

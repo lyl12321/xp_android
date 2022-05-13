@@ -62,6 +62,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
 
     private boolean isFront = false;
 
+    private SimpleListener listener;
+
     @Override
     protected ActivityMainBinding viewBindingInflate(LayoutInflater inflater) {
         return ActivityMainBinding.inflate(inflater);
@@ -259,8 +261,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
             }
         });
         binding.includeMain.bottomNavigation.setOnNavigationItemSelectedListener(this);
-
-        manager.addListener(new SimpleListener() {
+        listener = new SimpleListener() {
             @Override
             public <T> void onMessage(String message, T data) {
                 WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
@@ -276,7 +277,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
                     }
                 }
             }
-        });
+        };
+        manager.addListener(listener);
     }
 
     /**
@@ -414,4 +416,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
         isFront = false;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (manager != null) {
+            manager.removeListener(listener);
+        }
+    }
 }
