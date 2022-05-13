@@ -22,18 +22,28 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
 import com.xuexiang.templateproject.R;
-import com.xuexiang.templateproject.adapter.MyClassRecyclerAdapter;
+import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
 import com.xuexiang.templateproject.databinding.FragmentRefreshBasicBinding;
+import com.xuexiang.templateproject.fragment.chat.ChatContentFragment;
+import com.xuexiang.templateproject.http.chat.api.ChatApi;
+import com.xuexiang.templateproject.http.chat.entity.ChatRoomListDTO;
 import com.xuexiang.templateproject.http.grade.api.GradeApi;
 import com.xuexiang.templateproject.http.grade.entity.UserListDTO;
 import com.xuexiang.templateproject.http.login.api.LoginApi;
+import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 import com.xuexiang.templateproject.utils.PageUtils;
+import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
+import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
+import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.WidgetUtils;
+import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
+import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenuCreator;
 import com.yanzhenjie.recyclerview.SwipeMenuItem;
@@ -46,7 +56,7 @@ import com.yanzhenjie.recyclerview.SwipeRecyclerView;
 @Page(name = "我的班级")
 public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
-    private MyClassRecyclerAdapter mAdapter;
+    private SimpleDelegateAdapter<UserDTORes> mAdapter;
 
     private int listCurrentFrom = 1;  //当前页数
 
@@ -65,10 +75,53 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         WidgetUtils.initRecyclerView(binding.recyclerView);
 
         //必须在setAdapter之前调用
-        binding.recyclerView.setSwipeMenuCreator(swipeMenuCreator);
+        UserDTORes userDTO = UserUtils.getCurrentUser();
+        if (userDTO.getUserType() != null && userDTO.getUserType().equals("2")) {
+
+        } else {
+            binding.recyclerView.setSwipeMenuCreator(swipeMenuCreator);
+        }
         //必须在setAdapter之前调用
         binding.recyclerView.setOnItemMenuClickListener(mMenuItemClickListener);
-        binding.recyclerView.setAdapter(mAdapter = new MyClassRecyclerAdapter());
+        mAdapter = new SimpleDelegateAdapter<UserDTORes>(R.layout.item_my_class,new LinearLayoutHelper()) {
+            @Override
+            protected void bindData(@NonNull RecyclerViewHolder holder, int position, UserDTORes item) {
+                ((SuperTextView) holder.findViewById(R.id.st_username)).setLeftString(item.getUsername());
+                SuperTextView v = holder.findViewById(R.id.st_username);
+                v.setRightString(item.getUserStatus());
+                if ("已登陆".equals(item.getUserStatus())) {
+                    v.setRightTextColor(Color.parseColor("#9FD661"));
+                } else {
+                    v.setRightTextColor(Color.parseColor("#FE6D4B"));
+                }
+                v.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
+                    @SingleClick
+                    @Override
+                    public void onClick(SuperTextView superTextView) {
+                        if (UserUtils.getCurrentUser().getId().equals(item.getId())) {
+                            //不能和自己聊天
+                            XToastUtils.warning("不能和自己聊天");
+                            return;
+                        }
+                        //点击的时候问一下是否要发起聊天
+                        new MaterialDialog.Builder(getContext())
+                                .content("确定要和" + userDTO.getUsername()+"聊天吗？")
+                                .positiveText("是")
+                                .negativeText("否")
+                                .onPositive((dialog, which) -> {
+                                    ChatApi.createChatRoom(item.getId(), new TipCallBack<ChatRoomListDTO.ChatRoomItem>() {
+                                        @Override
+                                        public void onSuccess(ChatRoomListDTO.ChatRoomItem response) throws Throwable {
+                                            openPage(ChatContentFragment.class,ChatContentFragment.KEY_CHAT_INFO, response);
+                                        }
+                                    });
+                                })
+                                .show();
+                    }
+                });
+            }
+        };
+        binding.recyclerView.setAdapter(mAdapter);
 
         // 开启自动加载功能（非必须）
         binding.refreshLayout.setEnableAutoLoadMore(true);

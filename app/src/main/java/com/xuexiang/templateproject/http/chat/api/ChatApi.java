@@ -34,4 +34,10 @@ public class ChatApi {
         XHttp.post("/chats/getAllNoReadMessageCount")
                 .execute(callBack);
     }
+
+    public static void createChatRoom(String receiveId,TipCallBack<ChatRoomListDTO.ChatRoomItem> callBack) {
+        XHttp.post("/chatRoom/createChatRoom")
+                .upString(receiveId)
+                .execute(callBack);
+    }
 }

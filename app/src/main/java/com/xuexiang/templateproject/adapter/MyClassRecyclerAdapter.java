@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
+import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xui.adapter.recyclerview.BaseRecyclerAdapter;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
@@ -31,6 +32,14 @@ public class MyClassRecyclerAdapter extends BaseRecyclerAdapter<UserDTORes> {
         } else {
             v.setRightTextColor(Color.parseColor("#FE6D4B"));
         }
+        v.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
+            @SingleClick
+            @Override
+            public void onClick(SuperTextView superTextView) {
+                //点击的时候问一下是否要发起聊天
+
+            }
+        });
     }
 
     @Override

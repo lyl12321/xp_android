@@ -78,9 +78,6 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                         item.setNoReadMessage(0);
                         mAdapter.notifyItemChanged(position);
 
-                        //todo 清楚主页
-
-
 
                         ChatApi.clearNoReadMessage(item.getId(), new TipCallBack<String>() {
                             @Override
