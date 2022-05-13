@@ -69,6 +69,7 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                 if (item.getNoReadMessage() == 0) {
                     holder.findViewById(R.id.tv_no_read_count).setVisibility(View.GONE);
                 } else {
+                    holder.findViewById(R.id.tv_no_read_count).setVisibility(View.VISIBLE);
                     holder.text(R.id.tv_no_read_count, String.valueOf(item.getNoReadMessage()));
                 }
                 holder.click(R.id.ll_chat_room, new View.OnClickListener() {
