@@ -14,12 +14,12 @@ public class GradeApi {
 //    public static String getClassMemberByUser() {
 //        return "/class/getClassMemberByUser";
 //    }
-
+//
     public static void getClassMemberByUser(Integer from, TipCallBack<UserListDTO> callBack) {
         Map<String,Object> params = new HashMap<>();
         params.put("from",from);
         params.put("pageSize", Constant.pageSize);
-        XHttp.post("/class/getClassMemberByUser")
+        XHttp.post("/user/getClassMemberByUser")
                 .upJson(JsonUtil.toJson(params))
                 .execute(callBack);
     }
@@ -32,7 +32,7 @@ public class GradeApi {
 
 
     public static void deleteClassMemberFun(String id, TipCallBack<String> callBack) {
-        XHttp.post("/class/deleteById")
+        XHttp.post("/user/deleteClassCode")
                 .upString(id)
                 .execute(callBack);
     }
