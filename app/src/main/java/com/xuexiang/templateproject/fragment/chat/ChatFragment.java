@@ -20,6 +20,7 @@ import com.xuexiang.templateproject.http.websocket.WebSocketResponseDTO;
 import com.xuexiang.templateproject.utils.Constant;
 import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.PageUtils;
+import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.enums.CoreAnim;
@@ -152,8 +153,8 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     boolean hasRoom = false;
                     for (ChatRoomListDTO.ChatRoomItem chatRoomItem : ch) {
                         if (response.getData().getChatRoomId().equals(chatRoomItem.getId())) {
-                            //说明就是这个房间有新消息
-                            if (response.getData().getReadStatus().equals("0")) {
+                            //说明就是这个房间有新消息  未读是0  接收人不是自己  消息未读数加1
+                            if (response.getData().getReadStatus().equals("0") && !response.getData().getReceiveId().equals(UserUtils.getCurrentUser().getId())) {
                                 chatRoomItem.setNoReadMessage(chatRoomItem.getNoReadMessage() + 1);
                             }
                             chatRoomItem.getChatRecords().add(response.getData());
