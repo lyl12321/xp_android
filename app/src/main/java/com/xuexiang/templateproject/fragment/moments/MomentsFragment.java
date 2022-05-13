@@ -62,7 +62,12 @@ public class MomentsFragment extends BaseFragment<FragmentMomentsBinding> {
             @Override
             protected void bindData(@NonNull RecyclerViewHolder holder, int position, MomentsListDTO.MomentsItem item) {
                 SuperTextView user = holder.findViewById(R.id.st_username);
-                user.setLeftString(item.getUserInfo().getUsername());
+                if (item.getUserInfo() == null) {
+                    user.setLeftString(item.getId());
+                } else {
+                    user.setLeftString(item.getUserInfo().getUsername());
+                }
+
 //                user.setLeftBottomString(item.getContent());
 //
 //                SuperTextView content = holder.findViewById(R.id.st_content);
