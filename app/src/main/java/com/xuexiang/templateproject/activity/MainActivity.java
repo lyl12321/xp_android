@@ -267,7 +267,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements V
                 WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO> response = JsonUtil.fromJson(message, new TypeToken<WebSocketResponseDTO<ChatRoomListDTO.ChatRoomItem.ChatRecordsDTO>>() {
                 }.getType());
                 if (response.getType() == 5) {
-                    if (response.getData().getReadStatus().equals("0") && !response.getData().getReceiveId().equals(UserUtils.getCurrentUser().getId())) {
+                    if (response.getData().getReadStatus().equals("0") && response.getData().getReceiveId().equals(UserUtils.getCurrentUser().getId())) {
                         noReadMessageCount++;
                         if (isFront) {
                             TextView count = (TextView) badge.findViewById(R.id.tv_msg_count);
