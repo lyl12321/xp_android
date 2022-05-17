@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image"
+
+        <com.xuexiang.xui.widget.imageview.RadiusImageView
+            android:id="@+id/riv_head_pic"
+            style="@style/RadiusImageView.Circle"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_margin="10dp"
             app:srcCompat="@drawable/ic_default_head" />
-
 
 
         <LinearLayout

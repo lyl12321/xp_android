@@ -1,6 +1,7 @@
 package com.xuexiang.templateproject.http.check.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class CheckUserListDTO {
         @SerializedName("checkUser")
         private String checkUser;
         @SerializedName("checkUserInfo")
-        private CheckUserInfoDTO checkUserInfo;
+        private UserDTORes checkUserInfo;
         @SerializedName("checkClassCode")
         private String checkClassCode;
         @SerializedName("checkContent")
@@ -108,11 +109,11 @@ public class CheckUserListDTO {
             this.checkUser = checkUser;
         }
 
-        public CheckUserInfoDTO getCheckUserInfo() {
+        public UserDTORes getCheckUserInfo() {
             return checkUserInfo;
         }
 
-        public void setCheckUserInfo(CheckUserInfoDTO checkUserInfo) {
+        public void setCheckUserInfo(UserDTORes checkUserInfo) {
             this.checkUserInfo = checkUserInfo;
         }
 

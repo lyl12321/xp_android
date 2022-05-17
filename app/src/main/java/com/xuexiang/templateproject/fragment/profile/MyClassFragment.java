@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.bumptech.glide.Glide;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
 import com.xuexiang.templateproject.core.BaseFragment;
@@ -106,6 +107,10 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                 } else {
                     v.setRightTextColor(Color.parseColor("#FE6D4B"));
                 }
+
+                Glide.with(binding.getRoot())
+                        .load(item.getAvatarUrl())
+                        .into(v.getLeftIconIV());
                 v.setOnSuperTextViewClickListener(new SuperTextView.OnSuperTextViewClickListener() {
                     @SingleClick
                     @Override

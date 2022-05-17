@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.bumptech.glide.Glide;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
 import com.xuexiang.templateproject.core.BaseFragment;
@@ -68,6 +69,8 @@ public class MomentsFragment extends BaseFragment<FragmentMomentsBinding> {
                     user.setLeftString(item.getUserInfo().getUsername());
                 }
 
+
+
 //                user.setLeftBottomString(item.getContent());
 //
 //                SuperTextView content = holder.findViewById(R.id.st_content);
@@ -75,6 +78,10 @@ public class MomentsFragment extends BaseFragment<FragmentMomentsBinding> {
 
                 holder.text(R.id.st_content,item.getContent());
 
+
+                Glide.with(binding.getRoot())
+                        .load(item.getUserInfo().getAvatarUrl())
+                        .into(user.getLeftIconIV());
 
                 SuperTextView createTime = holder.findViewById(R.id.st_create_time);
                 createTime.setRightBottomString(item.getCreateTime());

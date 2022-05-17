@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.bumptech.glide.Glide;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.broccoli.BroccoliSimpleDelegateAdapter;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
@@ -21,6 +22,7 @@ import com.xuexiang.templateproject.utils.GoodsClassifyUtils;
 import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
+import com.xuexiang.xui.widget.imageview.RadiusImageView;
 
 import java.util.ArrayList;
 
@@ -62,6 +64,10 @@ public class MyBuyFragment extends BaseFragment<FragmentHomeBinding> {
 //                    holder.text(R.id.tv_read, "阅读量 " + model.getRead());
                     holder.image(R.id.iv_image, model.getGoodsEntity().getGoodsPicUrl());
 
+
+                    Glide.with(binding.getRoot())
+                            .load(model.getGoodsEntity().getAvatarUrl())
+                            .into((RadiusImageView)holder.findViewById(R.id.iv_avatar));
 //                    holder.click(R.id.card_view, v -> {
 ////                        openNewPage(GoodsDetailsFragment.class, GoodsDetailsFragment.KEY_GOODS_ID, model.getId());
 //                    });

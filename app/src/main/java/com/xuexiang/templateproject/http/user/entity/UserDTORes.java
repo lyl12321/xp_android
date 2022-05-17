@@ -15,6 +15,8 @@ public class UserDTORes {
     private String userType;
     @SerializedName("classCode")
     private String classCode;
+    @SerializedName("avatarUrl")
+    private String avatarUrl;
     @SerializedName("userStatus")
     private String userStatus;
     @SerializedName("errorTime")
@@ -74,6 +76,14 @@ public class UserDTORes {
 
     public String getClassCode() {
         return classCode;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public void setClassCode(String classCode) {

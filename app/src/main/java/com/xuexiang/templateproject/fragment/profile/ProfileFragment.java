@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.databinding.FragmentProfileBinding;
@@ -45,6 +46,9 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
         UserDTORes userDTO = UserUtils.getCurrentUser();
         if (userDTO.getId() != null && !userDTO.getId().equals("")) {
             binding.stUsername.setLeftString(userDTO.getUsername());
+            Glide.with(binding.getRoot())
+                    .load(userDTO.getAvatarUrl())
+                    .into(binding.rivHeadPic);
         }
 
         if (userDTO.getUserType() != null && userDTO.getUserType().equals("2")){

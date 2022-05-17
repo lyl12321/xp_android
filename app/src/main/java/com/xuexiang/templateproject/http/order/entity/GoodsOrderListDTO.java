@@ -1,6 +1,7 @@
 package com.xuexiang.templateproject.http.order.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.xuexiang.templateproject.http.goods.entity.GoodsListDTO;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class GoodsOrderListDTO {
         @SerializedName("updateTime")
         private Object updateTime;
         @SerializedName("goodsEntity")
-        private GoodsEntityDTO goodsEntity;
+        private GoodsListDTO.GoodsDTO goodsEntity;
 
         public String getId() {
             return id;
@@ -142,11 +143,11 @@ public class GoodsOrderListDTO {
             this.updateTime = updateTime;
         }
 
-        public GoodsEntityDTO getGoodsEntity() {
+        public GoodsListDTO.GoodsDTO getGoodsEntity() {
             return goodsEntity;
         }
 
-        public void setGoodsEntity(GoodsEntityDTO goodsEntity) {
+        public void setGoodsEntity(GoodsListDTO.GoodsDTO goodsEntity) {
             this.goodsEntity = goodsEntity;
         }
 

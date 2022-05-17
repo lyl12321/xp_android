@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
@@ -28,6 +29,7 @@ import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.CollectionUtils;
 import com.xuexiang.xui.utils.WidgetUtils;
 import com.xuexiang.xui.widget.actionbar.TitleBar;
+import com.xuexiang.xui.widget.imageview.RadiusImageView;
 import com.xuexiang.xutil.net.JsonUtil;
 import com.zhangke.websocket.SimpleListener;
 import com.zhangke.websocket.WebSocketHandler;
@@ -73,6 +75,9 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                     holder.findViewById(R.id.tv_no_read_count).setVisibility(View.VISIBLE);
                     holder.text(R.id.tv_no_read_count, String.valueOf(item.getNoReadMessage()));
                 }
+                Glide.with(binding.getRoot())
+                        .load(item.getReceiveUserInfo().getAvatarUrl())
+                        .into((RadiusImageView)holder.findViewById(R.id.riv_head_pic));
                 holder.click(R.id.ll_chat_room, new View.OnClickListener() {
                     @SingleClick
                     @Override

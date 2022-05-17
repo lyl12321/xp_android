@@ -11,6 +11,7 @@ import com.alibaba.android.vlayout.DelegateAdapter;
 import com.alibaba.android.vlayout.VirtualLayoutManager;
 import com.alibaba.android.vlayout.layout.GridLayoutHelper;
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.bumptech.glide.Glide;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.broccoli.BroccoliSimpleDelegateAdapter;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
@@ -154,6 +155,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                     holder.text(R.id.tv_title, model.getGoodsName());
                     holder.text(R.id.tv_summary, model.getGoodsDescribe());
                     holder.image(R.id.iv_image, model.getGoodsPicUrl());
+
+                    Glide.with(binding.getRoot())
+                            .load(model.getAvatarUrl())
+                            .into((RadiusImageView)holder.findViewById(R.id.iv_avatar));
 
                     //点击后应该跳向详情
                     holder.click(R.id.card_view, v -> {

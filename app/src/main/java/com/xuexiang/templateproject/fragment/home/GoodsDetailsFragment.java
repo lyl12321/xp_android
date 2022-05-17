@@ -61,6 +61,9 @@ public class GoodsDetailsFragment extends BaseFragment<FragmentGoodsDetailsBindi
                     binding.stUsername.setRightString("课程价格: ￥"+response.getGoodsPrice());
                     binding.tvTitle.setText(response.getGoodsName());
                     binding.tvContent.setText(response.getGoodsDescribe());
+                    Glide.with(binding.getRoot())
+                            .load(response.getAvatarUrl())
+                            .into(binding.rivUserPic);
                 }
             }
         });

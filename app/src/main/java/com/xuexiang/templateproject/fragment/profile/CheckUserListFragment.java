@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.vlayout.layout.LinearLayoutHelper;
+import com.bumptech.glide.Glide;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.broccoli.BroccoliSimpleDelegateAdapter;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
@@ -102,6 +103,11 @@ public class CheckUserListFragment extends BaseFragment<FragmentRefreshBasicBind
                         }
                         view.setRightString(statusView);
                     }
+
+                    Glide.with(binding.getRoot())
+                            .load(model.getCheckUserInfo().getAvatarUrl())
+                            .into(view.getLeftIconIV());
+
                     String finalStatusView = statusView;
                     holder.click(R.id.st_username, new View.OnClickListener() {
                         @SingleClick

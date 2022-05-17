@@ -16,12 +16,12 @@
         app:sCenterViewMarginLeft="25dp"
         android:layout_height="60dp"
         app:sLeftTextString="用户名"
-        app:sLeftIconRes="@drawable/ic_default_head"
         app:sLeftIconHeight="38dp"
         app:sLeftIconWidth="38dp"
         android:layout_width="match_parent"
         app:sDividerLineType="none"
         >
+
     </com.xuexiang.xui.widget.textview.supertextview.SuperTextView>
 
 

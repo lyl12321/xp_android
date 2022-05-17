@@ -3,9 +3,11 @@ package com.xuexiang.templateproject.fragment.chat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.reflect.TypeToken;
 import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.BaseRecyclerAdapter;
@@ -83,6 +85,10 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
                     holder.visible(R.id.chatting_right);
 
                     //设置头像
+
+                    Glide.with(binding.getRoot())
+                            .load(mUser.getAvatarUrl())
+                            .into((ImageView) holder.itemView.findViewById(R.id.chatting_riv_avatar));
 //                    holder.image(R.id.chatting_riv_avatar, message.User.avatarId);
 
                     if (model.getMsgType().equals("0")) {
@@ -98,6 +104,9 @@ public class ChatContentFragment extends BaseFragment<FragmentChatContentBinding
                     holder.gone(R.id.chatting_right);
                     holder.visible(R.id.chatting_left);
 
+                    Glide.with(binding.getRoot())
+                            .load(mData.getReceiveUserInfo().getAvatarUrl())
+                            .into((ImageView) holder.itemView.findViewById(R.id.chatting_liv_avatar));
                     //设置头像
 //                    holder.image(R.id.chatting_riv_avatar, message.User.avatarId);
 

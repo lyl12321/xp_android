@@ -1,6 +1,7 @@
 package com.xuexiang.templateproject.http.moments.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 
 import java.util.List;
 
@@ -78,7 +79,7 @@ public class MomentsListDTO {
         @SerializedName("updateTime")
         private String updateTime;
         @SerializedName("userInfo")
-        private UserInfoDTO userInfo;
+        private UserDTORes userInfo;
 
         public String getId() {
             return id;
@@ -152,11 +153,11 @@ public class MomentsListDTO {
             this.updateTime = updateTime;
         }
 
-        public UserInfoDTO getUserInfo() {
+        public UserDTORes getUserInfo() {
             return userInfo;
         }
 
-        public void setUserInfo(UserInfoDTO userInfo) {
+        public void setUserInfo(UserDTORes userInfo) {
             this.userInfo = userInfo;
         }
 

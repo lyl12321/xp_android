@@ -1,6 +1,7 @@
 package com.xuexiang.templateproject.http.chat.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.xuexiang.templateproject.http.user.entity.UserDTORes;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class ChatRoomListDTO {
         @SerializedName("receiveUser")
         private String receiveUser;
         @SerializedName("receiveUserInfo")
-        private ReceiveUserInfoDTO receiveUserInfo;
+        private UserDTORes receiveUserInfo;
         @SerializedName("chatRecords")
         private List<ChatRecordsDTO> chatRecords;
         @SerializedName("noReadMessage")
@@ -108,11 +109,11 @@ public class ChatRoomListDTO {
             this.receiveUser = receiveUser;
         }
 
-        public ReceiveUserInfoDTO getReceiveUserInfo() {
+        public UserDTORes getReceiveUserInfo() {
             return receiveUserInfo;
         }
 
-        public void setReceiveUserInfo(ReceiveUserInfoDTO receiveUserInfo) {
+        public void setReceiveUserInfo(UserDTORes receiveUserInfo) {
             this.receiveUserInfo = receiveUserInfo;
         }
 
@@ -181,150 +182,6 @@ public class ChatRoomListDTO {
             this.updateTime = updateTime;
         }
 
-        public static class ReceiveUserInfoDTO {
-            @SerializedName("id")
-            private String id;
-            @SerializedName("delFlg")
-            private String delFlg;
-            @SerializedName("creator")
-            private String creator;
-            @SerializedName("createTime")
-            private String createTime;
-            @SerializedName("updater")
-            private String updater;
-            @SerializedName("updateTime")
-            private String updateTime;
-            @SerializedName("username")
-            private String username;
-            @SerializedName("password")
-            private String password;
-            @SerializedName("phone")
-            private String phone;
-            @SerializedName("userType")
-            private String userType;
-            @SerializedName("classCode")
-            private String classCode;
-            @SerializedName("userStatus")
-            private String userStatus;
-            @SerializedName("errorTime")
-            private String errorTime;
-            @SerializedName("locked")
-            private String locked;
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getDelFlg() {
-                return delFlg;
-            }
-
-            public void setDelFlg(String delFlg) {
-                this.delFlg = delFlg;
-            }
-
-            public String getCreator() {
-                return creator;
-            }
-
-            public void setCreator(String creator) {
-                this.creator = creator;
-            }
-
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public String getUpdater() {
-                return updater;
-            }
-
-            public void setUpdater(String updater) {
-                this.updater = updater;
-            }
-
-            public String getUpdateTime() {
-                return updateTime;
-            }
-
-            public void setUpdateTime(String updateTime) {
-                this.updateTime = updateTime;
-            }
-
-            public String getUsername() {
-                return username;
-            }
-
-            public void setUsername(String username) {
-                this.username = username;
-            }
-
-            public String getPassword() {
-                return password;
-            }
-
-            public void setPassword(String password) {
-                this.password = password;
-            }
-
-            public String getPhone() {
-                return phone;
-            }
-
-            public void setPhone(String phone) {
-                this.phone = phone;
-            }
-
-            public String getUserType() {
-                return userType;
-            }
-
-            public void setUserType(String userType) {
-                this.userType = userType;
-            }
-
-            public String getClassCode() {
-                return classCode;
-            }
-
-            public void setClassCode(String classCode) {
-                this.classCode = classCode;
-            }
-
-            public String getUserStatus() {
-                return userStatus;
-            }
-
-            public void setUserStatus(String userStatus) {
-                this.userStatus = userStatus;
-            }
-
-            public String getErrorTime() {
-                return errorTime;
-            }
-
-            public void setErrorTime(String errorTime) {
-                this.errorTime = errorTime;
-            }
-
-            public String getLocked() {
-                return locked;
-            }
-
-            public void setLocked(String locked) {
-                this.locked = locked;
-            }
-
-
-        }
 
         public static class ChatRecordsDTO {
             @SerializedName("id")

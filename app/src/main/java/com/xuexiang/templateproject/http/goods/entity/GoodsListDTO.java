@@ -69,6 +69,8 @@ public class GoodsListDTO {
         private Integer goodsPrice;
         @SerializedName("classification")
         private String classification;
+        @SerializedName("avatarUrl")
+        private String avatarUrl;
         @SerializedName("delFlg")
         private String delFlg;
         @SerializedName("creator")
@@ -118,6 +120,14 @@ public class GoodsListDTO {
 
         public void setGoodsPrice(Integer goodsPrice) {
             this.goodsPrice = goodsPrice;
+        }
+
+        public String getAvatarUrl() {
+            return avatarUrl;
+        }
+
+        public void setAvatarUrl(String avatarUrl) {
+            this.avatarUrl = avatarUrl;
         }
 
         public String getClassification() {
