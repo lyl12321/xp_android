@@ -27,6 +27,7 @@ import com.xuexiang.templateproject.R;
 import com.xuexiang.templateproject.adapter.base.delegate.SimpleDelegateAdapter;
 import com.xuexiang.templateproject.core.BaseFragment;
 import com.xuexiang.templateproject.core.http.callback.TipCallBack;
+import com.xuexiang.templateproject.core.http.loader.MiniLoadingDialogLoader;
 import com.xuexiang.templateproject.databinding.FragmentRefreshBasicBinding;
 import com.xuexiang.templateproject.fragment.chat.ChatContentFragment;
 import com.xuexiang.templateproject.http.chat.api.ChatApi;
@@ -39,10 +40,10 @@ import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
 import com.xuexiang.xaop.annotation.SingleClick;
+import com.xuexiang.xhttp2.exception.ApiException;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.utils.WidgetUtils;
-import com.xuexiang.xui.widget.dialog.materialdialog.MaterialDialog;
 import com.xuexiang.xui.widget.textview.supertextview.SuperTextView;
 import com.yanzhenjie.recyclerview.OnItemMenuClickListener;
 import com.yanzhenjie.recyclerview.SwipeMenuCreator;
@@ -60,6 +61,8 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
 
     private int listCurrentFrom = 1;  //当前页数
 
+    private MiniLoadingDialogLoader miniLoading;
+
     @NonNull
     @Override
     protected FragmentRefreshBasicBinding viewBindingInflate(LayoutInflater inflater, ViewGroup container) {
@@ -71,6 +74,11 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
      */
     @Override
     protected void initViews() {
+
+        miniLoading = new MiniLoadingDialogLoader(getActivity());
+        miniLoading.setCancelable(true);
+        miniLoading.setOnProgressCancelListener(this::popToBack);
+
 
         WidgetUtils.initRecyclerView(binding.recyclerView);
 
@@ -91,6 +99,8 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                 v.setRightString(item.getUserStatus());
                 if ("已登陆".equals(item.getUserStatus())) {
                     v.setRightTextColor(Color.parseColor("#9FD661"));
+                } else if ("在线".equals(item.getUserStatus())){
+                    v.setRightTextColor(Color.parseColor("#2BBDF3"));
                 } else {
                     v.setRightTextColor(Color.parseColor("#FE6D4B"));
                 }
@@ -104,19 +114,38 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                             return;
                         }
                         //点击的时候问一下是否要发起聊天
-                        new MaterialDialog.Builder(getContext())
-                                .content("确定要和" + userDTO.getUsername()+"聊天吗？")
-                                .positiveText("是")
-                                .negativeText("否")
-                                .onPositive((dialog, which) -> {
-                                    ChatApi.createChatRoom(item.getId(), new TipCallBack<ChatRoomListDTO.ChatRoomItem>() {
-                                        @Override
-                                        public void onSuccess(ChatRoomListDTO.ChatRoomItem response) throws Throwable {
-                                            openPage(ChatContentFragment.class,ChatContentFragment.KEY_CHAT_INFO, response);
-                                        }
-                                    });
-                                })
-                                .show();
+
+                        //不问了...
+                        miniLoading.showLoading();
+
+
+                        ChatApi.createChatRoom(item.getId(), new TipCallBack<ChatRoomListDTO.ChatRoomItem>() {
+                            @Override
+                            public void onSuccess(ChatRoomListDTO.ChatRoomItem response) throws Throwable {
+                                miniLoading.dismissLoading();
+                                openPage(ChatContentFragment.class,ChatContentFragment.KEY_CHAT_INFO, response);
+                            }
+
+                            @Override
+                            public void onError(ApiException e) {
+                                super.onError(e);
+                                miniLoading.dismissLoading();
+                            }
+                        });
+
+//                        new MaterialDialog.Builder(getContext())
+//                                .content("确定要和" + userDTO.getUsername()+"聊天吗？")
+//                                .positiveText("是")
+//                                .negativeText("否")
+//                                .onPositive((dialog, which) -> {
+//                                    ChatApi.createChatRoom(item.getId(), new TipCallBack<ChatRoomListDTO.ChatRoomItem>() {
+//                                        @Override
+//                                        public void onSuccess(ChatRoomListDTO.ChatRoomItem response) throws Throwable {
+//                                            openPage(ChatContentFragment.class,ChatContentFragment.KEY_CHAT_INFO, response);
+//                                        }
+//                                    });
+//                                })
+//                                .show();
                     }
                 });
             }

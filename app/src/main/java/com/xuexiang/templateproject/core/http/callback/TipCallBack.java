@@ -36,11 +36,11 @@ public abstract class TipCallBack<T> extends SimpleCallBack<T> {
 
     @Override
     public void onError(ApiException e) {
-        if (!"sessionExpired".equals(e.getMessage())) {
-            XToastUtils.error(e);
-        } else {
+        if ("sessionExpired".equals(e.getMessage())) {
             XToastUtils.error("登陆过期！");
             TokenUtils.forceLogoutSuccess();
+        } else if (e.getCode() != 5010){  //把空指针错误取消提醒 不处理5010 Code
+            XToastUtils.error(e);
         }
 
         if (!StringUtils.isEmpty(mUrl)) {
