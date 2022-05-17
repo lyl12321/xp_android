@@ -154,7 +154,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
                     holder.text(R.id.tv_tag, GoodsClassifyUtils.translationClassify(model.getClassification()));
                     holder.text(R.id.tv_title, model.getGoodsName());
                     holder.text(R.id.tv_summary, model.getGoodsDescribe());
-                    holder.image(R.id.iv_image, model.getGoodsPicUrl());
+//                    holder.image(R.id.iv_image, model.getGoodsPicUrl());
+
+                    Glide.with(binding.getRoot())
+                            .load(model.getGoodsPicUrl())
+                            .into((RadiusImageView)holder.findViewById(R.id.iv_image));
 
                     Glide.with(binding.getRoot())
                             .load(model.getAvatarUrl())
