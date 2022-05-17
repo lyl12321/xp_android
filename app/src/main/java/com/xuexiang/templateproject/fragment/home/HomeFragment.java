@@ -39,7 +39,7 @@ import me.samlss.broccoli.Broccoli;
 @Page(anim = CoreAnim.none)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
-    private SimpleDelegateAdapter<GoodsListDTO.GoodsDTO> mNewsAdapter;
+    private BroccoliSimpleDelegateAdapter<GoodsListDTO.GoodsDTO> mNewsAdapter;
 
     private int listCurrentFrom = 1;  //当前页数
 
@@ -145,7 +145,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
             }
         };
 
-        mNewsAdapter = new BroccoliSimpleDelegateAdapter<GoodsListDTO.GoodsDTO>(R.layout.adapter_news_card_view_list_item, new LinearLayoutHelper(), new ArrayList<>()) {
+        mNewsAdapter = new BroccoliSimpleDelegateAdapter<GoodsListDTO.GoodsDTO>(R.layout.adapter_news_card_view_list_item, new LinearLayoutHelper(), new ArrayList<>(5)) {
             @Override
             protected void onBindData(RecyclerViewHolder holder, GoodsListDTO.GoodsDTO model, int position) {
                 if (model != null) {
@@ -188,7 +188,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
         //下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             listCurrentFrom = 1;  //刷新只加载第一页
-
             GoodsApi.queryGoodsPages(listCurrentFrom,searchKey,new TipCallBack<GoodsListDTO>() {
                 @Override
                 public void onSuccess(GoodsListDTO response) throws Throwable {

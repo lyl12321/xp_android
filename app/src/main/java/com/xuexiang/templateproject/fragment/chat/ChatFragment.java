@@ -101,7 +101,7 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         // 下拉刷新
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
             listCurrentFrom = 1;  //刷新只加载第一页
-            if (isFirst || CollectionUtils.isEmpty(mAdapter.getData())) {
+//            if (isFirst || CollectionUtils.isEmpty(mAdapter.getData())) {
                 ChatApi.getChatRoomList(listCurrentFrom, new TipCallBack<ChatRoomListDTO>() {
                     @Override
                     public void onSuccess(ChatRoomListDTO response) throws Throwable {
@@ -112,13 +112,14 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                         }
                     }
                 });
-            } else {
-
-                mAdapter.notifyDataSetChanged();
-
-                refreshLayout.finishRefreshWithNoMoreData();
-
-            }
+//            }
+//            else {
+//
+//                mAdapter.notifyDataSetChanged();
+//
+//                refreshLayout.finishRefreshWithNoMoreData();
+//
+//            }
 
         });
         // 上拉加载
@@ -179,11 +180,12 @@ public class ChatFragment extends BaseFragment<FragmentRefreshBasicBinding> {
     public void onResume() {
         super.onResume();
         //重新显示的时候判断一下是否需要刷新
-        if (MMKVUtils.getBoolean(Constant.chatRoomListIsRefresh, false) || isFirst) {
+        if (MMKVUtils.getBoolean(Constant.chatRoomListIsRefresh, false) || isFirst  || MMKVUtils.getBoolean(Constant.chatRoomListIsRefreshByRemote, false)) {
             binding.refreshLayout.autoRefresh();
             isFirst = false;  //走过一次onResume就不是第一次进入了
             //刷新完就不用重复刷新了
             MMKVUtils.put(Constant.chatRoomListIsRefresh, false);
+            MMKVUtils.put(Constant.chatRoomListIsRefreshByRemote, false);
         }
     }
 

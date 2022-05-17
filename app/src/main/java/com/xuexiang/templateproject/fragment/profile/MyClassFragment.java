@@ -36,6 +36,8 @@ import com.xuexiang.templateproject.http.grade.api.GradeApi;
 import com.xuexiang.templateproject.http.grade.entity.UserListDTO;
 import com.xuexiang.templateproject.http.login.api.LoginApi;
 import com.xuexiang.templateproject.http.user.entity.UserDTORes;
+import com.xuexiang.templateproject.utils.Constant;
+import com.xuexiang.templateproject.utils.MMKVUtils;
 import com.xuexiang.templateproject.utils.PageUtils;
 import com.xuexiang.templateproject.utils.UserUtils;
 import com.xuexiang.templateproject.utils.XToastUtils;
@@ -123,6 +125,8 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
                             @Override
                             public void onSuccess(ChatRoomListDTO.ChatRoomItem response) throws Throwable {
                                 miniLoading.dismissLoading();
+                                //创建了新房间 回去是要刷新页面的
+                                MMKVUtils.put(Constant.chatRoomListIsRefreshByRemote, true);
                                 openPage(ChatContentFragment.class,ChatContentFragment.KEY_CHAT_INFO, response);
                             }
 
