@@ -25,6 +25,10 @@
                     style="@style/InfoItem.Account"
                     app:sLeftTextString="手机号" />
                 <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
+                    android:id="@+id/st_user_type"
+                    style="@style/InfoItem.Account"
+                    app:sLeftTextString="用户类型" />
+                <com.xuexiang.xui.widget.textview.supertextview.SuperTextView
                     android:id="@+id/st_password"
                     style="@style/InfoItem.Account"
                     app:sLeftTextString="密码" />

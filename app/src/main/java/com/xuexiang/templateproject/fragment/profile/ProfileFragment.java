@@ -45,7 +45,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> implem
     protected void initViews() {
         UserDTORes userDTO = UserUtils.getCurrentUser();
         if (userDTO.getId() != null && !userDTO.getId().equals("")) {
-            binding.stUsername.setLeftString(userDTO.getUsername());
+            binding.stUsername.setLeftString(userDTO.getUsername() + " (" + (userDTO.getUserType().equals("2") ? "学生": "老师") + ")");
             Glide.with(binding.getRoot())
                     .load(userDTO.getAvatarUrl())
                     .into(binding.rivHeadPic);

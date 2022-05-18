@@ -97,7 +97,8 @@ public class MyClassFragment extends BaseFragment<FragmentRefreshBasicBinding> {
         mAdapter = new SimpleDelegateAdapter<UserDTORes>(R.layout.item_my_class,new LinearLayoutHelper()) {
             @Override
             protected void bindData(@NonNull RecyclerViewHolder holder, int position, UserDTORes item) {
-                ((SuperTextView) holder.findViewById(R.id.st_username)).setLeftString(item.getUsername());
+                ((SuperTextView) holder.findViewById(R.id.st_username)).setLeftString(item.getUsername()
+                        + " (" + (item.getUserType().equals("2") ? "学生": "老师") + ")");
                 SuperTextView v = holder.findViewById(R.id.st_username);
                 v.setRightString(item.getUserStatus());
                 if ("已登陆".equals(item.getUserStatus())) {

@@ -19,6 +19,7 @@
                     android:id="@+id/st_username"
                     style="@style/InfoItem.Account"
                     android:layout_height="60dp"
+                    app:sCenterViewMarginLeft="0dp"
                     app:sLeftTextString="用户名">
 
                     <com.xuexiang.xui.widget.imageview.RadiusImageView

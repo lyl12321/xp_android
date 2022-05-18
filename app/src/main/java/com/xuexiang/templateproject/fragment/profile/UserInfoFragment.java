@@ -40,6 +40,7 @@ public class UserInfoFragment extends BaseFragment<FragmentUserinfoBinding> impl
         if (userDTO.getId() != null && !userDTO.getId().equals("")) {
             binding.stUsername.setRightString(userDTO.getUsername());
             binding.stPhone.setRightString(userDTO.getPhone());
+            binding.stUserType.setRightString(userDTO.getUserType().equals("2") ? "学生": "老师");
             binding.stClassCode.setRightString(userDTO.getClassCode());
         }
     }
