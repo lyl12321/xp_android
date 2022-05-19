@@ -20,6 +20,7 @@ import com.xuexiang.templateproject.http.order.api.OrderApi;
 import com.xuexiang.templateproject.http.order.entity.GoodsOrderListDTO;
 import com.xuexiang.templateproject.utils.GoodsClassifyUtils;
 import com.xuexiang.templateproject.utils.PageUtils;
+import com.xuexiang.templateproject.utils.Utils;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xui.adapter.recyclerview.RecyclerViewHolder;
 import com.xuexiang.xui.widget.imageview.RadiusImageView;
@@ -68,9 +69,10 @@ public class MyBuyFragment extends BaseFragment<FragmentHomeBinding> {
                     Glide.with(binding.getRoot())
                             .load(model.getGoodsEntity().getAvatarUrl())
                             .into((RadiusImageView)holder.findViewById(R.id.iv_avatar));
-//                    holder.click(R.id.card_view, v -> {
-////                        openNewPage(GoodsDetailsFragment.class, GoodsDetailsFragment.KEY_GOODS_ID, model.getId());
-//                    });
+                    holder.click(R.id.card_view, v -> {
+                        Utils.goWeb(getContext(), "https://www.bilibili.com/video/BV1GJ411x7h7");
+//                        openNewPage(GoodsDetailsFragment.class, GoodsDetailsFragment.KEY_GOODS_ID, model.getId());
+                    });
                 }
             }
 
